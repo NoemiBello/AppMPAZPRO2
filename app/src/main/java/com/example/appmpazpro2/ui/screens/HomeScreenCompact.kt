@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.R
 
 @Composable
-fun HomeScreenCompacta() {
+fun HomeScreenCompact() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,6 +56,6 @@ fun HomeScreenCompacta() {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenCompactaPreview() {
-    HomeScreenCompacta()
+fun HomeScreenCompactPreview() {
+    HomeScreenCompact()
 }
