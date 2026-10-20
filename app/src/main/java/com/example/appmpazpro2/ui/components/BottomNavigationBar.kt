@@ -10,6 +10,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.example.appmpazpro2.navigation.Screen
 
 @Composable
 fun BottomNavigationBar(
@@ -21,7 +22,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = false,
             onClick = {
-                navController.navigate("home")
+                navController.navigate(Screen.Inicio.route)
             },
             icon = {
                 Icon(
@@ -37,7 +38,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = false,
             onClick = {
-                navController.navigate("asignaturas")
+                navController.navigate(Screen.Asignaturas.route)
             },
             icon = {
                 Icon(
@@ -53,7 +54,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = false,
             onClick = {
-                navController.navigate("progreso")
+                navController.navigate(Screen.Progreso.route)
             },
             icon = {
                 Icon(

@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import com.example.appmpazpro2.navigation.Screen
+import com.example.appmpazpro2.viewmodel.NavigationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.appmpazpro2.ui.HomeScreen
 import com.example.appmpazpro2.ui.components.BottomNavigationBar
 import com.example.appmpazpro2.ui.screens.AsignaturasScreen
+import com.example.appmpazpro2.ui.screens.InicioScreen
 import com.example.appmpazpro2.ui.screens.ProgresoScreen
 
 @Composable
@@ -27,19 +28,19 @@ fun AppNavigation() {
 
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = Screen.Inicio.route,
             modifier = Modifier.padding(innerPadding)
         ) {
 
-            composable("home") {
-                HomeScreen()
+            composable(Screen.Inicio.route) {
+                InicioScreen()
             }
 
-            composable("asignaturas") {
+            composable(Screen.Asignaturas.route) {
                 AsignaturasScreen()
             }
 
-            composable("progreso") {
+            composable(Screen.Progreso.route) {
                 ProgresoScreen()
             }
         }
