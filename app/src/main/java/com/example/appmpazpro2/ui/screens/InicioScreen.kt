@@ -23,13 +23,17 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import com.example.appmpazpro2.navigation.Screen
 import com.example.appmpazpro2.viewmodel.NavigationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InicioScreen() {
+fun InicioScreen(
+    navController: NavHostController
+) {
 
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
@@ -52,7 +56,13 @@ fun InicioScreen() {
                         Text("Inicio")
                     },
                     selected = true,
-                    onClick = { },
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        navController.navigate(Screen.Inicio.route)
+                    },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Home,
@@ -66,7 +76,13 @@ fun InicioScreen() {
                         Text("Asignaturas")
                     },
                     selected = false,
-                    onClick = { },
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        navController.navigate(Screen.Asignaturas.route)
+                    },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.School,
@@ -80,7 +96,13 @@ fun InicioScreen() {
                         Text("Progreso")
                     },
                     selected = false,
-                    onClick = { }
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        navController.navigate(Screen.Progreso.route)
+                    }
                 )
             }
         }
@@ -126,5 +148,9 @@ fun InicioScreen() {
 @Preview(showBackground = true)
 @Composable
 fun InicioScreenPreview() {
-    InicioScreen()
+    val navController = rememberNavController()
+
+    InicioScreen(
+        navController = navController
+    )
 }
