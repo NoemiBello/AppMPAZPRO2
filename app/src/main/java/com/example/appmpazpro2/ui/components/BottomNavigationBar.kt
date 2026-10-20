@@ -58,7 +58,7 @@ fun BottomNavigationBar(
             },
             icon = {
                 Icon(
-                    imageVector = Icons.Default.ShowChart,
+                        imageVector = Icons.Default.ShowChart,
                     contentDescription = "Progreso"
                 )
             },
