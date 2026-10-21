@@ -27,7 +27,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import com.example.appmpazpro2.navigation.Screen
-import com.example.appmpazpro2.viewmodel.NavigationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
