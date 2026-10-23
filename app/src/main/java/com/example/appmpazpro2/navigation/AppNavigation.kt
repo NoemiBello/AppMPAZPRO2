@@ -17,13 +17,15 @@ import com.example.appmpazpro2.ui.screens.ProgresoScreen
 import com.example.appmpazpro2.ui.screens.RegistroScreen
 import com.example.appmpazpro2.ui.screens.ResumenScreen
 import com.example.appmpazpro2.viewmodel.UsuarioViewModel
-
+import com.example.appmpazpro2.ui.screens.PerfilScreen
+import com.example.appmpazpro2.viewmodel.PerfilViewModel
 @Composable
 fun AppNavigation() {
 
     val navController = rememberNavController()
 
     val usuarioViewModel: UsuarioViewModel = viewModel()
+    val perfilViewModel: PerfilViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
@@ -51,6 +53,12 @@ fun AppNavigation() {
 
             composable(Screen.Progreso.route) {
                 ProgresoScreen()
+            }
+
+            composable("perfil") {
+                PerfilScreen(
+                    viewModel = perfilViewModel
+                )
             }
 
             composable("registro") {
