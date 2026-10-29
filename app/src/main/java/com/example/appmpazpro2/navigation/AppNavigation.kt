@@ -19,11 +19,11 @@ import com.example.appmpazpro2.ui.screens.ResumenScreen
 import com.example.appmpazpro2.viewmodel.UsuarioViewModel
 import com.example.appmpazpro2.ui.screens.PerfilScreen
 import com.example.appmpazpro2.viewmodel.PerfilViewModel
+import com.example.appmpazpro2.ui.screens.UnidadObjetivoScreen
 @Composable
 fun AppNavigation() {
 
     val navController = rememberNavController()
-
     val usuarioViewModel: UsuarioViewModel = viewModel()
     val perfilViewModel: PerfilViewModel = viewModel()
 
@@ -48,7 +48,21 @@ fun AppNavigation() {
             }
 
             composable(Screen.Asignaturas.route) {
-                AsignaturasScreen()
+                AsignaturasScreen(
+                    onLenguajeClick = {
+                        navController.navigate(Screen.UnidadObjetivo.route)
+                    },
+                    onMatematicaClick = {},
+                    onCienciasClick = {},
+                    onHistoriaClick = {}
+                )
+            }
+
+            composable(Screen.UnidadObjetivo.route) {
+                UnidadObjetivoScreen(
+                    asignatura = "Lenguaje",
+                    onObjetivoClick = {}
+                )
             }
 
             composable(Screen.Progreso.route) {
