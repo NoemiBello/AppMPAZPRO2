@@ -13,19 +13,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProgresoScreen() {
+fun ProgresoScreen(
+    progreso: Float = 0.6f,
+    porcentaje: Int = 60,
+    respuestasRegistradas: Int = 0
+) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement =
+            Arrangement.spacedBy(20.dp),
+        horizontalAlignment =
+            Alignment.CenterHorizontally
     ) {
 
         Text(
             text = "Mi progreso",
-            style = MaterialTheme.typography.headlineMedium
+            style =
+                MaterialTheme
+                    .typography
+                    .headlineMedium
         )
 
         Text(
@@ -33,11 +42,28 @@ fun ProgresoScreen() {
         )
 
         LinearProgressIndicator(
-            progress = { 0.6f }
+            progress = {
+                progreso.coerceIn(
+                    0f,
+                    1f
+                )
+            }
         )
 
         Text(
-            text = "60% completado"
+            text =
+                "$porcentaje% completado"
         )
+
+        if (
+            respuestasRegistradas > 0
+        ) {
+
+            Text(
+                text =
+                    "Respuestas registradas: " +
+                            respuestasRegistradas
+            )
+        }
     }
 }
