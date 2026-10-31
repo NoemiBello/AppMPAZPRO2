@@ -98,7 +98,7 @@ fun AppNavigation() {
                             popUpTo(
                                 RUTA_SELECCION_PERFIL
                             ) {
-                                inclusive = true
+                                inclusive = false
                             }
                         }
                     },
@@ -116,7 +116,7 @@ fun AppNavigation() {
                             popUpTo(
                                 RUTA_SELECCION_PERFIL
                             ) {
-                                inclusive = true
+                                inclusive = false
                             }
                         }
                     },
@@ -134,7 +134,7 @@ fun AppNavigation() {
                             popUpTo(
                                 RUTA_SELECCION_PERFIL
                             ) {
-                                inclusive = true
+                                inclusive = false
                             }
                         }
                     }
