@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoErrores
 import com.example.appmpazpro2.model.ContenidoUiState
-import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun FormularioContenidoScreen(
@@ -35,8 +36,8 @@ fun FormularioContenidoScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
         Text(
@@ -44,133 +45,204 @@ fun FormularioContenidoScreen(
             style = MaterialTheme.typography.headlineMedium
         )
 
-        OutlinedTextField(
-            value = uiState.asignatura,
-            onValueChange = onAsignaturaChange,
-            label = { Text("Asignatura") },
-            isError = errores.asignatura != null,
-            trailingIcon = {
+        Text(
+            text = "2° Básico",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Column(
+                modifier = Modifier.padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+
+                Text(
+                    text = "Información académica",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                OutlinedTextField(
+                    value = uiState.asignatura,
+                    onValueChange = onAsignaturaChange,
+                    label = {
+                        Text("Asignatura")
+                    },
+                    singleLine = true,
+                    isError = errores.asignatura != null,
+                    trailingIcon = {
+                        if (errores.asignatura != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 if (errores.asignatura != null) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = "Error"
+                    Text(
+                        text = errores.asignatura,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            },
-            supportingText = {
-                errores.asignatura?.let { Text(it) }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
 
-        OutlinedTextField(
-            value = uiState.unidad,
-            onValueChange = onUnidadChange,
-            label = { Text("Unidad") },
-            isError = errores.unidad != null,
-            trailingIcon = {
+                OutlinedTextField(
+                    value = uiState.unidad,
+                    onValueChange = onUnidadChange,
+                    label = {
+                        Text("Unidad")
+                    },
+                    singleLine = true,
+                    isError = errores.unidad != null,
+                    trailingIcon = {
+                        if (errores.unidad != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 if (errores.unidad != null) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = "Error"
+                    Text(
+                        text = errores.unidad,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            },
-            supportingText = {
-                errores.unidad?.let { Text(it) }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
 
-        OutlinedTextField(
-            value = uiState.objetivo,
-            onValueChange = onObjetivoChange,
-            label = { Text("Objetivo de aprendizaje") },
-            isError = errores.objetivo != null,
-            trailingIcon = {
+                OutlinedTextField(
+                    value = uiState.objetivo,
+                    onValueChange = onObjetivoChange,
+                    label = {
+                        Text("Objetivo de aprendizaje")
+                    },
+                    singleLine = true,
+                    isError = errores.objetivo != null,
+                    trailingIcon = {
+                        if (errores.objetivo != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 if (errores.objetivo != null) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = "Error"
+                    Text(
+                        text = errores.objetivo,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            },
-            supportingText = {
-                errores.objetivo?.let { Text(it) }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+            }
+        }
 
-        OutlinedTextField(
-            value = uiState.tipo,
-            onValueChange = onTipoChange,
-            label = { Text("Tipo de contenido") },
-            isError = errores.tipo != null,
-            trailingIcon = {
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Column(
+                modifier = Modifier.padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+
+                Text(
+                    text = "Información del contenido",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                OutlinedTextField(
+                    value = uiState.tipo,
+                    onValueChange = onTipoChange,
+                    label = {
+                        Text("Tipo de contenido")
+                    },
+                    singleLine = true,
+                    isError = errores.tipo != null,
+                    trailingIcon = {
+                        if (errores.tipo != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 if (errores.tipo != null) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = "Error"
+                    Text(
+                        text = errores.tipo,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            },
-            supportingText = {
-                errores.tipo?.let { Text(it) }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
 
-        OutlinedTextField(
-            value = uiState.titulo,
-            onValueChange = onTituloChange,
-            label = {
-                Text("Título")
-            },
-            isError = errores.titulo != null,
-            trailingIcon = {
+                OutlinedTextField(
+                    value = uiState.titulo,
+                    onValueChange = onTituloChange,
+                    label = {
+                        Text("Título")
+                    },
+                    singleLine = true,
+                    isError = errores.titulo != null,
+                    trailingIcon = {
+                        if (errores.titulo != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 if (errores.titulo != null) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = "Error"
+                    Text(
+                        text = errores.titulo,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            },
-            supportingText = {
-                errores.titulo?.let {
-                    Text(it)
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
 
-        OutlinedTextField(
-            value = uiState.contenido,
-            onValueChange = onContenidoChange,
-            label = {
-                Text("Contenido")
-            },
-            isError = errores.contenido != null,
-            trailingIcon = {
+                OutlinedTextField(
+                    value = uiState.contenido,
+                    onValueChange = onContenidoChange,
+                    label = {
+                        Text("Contenido")
+                    },
+                    minLines = 2,
+                    isError = errores.contenido != null,
+                    trailingIcon = {
+                        if (errores.contenido != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 if (errores.contenido != null) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = "Error"
+                    Text(
+                        text = errores.contenido,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            },
-            supportingText = {
-                errores.contenido?.let {
-                    Text(it)
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+            }
+        }
 
         Button(
             onClick = onGuardarClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Guardar")
+            Text("Guardar contenido")
         }
     }
 }
@@ -178,10 +250,15 @@ fun FormularioContenidoScreen(
 @Preview(showBackground = true)
 @Composable
 fun FormularioContenidoScreenPreview() {
+
     FormularioContenidoScreen(
         uiState = ContenidoUiState(
-            titulo = "Lectura guiada",
-            contenido = "Lee el texto y responde."
+            asignatura = "Matemática",
+            unidad = "Unidad 1",
+            objetivo = "Resolver problemas utilizando números y operaciones.",
+            tipo = "Actividad",
+            titulo = "Ejercicios de números",
+            contenido = "Resuelve los siguientes ejercicios."
         ),
         errores = ContenidoErrores(),
         onAsignaturaChange = {},
