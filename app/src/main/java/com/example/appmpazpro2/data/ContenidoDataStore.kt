@@ -6,6 +6,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.appmpazpro2.model.ContenidoUiState
+import com.example.appmpazpro2.model.EstadoContenido
+import com.example.appmpazpro2.model.EstadoRespuesta
+import com.example.appmpazpro2.model.RespuestaUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -18,8 +21,12 @@ class ContenidoDataStore(
 ) {
 
     companion object {
+
         private val CONTENIDOS =
             stringPreferencesKey("contenidos_guardados")
+
+        private val RESPUESTAS =
+            stringPreferencesKey("respuestas_guardadas")
 
         private const val SEPARADOR_REGISTRO = ";;"
         private const val SEPARADOR_CAMPO = "|"
@@ -35,6 +42,16 @@ class ContenidoDataStore(
         }
     }
 
+    fun obtenerRespuestas(): Flow<List<RespuestaUiState>> {
+
+        return context.contenidoDataStore.data.map { preferencias ->
+
+            decodificarRespuestas(
+                preferencias[RESPUESTAS].orEmpty()
+            )
+        }
+    }
+
     suspend fun guardarContenidos(
         contenidos: List<ContenidoUiState>
     ) {
@@ -43,6 +60,17 @@ class ContenidoDataStore(
 
             preferencias[CONTENIDOS] =
                 codificarContenidos(contenidos)
+        }
+    }
+
+    suspend fun guardarRespuestas(
+        respuestas: List<RespuestaUiState>
+    ) {
+
+        context.contenidoDataStore.edit { preferencias ->
+
+            preferencias[RESPUESTAS] =
+                codificarRespuestas(respuestas)
         }
     }
 
@@ -55,12 +83,14 @@ class ContenidoDataStore(
         ) { contenido ->
 
             listOf(
+                contenido.id.toString(),
                 contenido.asignatura,
                 contenido.unidad,
                 contenido.objetivo,
                 contenido.tipo,
                 contenido.titulo,
-                contenido.contenido
+                contenido.contenido,
+                contenido.estado.name
             ).joinToString(
                 SEPARADOR_CAMPO
             ) { valor ->
@@ -88,17 +118,80 @@ class ContenidoDataStore(
                             Uri.decode(campo)
                         }
 
-                if (campos.size != 6) {
+                if (campos.size != 8) {
                     return@mapNotNull null
                 }
 
                 ContenidoUiState(
-                    asignatura = campos[0],
-                    unidad = campos[1],
-                    objetivo = campos[2],
-                    tipo = campos[3],
-                    titulo = campos[4],
-                    contenido = campos[5]
+                    id = campos[0].toIntOrNull() ?: 0,
+                    asignatura = campos[1],
+                    unidad = campos[2],
+                    objetivo = campos[3],
+                    tipo = campos[4],
+                    titulo = campos[5],
+                    contenido = campos[6],
+                    estado = runCatching {
+                        EstadoContenido.valueOf(campos[7])
+                    }.getOrDefault(
+                        EstadoContenido.PENDIENTE
+                    )
+                )
+            }
+    }
+
+    private fun codificarRespuestas(
+        respuestas: List<RespuestaUiState>
+    ): String {
+
+        return respuestas.joinToString(
+            SEPARADOR_REGISTRO
+        ) { respuesta ->
+
+            listOf(
+                respuesta.id.toString(),
+                respuesta.contenidoId.toString(),
+                respuesta.respuesta,
+                respuesta.estado.name
+            ).joinToString(
+                SEPARADOR_CAMPO
+            ) { valor ->
+                Uri.encode(valor)
+            }
+        }
+    }
+
+    private fun decodificarRespuestas(
+        valor: String
+    ): List<RespuestaUiState> {
+
+        if (valor.isBlank()) {
+            return emptyList()
+        }
+
+        return valor
+            .split(SEPARADOR_REGISTRO)
+            .mapNotNull { registro ->
+
+                val campos =
+                    registro
+                        .split(SEPARADOR_CAMPO)
+                        .map { campo ->
+                            Uri.decode(campo)
+                        }
+
+                if (campos.size != 4) {
+                    return@mapNotNull null
+                }
+
+                RespuestaUiState(
+                    id = campos[0].toIntOrNull() ?: 0,
+                    contenidoId = campos[1].toIntOrNull() ?: 0,
+                    respuesta = campos[2],
+                    estado = runCatching {
+                        EstadoRespuesta.valueOf(campos[3])
+                    }.getOrDefault(
+                        EstadoRespuesta.PENDIENTE_REVISION
+                    )
                 )
             }
     }

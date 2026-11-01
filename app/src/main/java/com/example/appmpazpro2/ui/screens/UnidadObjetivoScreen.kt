@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun UnidadObjetivoScreen(
     asignatura: String,
-    onObjetivoClick: () -> Unit
+    onObjetivoClick: (String) -> Unit
 ) {
 
     val unidad1 = when (asignatura) {
@@ -116,7 +116,9 @@ fun UnidadObjetivoScreen(
                 )
 
                 Button(
-                    onClick = onObjetivoClick,
+                    onClick = {
+                        onObjetivoClick("Unidad 1")
+                    },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
@@ -143,7 +145,9 @@ fun UnidadObjetivoScreen(
                 )
 
                 Button(
-                    onClick = onObjetivoClick,
+                    onClick = {
+                        onObjetivoClick("Unidad 2")
+                    },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
@@ -170,7 +174,9 @@ fun UnidadObjetivoScreen(
                 )
 
                 Button(
-                    onClick = onObjetivoClick,
+                    onClick = {
+                        onObjetivoClick("Unidad 3")
+                    },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
