@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.appmpazpro2.data.ContenidoDataStore
 import com.example.appmpazpro2.model.ContenidoErrores
 import com.example.appmpazpro2.model.ContenidoUiState
+import com.example.appmpazpro2.model.EstadoContenido
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -130,55 +131,57 @@ class ContenidoViewModel(
 
     fun validarFormulario(): Boolean {
 
-        val estado = _uiState.value
+        val estadoActual =
+            _uiState.value
 
         val nuevosErrores =
             ContenidoErrores(
 
                 asignatura =
-                    if (estado.asignatura.isBlank()) {
+                    if (estadoActual.asignatura.isBlank()) {
                         "La asignatura es obligatoria"
                     } else {
                         null
                     },
 
                 unidad =
-                    if (estado.unidad.isBlank()) {
+                    if (estadoActual.unidad.isBlank()) {
                         "La unidad es obligatoria"
                     } else {
                         null
                     },
 
                 objetivo =
-                    if (estado.objetivo.isBlank()) {
+                    if (estadoActual.objetivo.isBlank()) {
                         "El objetivo es obligatorio"
                     } else {
                         null
                     },
 
                 tipo =
-                    if (estado.tipo.isBlank()) {
+                    if (estadoActual.tipo.isBlank()) {
                         "El tipo es obligatorio"
                     } else {
                         null
                     },
 
                 titulo =
-                    if (estado.titulo.isBlank()) {
+                    if (estadoActual.titulo.isBlank()) {
                         "El titulo es obligatorio"
                     } else {
                         null
                     },
 
                 contenido =
-                    if (estado.contenido.isBlank()) {
+                    if (estadoActual.contenido.isBlank()) {
                         "El contenido es obligatorio"
                     } else {
                         null
                     }
             )
 
-        _errores.value = nuevosErrores
+        _errores.value =
+            nuevosErrores
 
         return nuevosErrores.asignatura == null &&
                 nuevosErrores.unidad == null &&
@@ -203,35 +206,148 @@ class ContenidoViewModel(
             return false
         }
 
+        val nuevoId =
+            (_contenidos.value.maxOfOrNull {
+                it.id
+            } ?: 0) + 1
+
         val nuevoContenido =
-            _uiState.value
+            _uiState.value.copy(
+                id = nuevoId,
+                estado =
+                    if (rol == RolUsuario.UTP) {
+                        EstadoContenido.APROBADO
+                    } else {
+                        EstadoContenido.PENDIENTE
+                    }
+            )
 
         val nuevaLista =
             _contenidos.value +
                     nuevoContenido
 
-        _contenidos.value =
-            nuevaLista
+        guardarLista(nuevaLista)
 
-        viewModelScope.launch {
+        limpiarFormulario()
 
-            dataStore.guardarContenidos(
-                nuevaLista
-            )
-        }
+        return true
+    }
+
+    fun cargarContenidoParaEditar(
+        contenido: ContenidoUiState
+    ) {
 
         _uiState.value =
-            ContenidoUiState()
+            contenido
 
         _errores.value =
             ContenidoErrores()
+    }
+
+    fun editarContenido(
+        rol: RolUsuario?
+    ): Boolean {
+
+        if (
+            rol != RolUsuario.UTP &&
+            rol != RolUsuario.DOCENTE
+        ) {
+            return false
+        }
+
+        if (!validarFormulario()) {
+            return false
+        }
+
+        val contenidoEditado =
+            if (rol == RolUsuario.DOCENTE) {
+                _uiState.value.copy(
+                    estado =
+                        EstadoContenido.PENDIENTE
+                )
+            } else {
+                _uiState.value
+            }
+
+        val nuevaLista =
+            _contenidos.value.map { contenido ->
+
+                if (
+                    contenido.id ==
+                    contenidoEditado.id
+                ) {
+
+                    contenidoEditado
+
+                } else {
+
+                    contenido
+                }
+            }
+
+        guardarLista(nuevaLista)
+
+        limpiarFormulario()
+
+        return true
+    }
+
+    fun aprobarContenido(
+        id: Int,
+        rol: RolUsuario?
+    ): Boolean {
+
+        if (rol != RolUsuario.UTP) {
+            return false
+        }
+
+        cambiarEstado(
+            id,
+            EstadoContenido.APROBADO
+        )
+
+        return true
+    }
+
+    fun rechazarContenido(
+        id: Int,
+        rol: RolUsuario?
+    ): Boolean {
+
+        if (rol != RolUsuario.UTP) {
+            return false
+        }
+
+        cambiarEstado(
+            id,
+            EstadoContenido.RECHAZADO
+        )
+
+        return true
+    }
+
+    fun ocultarContenido(
+        id: Int,
+        rol: RolUsuario?
+    ): Boolean {
+
+        if (rol != RolUsuario.UTP) {
+            return false
+        }
+
+        cambiarEstado(
+            id,
+            EstadoContenido.OCULTO
+        )
 
         return true
     }
 
     fun contenidosVisibles(
         rol: RolUsuario?,
-        asignatura: String? = null
+        asignatura: String? = null,
+        unidad: String? = null,
+        objetivo: String? = null
     ): List<ContenidoUiState> {
 
         val base =
@@ -239,8 +355,8 @@ class ContenidoViewModel(
 
                 RolUsuario.ESTUDIANTE ->
                     _contenidos.value.filter {
-                        it.titulo.isNotBlank() &&
-                                it.contenido.isNotBlank()
+                        it.estado ==
+                                EstadoContenido.APROBADO
                     }
 
                 RolUsuario.UTP,
@@ -251,20 +367,151 @@ class ContenidoViewModel(
                     emptyList()
             }
 
-        return if (
-            asignatura.isNullOrBlank()
-        ) {
+        return base.filter { contenido ->
 
-            base
+            val coincideAsignatura =
+                asignatura.isNullOrBlank() ||
+                        contenido.asignatura.equals(
+                            asignatura,
+                            ignoreCase = true
+                        )
 
-        } else {
+            val coincideUnidad =
+                unidad.isNullOrBlank() ||
+                        contenido.unidad.equals(
+                            unidad,
+                            ignoreCase = true
+                        )
 
-            base.filter {
-                it.asignatura.equals(
-                    asignatura,
+            val coincideObjetivo =
+                objetivo.isNullOrBlank() ||
+                        contenido.objetivo.equals(
+                            objetivo,
+                            ignoreCase = true
+                        )
+
+            coincideAsignatura &&
+                    coincideUnidad &&
+                    coincideObjetivo
+        }
+    }
+
+    fun contenidosPendientes():
+            List<ContenidoUiState> {
+
+        return _contenidos.value.filter {
+
+            it.estado ==
+                    EstadoContenido.PENDIENTE
+        }
+    }
+
+    fun contenidosAprobados():
+            List<ContenidoUiState> {
+
+        return _contenidos.value.filter {
+
+            it.estado ==
+                    EstadoContenido.APROBADO
+        }
+    }
+
+    fun contenidosOcultos():
+            List<ContenidoUiState> {
+
+        return _contenidos.value.filter {
+
+            it.estado ==
+                    EstadoContenido.OCULTO
+        }
+    }
+
+    fun contenidosRechazados():
+            List<ContenidoUiState> {
+
+        return _contenidos.value.filter {
+
+            it.estado ==
+                    EstadoContenido.RECHAZADO
+        }
+    }
+
+    fun puedeEditarContenido(
+        contenido: ContenidoUiState,
+        rol: RolUsuario?
+    ): Boolean {
+
+        return when (rol) {
+
+            RolUsuario.UTP ->
+                true
+
+            RolUsuario.DOCENTE ->
+                contenido.asignatura.equals(
+                    "Lenguaje",
                     ignoreCase = true
                 )
-            }
+
+            else ->
+                false
         }
+    }
+
+
+    fun contenidoPorId(
+        id: Int
+    ): ContenidoUiState? {
+
+        return _contenidos.value.find {
+            it.id == id
+        }
+    }
+
+
+    private fun cambiarEstado(
+        id: Int,
+        nuevoEstado: EstadoContenido
+    ) {
+
+        val nuevaLista =
+            _contenidos.value.map { contenido ->
+
+                if (contenido.id == id) {
+
+                    contenido.copy(
+                        estado = nuevoEstado
+                    )
+
+                } else {
+
+                    contenido
+                }
+            }
+
+        guardarLista(nuevaLista)
+    }
+
+    private fun guardarLista(
+        nuevaLista: List<ContenidoUiState>
+    ) {
+
+        _contenidos.value =
+            nuevaLista
+
+        viewModelScope.launch {
+
+            dataStore.guardarContenidos(
+                nuevaLista
+            )
+        }
+    }
+
+    private fun limpiarFormulario() {
+
+        _uiState.value =
+            ContenidoUiState()
+
+        _errores.value =
+            ContenidoErrores()
     }
 }
