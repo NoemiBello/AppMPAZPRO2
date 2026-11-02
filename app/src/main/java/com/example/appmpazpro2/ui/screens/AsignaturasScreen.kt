@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.appmpazpro2.ui.components.BarraVolver
 
 @Composable
 fun AsignaturasScreen(
     mostrarTodas: Boolean = true,
+    onVolverClick: () -> Unit,
     onMatematicaClick: () -> Unit,
     onLenguajeClick: () -> Unit,
     onCienciasClick: () -> Unit,
@@ -35,15 +39,15 @@ fun AsignaturasScreen(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
 
-        Text(
-            text = "Asignaturas",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+
+        BarraVolver(
+            titulo = "Asignaturas",
+            onVolverClick = onVolverClick
         )
 
         Text(
-            text = "2° Básico", style = MaterialTheme.typography.titleLarge
+            text = "2° Básico",
+            style = MaterialTheme.typography.titleLarge
         )
 
         Text(
@@ -52,8 +56,7 @@ fun AsignaturasScreen(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // Lenguaje siempre está disponible para
-        // Docente y Estudiante en este MVP.
+        // Lenguaje disponible para Docente y Estudiante
         TarjetaAsignatura(
             emoji = "📚",
             titulo = "Lenguaje",
@@ -62,7 +65,7 @@ fun AsignaturasScreen(
             onClick = onLenguajeClick
         )
 
-        // UTP puede visualizar las 4 asignaturas.
+        // UTP puede visualizar las 4 asignaturas
         if (mostrarTodas) {
 
             TarjetaAsignatura(
@@ -94,7 +97,11 @@ fun AsignaturasScreen(
 
 @Composable
 fun TarjetaAsignatura(
-    emoji: String, titulo: String, descripcion: String, color: Color, onClick: () -> Unit
+    emoji: String,
+    titulo: String,
+    descripcion: String,
+    color: Color,
+    onClick: () -> Unit
 ) {
 
     Card(
@@ -110,14 +117,16 @@ fun TarjetaAsignatura(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = 20.dp, vertical = 20.dp
+                    horizontal = 20.dp,
+                    vertical = 20.dp
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(18.dp)
         ) {
 
             Text(
-                text = emoji, style = MaterialTheme.typography.headlineLarge
+                text = emoji,
+                style = MaterialTheme.typography.headlineLarge
             )
 
             Column(
@@ -148,15 +157,19 @@ fun TarjetaAsignatura(
 }
 
 @Preview(
-    showBackground = true, widthDp = 360, heightDp = 800
+    showBackground = true,
+    widthDp = 360,
+    heightDp = 800
 )
 @Composable
 fun AsignaturasScreenPreview() {
 
     AsignaturasScreen(
         mostrarTodas = true,
+        onVolverClick = {},
         onMatematicaClick = {},
         onLenguajeClick = {},
         onCienciasClick = {},
-        onHistoriaClick = {})
+        onHistoriaClick = {}
+    )
 }

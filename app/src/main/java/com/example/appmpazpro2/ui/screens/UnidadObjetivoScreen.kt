@@ -2,21 +2,27 @@ package com.example.appmpazpro2.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
+import com.example.appmpazpro2.ui.components.BarraVolver
 @Composable
 fun UnidadObjetivoScreen(
-    asignatura: String, onObjetivoClick: (String) -> Unit
+    asignatura: String,
+    onVolverClick: () -> Unit,
+    onObjetivoClick: (String) -> Unit
 ) {
 
     val unidad1 = when (asignatura) {
@@ -66,16 +72,19 @@ fun UnidadObjetivoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = asignatura, style = MaterialTheme.typography.headlineMedium
+        BarraVolver(
+            titulo = asignatura,
+            onVolverClick = onVolverClick
         )
 
         Text(
-            text = "2° Básico", style = MaterialTheme.typography.titleMedium
+            text = "2° Básico",
+            style = MaterialTheme.typography.titleMedium
         )
 
         Text(
-            text = "Selecciona una unidad", style = MaterialTheme.typography.bodyLarge
+            text = "Selecciona una unidad",
+            style = MaterialTheme.typography.bodyLarge
         )
 
         Card(
@@ -83,11 +92,13 @@ fun UnidadObjetivoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 Text(
-                    text = "Unidad 1", style = MaterialTheme.typography.titleLarge
+                    text = "Unidad 1",
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -97,7 +108,8 @@ fun UnidadObjetivoScreen(
                 Button(
                     onClick = {
                         onObjetivoClick("Unidad 1")
-                    }, modifier = Modifier.fillMaxWidth()
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
                 }
@@ -109,11 +121,13 @@ fun UnidadObjetivoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 Text(
-                    text = "Unidad 2", style = MaterialTheme.typography.titleLarge
+                    text = "Unidad 2",
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -123,7 +137,8 @@ fun UnidadObjetivoScreen(
                 Button(
                     onClick = {
                         onObjetivoClick("Unidad 2")
-                    }, modifier = Modifier.fillMaxWidth()
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
                 }
@@ -135,11 +150,13 @@ fun UnidadObjetivoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 Text(
-                    text = "Unidad 3", style = MaterialTheme.typography.titleLarge
+                    text = "Unidad 3",
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -149,7 +166,8 @@ fun UnidadObjetivoScreen(
                 Button(
                     onClick = {
                         onObjetivoClick("Unidad 3")
-                    }, modifier = Modifier.fillMaxWidth()
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
                 }

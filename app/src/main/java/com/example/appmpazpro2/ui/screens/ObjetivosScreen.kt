@@ -2,20 +2,28 @@ package com.example.appmpazpro2.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
+import com.example.appmpazpro2.ui.components.BarraVolver
 @Composable
 fun ObjetivosScreen(
-    asignatura: String, unidad: String, onObjetivoClick: (String) -> Unit
+    asignatura: String,
+    unidad: String,
+    onVolverClick: () -> Unit,
+    onObjetivoClick: (String) -> Unit
 ) {
 
     val objetivos = when {
@@ -33,7 +41,9 @@ fun ObjetivosScreen(
         )
 
         asignatura == "Lenguaje" && unidad == "Unidad 3" -> listOf(
-            "Expresarse oralmente", "Escuchar instrucciones", "Participar en conversaciones"
+            "Expresarse oralmente",
+            "Escuchar instrucciones",
+            "Participar en conversaciones"
         )
 
         asignatura == "Matematica" -> listOf(
@@ -66,16 +76,19 @@ fun ObjetivosScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text(
-            text = asignatura, style = MaterialTheme.typography.headlineMedium
+        BarraVolver(
+            titulo = "Objetivos",
+            onVolverClick = onVolverClick
         )
 
         Text(
-            text = unidad, style = MaterialTheme.typography.titleLarge
+            text = unidad,
+            style = MaterialTheme.typography.titleLarge
         )
 
         Text(
-            text = "Selecciona un objetivo", style = MaterialTheme.typography.bodyLarge
+            text = "Selecciona un objetivo",
+            style = MaterialTheme.typography.bodyLarge
         )
 
         objetivos.forEachIndexed { index, objetivo ->
@@ -90,7 +103,8 @@ fun ObjetivosScreen(
                 ) {
 
                     Text(
-                        text = "Objetivo ${index + 1}", style = MaterialTheme.typography.titleMedium
+                        text = "Objetivo ${index + 1}",
+                        style = MaterialTheme.typography.titleMedium
                     )
 
                     Text(
@@ -100,7 +114,8 @@ fun ObjetivosScreen(
                     Button(
                         onClick = {
                             onObjetivoClick(objetivo)
-                        }, modifier = Modifier.fillMaxWidth()
+                        },
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Seleccionar")
                     }

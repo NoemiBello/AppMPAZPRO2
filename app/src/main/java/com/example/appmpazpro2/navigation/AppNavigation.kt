@@ -159,7 +159,7 @@ fun AppNavigation() {
                         )
 
                         navController.navigate(
-                            Screen.Asignaturas.route
+                            Screen.Inicio.route
                         )
                     },
 
@@ -170,7 +170,7 @@ fun AppNavigation() {
                         )
 
                         navController.navigate(
-                            Screen.Asignaturas.route
+                            Screen.Inicio.route
                         )
                     })
             }
@@ -299,6 +299,9 @@ fun AppNavigation() {
                         }
                     },
 
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     onMatematicaClick = {
 
@@ -364,6 +367,9 @@ fun AppNavigation() {
                 UnidadObjetivoScreen(
 
                     asignatura = asignaturaSeleccionada,
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     onObjetivoClick = { unidad ->
 
@@ -374,7 +380,9 @@ fun AppNavigation() {
                         navController.navigate(
                             RUTA_OBJETIVOS
                         )
-                    })
+                    }
+                )
+
             }
 
 
@@ -389,6 +397,10 @@ fun AppNavigation() {
                     asignatura = asignaturaSeleccionada,
 
                     unidad = unidadSeleccionada,
+
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     onObjetivoClick = { objetivo ->
 
@@ -443,6 +455,10 @@ fun AppNavigation() {
                     objetivo = objetivoSeleccionado,
 
                     contenidos = contenidosDelObjetivo,
+
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     onNuevoClick = {
 
@@ -510,6 +526,9 @@ fun AppNavigation() {
                     onContenidoChange = contenidoViewModel::actualizarContenido,
 
                     onPreguntaChange = contenidoViewModel::actualizarPregunta,
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     onGuardarClick = {
 
@@ -561,6 +580,10 @@ fun AppNavigation() {
                     contenidos = actividadesAprobadas,
 
                     respuestas = respuestas,
+
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     onActividadClick = { contenido ->
 
@@ -614,6 +637,9 @@ fun AppNavigation() {
                     pregunta = contenidoVisible.pregunta,
 
                     respuesta = respuesta,
+                    onVolverClick = {
+                        navController.popBackStack()
+                    },
 
                     intentosUsados = progresoViewModel.intentosUsados(
                         contenidoVisible.id
@@ -698,6 +724,10 @@ fun AppNavigation() {
 
                             respuestasIncorrectas = incorrectas,
 
+                            onVolverClick = {
+                                navController.popBackStack()
+                            },
+
                             respuestasPendientes = pendientes
                         )
                     }
@@ -716,6 +746,10 @@ fun AppNavigation() {
                             respuestas = respuestas,
 
                             contenidos = contenidos,
+
+                            onVolverClick = {
+                                navController.popBackStack()
+                            },
 
                             onCorrectaClick = { id ->
 
@@ -829,6 +863,10 @@ fun AppNavigation() {
                         contenidoViewModel.rechazarContenido(
                             id, rolSeleccionado
                         )
+                    },
+
+                    onVolverClick = {
+                        navController.popBackStack()
                     },
 
                     onOcultarClick = { id ->
