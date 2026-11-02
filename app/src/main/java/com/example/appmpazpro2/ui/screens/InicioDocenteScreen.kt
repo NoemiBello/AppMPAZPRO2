@@ -1,0 +1,355 @@
+package com.example.appmpazpro2.ui.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.ShowChart
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.appmpazpro2.navigation.Screen
+import com.example.appmpazpro2.ui.theme.AmarilloClaroMPaz
+import com.example.appmpazpro2.ui.theme.AzulClaroMPaz
+import com.example.appmpazpro2.ui.theme.VerdeClaroMPaz
+import kotlinx.coroutines.launch
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InicioDocenteScreen(
+    navController: NavHostController,
+    onCerrarSesionClick: () -> Unit
+) {
+
+    val drawerState = rememberDrawerState(
+        initialValue = DrawerValue.Closed
+    )
+
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+
+            ModalDrawerSheet {
+
+                Text(
+                    text = "MPAZ PRO 2",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+
+                NavigationDrawerItem(
+                    label = {
+                        Text("Inicio")
+                    },
+                    selected = true,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        navController.navigate(
+                            Screen.Inicio.route
+                        )
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Inicio"
+                        )
+                    }
+                )
+
+                NavigationDrawerItem(
+                    label = {
+                        Text("Lenguaje")
+                    },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        navController.navigate(
+                            Screen.Asignaturas.route
+                        )
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.School,
+                            contentDescription = "Lenguaje"
+                        )
+                    }
+                )
+
+                NavigationDrawerItem(
+                    label = {
+                        Text("Revisar respuestas")
+                    },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        navController.navigate(
+                            Screen.Progreso.route
+                        )
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.ShowChart,
+                            contentDescription = "Revisar respuestas"
+                        )
+                    }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+
+                NavigationDrawerItem(
+                    label = {
+                        Text("Cerrar sesion")
+                    },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+
+                        onCerrarSesionClick()
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.ExitToApp,
+                            contentDescription = "Cerrar sesion"
+                        )
+                    }
+                )
+            }
+        }
+    ) {
+
+        Scaffold(
+            topBar = {
+
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Panel Docente",
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    navigationIcon = {
+
+                        IconButton(
+                            onClick = {
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            }
+                        ) {
+
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Abrir menu"
+                            )
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+
+                Text(
+                    text = "¡Bienvenido, Docente! 👋",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Text(
+                    text = "Segundo Basico - Lenguaje",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(28.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AmarilloClaroMPaz
+                    )
+                ) {
+
+                    Column(
+                        modifier = Modifier.padding(20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Text(
+                            text = "📚",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+
+                        Text(
+                            text = "Panel Docente",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = "Gestiona las actividades de Lenguaje",
+                            modifier = Modifier.padding(top = 6.dp)
+                        )
+                    }
+                }
+
+                Text(
+                    text = "¿Que quieres hacer?",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AzulClaroMPaz
+                    )
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+
+                        Text(
+                            text = "📖",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
+
+                            Text(
+                                text = "Lenguaje",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Text(
+                                text = "Crea, revisa y edita tus actividades"
+                            )
+
+                            Button(
+                                onClick = {
+                                    navController.navigate(
+                                        Screen.Asignaturas.route
+                                    )
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp)
+                            ) {
+                                Text("Ver contenidos")
+                            }
+                        }
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = VerdeClaroMPaz
+                    )
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+
+                        Text(
+                            text = "✅",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
+
+                            Text(
+                                text = "Revisar respuestas",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Text(
+                                text = "Corrige las respuestas de los estudiantes"
+                            )
+
+                            Button(
+                                onClick = {
+                                    navController.navigate(
+                                        Screen.Progreso.route
+                                    )
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp)
+                            ) {
+                                Text("Revisar respuestas")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

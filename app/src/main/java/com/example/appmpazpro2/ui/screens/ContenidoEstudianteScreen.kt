@@ -24,6 +24,7 @@ fun ContenidoEstudianteScreen(
     intentosUsados: Int,
     maxIntentos: Int = 3,
     puedeResponder: Boolean,
+    hayContenido: Boolean,
     onRespuestaChange: (String) -> Unit,
     onEnviarClick: () -> Unit
 ) {
@@ -66,62 +67,68 @@ fun ContenidoEstudianteScreen(
             }
         }
 
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        if (hayContenido) {
 
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+
+                    Text(
+                        text = "Tu respuesta",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Text(
+                        text = "Intentos usados: $intentosUsados de $maxIntentos",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Text(
+                        text = "Intentos restantes: ${
+                            (maxIntentos - intentosUsados)
+                                .coerceAtLeast(0)
+                        }"
+                    )
+
+                    OutlinedTextField(
+                        value = respuesta,
+                        onValueChange = onRespuestaChange,
+                        label = {
+                            Text("Escribe tu respuesta")
+                        },
+                        minLines = 4,
+                        enabled = puedeResponder,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
+            Button(
+                onClick = onEnviarClick,
+                enabled =
+                    puedeResponder &&
+                            respuesta.isNotBlank(),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Enviar respuesta")
+            }
+
+            if (
+                !puedeResponder &&
+                intentosUsados >= maxIntentos
             ) {
 
                 Text(
-                    text = "Tu respuesta",
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = "Intentos usados: $intentosUsados de $maxIntentos",
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = "Intentos restantes: ${
-                        (maxIntentos - intentosUsados).coerceAtLeast(0)
-                    }"
-                )
-
-                OutlinedTextField(
-                    value = respuesta,
-                    onValueChange = onRespuestaChange,
-                    label = {
-                        Text("Escribe tu respuesta")
-                    },
-                    minLines = 4,
-                    enabled = puedeResponder,
-                    modifier = Modifier.fillMaxWidth()
+                    text = "Has alcanzado el maximo de intentos.",
+                    color = MaterialTheme.colorScheme.error,
+                    fontWeight = FontWeight.Bold
                 )
             }
-        }
-
-        Button(
-            onClick = onEnviarClick,
-            enabled = puedeResponder && respuesta.isNotBlank(),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Enviar respuesta")
-        }
-
-        if (
-            !puedeResponder &&
-            intentosUsados >= maxIntentos
-        ) {
-
-            Text(
-                text = "Has alcanzado el maximo de intentos.",
-                color = MaterialTheme.colorScheme.error,
-                fontWeight = FontWeight.Bold
-            )
         }
     }
 }
@@ -137,6 +144,7 @@ fun ContenidoEstudianteScreenPreview() {
         intentosUsados = 1,
         maxIntentos = 3,
         puedeResponder = true,
+        hayContenido = true,
         onRespuestaChange = {},
         onEnviarClick = {}
     )

@@ -228,6 +228,14 @@ class ContenidoViewModel(
                 it.id
             } ?: 0) + 1
 
+        val estadoInicial =
+            if (rol == RolUsuario.UTP) {
+                EstadoContenido.APROBADO
+            } else {
+                EstadoContenido.PENDIENTE
+            }
+
+
         val nuevoContenido =
             _uiState.value.copy(
                 id = nuevoId,
@@ -250,6 +258,57 @@ class ContenidoViewModel(
         return true
     }
 
+
+    fun contenidosVisibles(
+        rol: RolUsuario?,
+        asignatura: String? = null,
+        unidad: String? = null,
+        objetivo: String? = null
+    ): List<ContenidoUiState> {
+
+        val base = when (rol) {
+
+            RolUsuario.ESTUDIANTE ->
+                _contenidos.value.filter {
+                    it.estado == EstadoContenido.APROBADO
+                }
+
+            RolUsuario.UTP,
+            RolUsuario.DOCENTE ->
+                _contenidos.value
+
+            null ->
+                emptyList()
+        }
+
+        return base.filter { contenido ->
+
+            val coincideAsignatura =
+                asignatura.isNullOrBlank() ||
+                        contenido.asignatura.equals(
+                            asignatura,
+                            ignoreCase = true
+                        )
+
+            val coincideUnidad =
+                unidad.isNullOrBlank() ||
+                        contenido.unidad.equals(
+                            unidad,
+                            ignoreCase = true
+                        )
+
+            val coincideObjetivo =
+                objetivo.isNullOrBlank() ||
+                        contenido.objetivo.equals(
+                            objetivo,
+                            ignoreCase = true
+                        )
+
+            coincideAsignatura &&
+                    coincideUnidad &&
+                    coincideObjetivo
+        }
+    }
     fun prepararNuevoContenido(
         asignatura: String,
         unidad: String,
@@ -398,58 +457,7 @@ class ContenidoViewModel(
         return true
     }
 
-    fun contenidosVisibles(
-        rol: RolUsuario?,
-        asignatura: String? = null,
-        unidad: String? = null,
-        objetivo: String? = null
-    ): List<ContenidoUiState> {
 
-        val base =
-            when (rol) {
-
-                RolUsuario.ESTUDIANTE ->
-                    _contenidos.value.filter {
-                        it.estado ==
-                                EstadoContenido.APROBADO
-                    }
-
-                RolUsuario.UTP,
-                RolUsuario.DOCENTE ->
-                    _contenidos.value
-
-                null ->
-                    emptyList()
-            }
-
-        return base.filter { contenido ->
-
-            val coincideAsignatura =
-                asignatura.isNullOrBlank() ||
-                        contenido.asignatura.equals(
-                            asignatura,
-                            ignoreCase = true
-                        )
-
-            val coincideUnidad =
-                unidad.isNullOrBlank() ||
-                        contenido.unidad.equals(
-                            unidad,
-                            ignoreCase = true
-                        )
-
-            val coincideObjetivo =
-                objetivo.isNullOrBlank() ||
-                        contenido.objetivo.equals(
-                            objetivo,
-                            ignoreCase = true
-                        )
-
-            coincideAsignatura &&
-                    coincideUnidad &&
-                    coincideObjetivo
-        }
-    }
 
     fun contenidosPendientes():
             List<ContenidoUiState> {

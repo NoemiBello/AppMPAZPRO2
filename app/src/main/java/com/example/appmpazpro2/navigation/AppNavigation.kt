@@ -42,6 +42,8 @@ import com.example.appmpazpro2.viewmodel.UsuarioViewModel
 import com.example.appmpazpro2.ui.screens.ObjetivosScreen
 import com.example.appmpazpro2.model.EstadoRespuesta
 import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
+import com.example.appmpazpro2.ui.screens.InicioDocenteScreen
+import com.example.appmpazpro2.ui.screens.InicioUtpScreen
 private const val RUTA_SELECCION_PERFIL =
     "seleccion_perfil"
 
@@ -221,25 +223,86 @@ fun AppNavigation() {
 
             composable(Screen.Inicio.route) {
 
-                InicioScreen(
-                    navController = navController,
-                    onCerrarSesionClick = {
+                when (rolSeleccionado) {
 
-                        rolViewModel.limpiarRol()
+                    RolUsuario.ESTUDIANTE -> {
 
-                        navController.navigate(
-                            RUTA_SELECCION_PERFIL
-                        ) {
-                            popUpTo(
-                                RUTA_SELECCION_PERFIL
-                            ) {
-                                inclusive = true
+                        InicioScreen(
+                            navController = navController,
+                            onCerrarSesionClick = {
+
+                                rolViewModel.limpiarRol()
+
+                                navController.navigate(
+                                    RUTA_SELECCION_PERFIL
+                                ) {
+                                    popUpTo(
+                                        RUTA_SELECCION_PERFIL
+                                    ) {
+                                        inclusive = true
+                                    }
+
+                                    launchSingleTop = true
+                                }
                             }
-
-                            launchSingleTop = true
-                        }
+                        )
                     }
-                )
+
+                    RolUsuario.DOCENTE -> {
+
+                        InicioDocenteScreen(
+                            navController = navController,
+                            onCerrarSesionClick = {
+
+                                rolViewModel.limpiarRol()
+
+                                navController.navigate(
+                                    RUTA_SELECCION_PERFIL
+                                ) {
+                                    popUpTo(
+                                        RUTA_SELECCION_PERFIL
+                                    ) {
+                                        inclusive = true
+                                    }
+
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
+
+                    RolUsuario.UTP -> {
+
+                        InicioUtpScreen(
+                            navController = navController,
+
+                            onGestionContenidoClick = {
+                                navController.navigate(
+                                    RUTA_GESTION_CONTENIDO
+                                )
+                            },
+
+                            onCerrarSesionClick = {
+
+                                rolViewModel.limpiarRol()
+
+                                navController.navigate(
+                                    RUTA_SELECCION_PERFIL
+                                ) {
+                                    popUpTo(
+                                        RUTA_SELECCION_PERFIL
+                                    ) {
+                                        inclusive = true
+                                    }
+
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
+
+                    null -> Unit
+                }
             }
 
 
@@ -625,6 +688,9 @@ fun AppNavigation() {
                                 progresoViewModel.puedeResponder(
                                     contenidoVisible.id
                                 ),
+
+                    hayContenido =
+                        contenidoVisible.id != 0,
 
                     onRespuestaChange =
                         progresoViewModel::actualizarRespuesta,
