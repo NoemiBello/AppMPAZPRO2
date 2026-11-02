@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.Error
@@ -31,8 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.EstadoRespuesta
-
-
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import com.example.appmpazpro2.ui.components.BarraVolver
 @Composable
 fun ContenidoEstudianteScreen(
     titulo: String,
@@ -41,6 +43,7 @@ fun ContenidoEstudianteScreen(
     respuesta: String,
     intentosUsados: Int,
     maxIntentos: Int,
+    onVolverClick: () -> Unit,
     puedeResponder: Boolean,
     hayContenido: Boolean,
     respuestaEnviada: String?,
@@ -58,6 +61,10 @@ fun ContenidoEstudianteScreen(
                 horizontal = 16.dp, vertical = 14.dp
             ), verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        BarraVolver(
+            titulo = "Actividad",
+            onVolverClick = onVolverClick
+        )
 
         if (!hayContenido) {
 

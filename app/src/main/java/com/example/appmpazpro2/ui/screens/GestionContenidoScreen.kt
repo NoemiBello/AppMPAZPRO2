@@ -16,6 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoUiState
 import com.example.appmpazpro2.model.EstadoContenido
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import com.example.appmpazpro2.ui.components.BarraVolver
 
 @Composable
 fun GestionContenidoScreen(
@@ -23,6 +29,7 @@ fun GestionContenidoScreen(
     onAprobarClick: (Int) -> Unit,
     onRechazarClick: (Int) -> Unit,
     onOcultarClick: (Int) -> Unit,
+    onVolverClick: () -> Unit,
     onVerAsignaturasClick: () -> Unit
 ) {
 
@@ -32,10 +39,12 @@ fun GestionContenidoScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-
-        Text(
-            text = "Gestion de contenidos", style = MaterialTheme.typography.headlineMedium
+        BarraVolver(
+            titulo = "Gestion de contenidos",
+            onVolverClick = onVolverClick
         )
+
+
 
         // Ir a las 4 asignaturas
         Button(

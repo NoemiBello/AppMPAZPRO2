@@ -12,6 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import com.example.appmpazpro2.ui.components.BarraVolver
 
 @Composable
 fun ProgresoScreen(
@@ -20,6 +26,7 @@ fun ProgresoScreen(
     respuestasRegistradas: Int = 0,
     respuestasCorrectas: Int = 0,
     respuestasIncorrectas: Int = 0,
+    onVolverClick: () -> Unit,
     respuestasPendientes: Int = 0
 ) {
 
@@ -29,10 +36,12 @@ fun ProgresoScreen(
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
-        Text(
-            text = "Mi progreso", style = MaterialTheme.typography.headlineMedium
+        BarraVolver(
+            titulo = "Mi progreso",
+            onVolverClick = onVolverClick
         )
+
+
 
         Text(
             text = "Avance: $porcentaje%", style = MaterialTheme.typography.titleLarge
