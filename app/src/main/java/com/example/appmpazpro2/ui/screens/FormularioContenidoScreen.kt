@@ -21,10 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoErrores
 import com.example.appmpazpro2.model.ContenidoUiState
-import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
-import androidx.compose.ui.Alignment
 import com.example.appmpazpro2.ui.components.BarraVolver
 @Composable
 fun FormularioContenidoScreen(
@@ -84,15 +81,22 @@ fun FormularioContenidoScreen(
                         Text("Asignatura")
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    readOnly = !puedeEditarInformacionAcademica
+                    readOnly = !puedeEditarInformacionAcademica,
+                    isError = errores.asignatura != null,
+                    trailingIcon = {
+                        if (errores.asignatura != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    }
                 )
-
                 if (errores.asignatura != null) {
                     Text(
                         text = errores.asignatura, style = MaterialTheme.typography.bodySmall
                     )
                 }
-
                 OutlinedTextField(
                     value = uiState.unidad,
                     onValueChange = onUnidadChange,
@@ -100,15 +104,22 @@ fun FormularioContenidoScreen(
                         Text("Unidad")
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    readOnly = !puedeEditarInformacionAcademica
+                    readOnly = !puedeEditarInformacionAcademica,
+                    isError = errores.unidad != null,
+                    trailingIcon = {
+                        if (errores.unidad != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    }
                 )
-
                 if (errores.unidad != null) {
                     Text(
                         text = errores.unidad, style = MaterialTheme.typography.bodySmall
                     )
                 }
-
                 OutlinedTextField(
                     value = uiState.objetivo,
                     onValueChange = onObjetivoChange,
@@ -116,9 +127,17 @@ fun FormularioContenidoScreen(
                         Text("Objetivo de aprendizaje")
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    readOnly = !puedeEditarInformacionAcademica
+                    readOnly = !puedeEditarInformacionAcademica,
+                    isError = errores.objetivo != null,
+                    trailingIcon = {
+                        if (errores.objetivo != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    }
                 )
-
                 if (errores.objetivo != null) {
                     Text(
                         text = errores.objetivo, style = MaterialTheme.typography.bodySmall
@@ -211,8 +230,23 @@ fun FormularioContenidoScreen(
                         )
                     },
                     minLines = 2,
+                    isError = errores.pregunta != null,
+                    trailingIcon = {
+                        if (errores.pregunta != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
+                if (errores.pregunta != null) {
+                    Text(
+                        text = errores.pregunta,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
         }
 

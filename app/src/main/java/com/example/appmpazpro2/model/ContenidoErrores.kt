@@ -6,5 +6,6 @@ data class ContenidoErrores(
     val objetivo: String? = null,
     val tipo: String? = null,
     val titulo: String? = null,
-    val contenido: String? = null
+    val contenido: String? = null,
+    val pregunta: String? = null
 )
