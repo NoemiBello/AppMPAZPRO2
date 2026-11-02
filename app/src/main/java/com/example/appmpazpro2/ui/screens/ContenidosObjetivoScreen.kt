@@ -28,6 +28,7 @@ fun ContenidosObjetivoScreen(
     contenidos: List<ContenidoUiState>,
     onNuevoClick: () -> Unit,
     puedeDeshabilitar: Boolean,
+    onReactivarClick: (ContenidoUiState) -> Unit,
     onEliminarClick: (ContenidoUiState) -> Unit,
     onDeshabilitarClick: (ContenidoUiState) -> Unit,
     onEditarClick: (ContenidoUiState) -> Unit
@@ -136,7 +137,6 @@ fun ContenidosObjetivoScreen(
                                 Text("Editar")
                             }
 
-                            // UTP puede deshabilitar contenido aprobado
                             if (
                                 puedeDeshabilitar &&
                                 contenido.estado == EstadoContenido.APROBADO
@@ -152,7 +152,21 @@ fun ContenidosObjetivoScreen(
                                 }
                             }
 
-                            // UTP puede eliminar contenido
+                            if (
+                                puedeDeshabilitar &&
+                                contenido.estado == EstadoContenido.OCULTO
+                            ) {
+
+                                Button(
+                                    onClick = {
+                                        onReactivarClick(contenido)
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Reactivar")
+                                }
+                            }
+
                             if (puedeDeshabilitar) {
 
                                 Button(

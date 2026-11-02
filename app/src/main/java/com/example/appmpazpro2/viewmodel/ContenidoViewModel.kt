@@ -423,6 +423,27 @@ class ContenidoViewModel(
         }
     }
 
+    fun reactivarContenido(
+        id: Int,
+        rol: RolUsuario?
+    ) {
+        if (rol != RolUsuario.UTP) return
+
+        _contenidos.value = _contenidos.value.map { contenido ->
+
+            if (
+                contenido.id == id &&
+                contenido.estado == EstadoContenido.OCULTO
+            ) {
+                contenido.copy(
+                    estado = EstadoContenido.APROBADO
+                )
+            } else {
+                contenido
+            }
+        }
+    }
+
     fun contenidosRechazados(): List<ContenidoUiState> {
 
         return _contenidos.value.filter {

@@ -498,6 +498,13 @@ fun AppNavigation() {
                             rolSeleccionado
                         )
                     },
+                    onReactivarClick = { contenido ->
+
+                        contenidoViewModel.reactivarContenido(
+                            contenido.id,
+                            rolSeleccionado
+                        )
+                    },
 
                     onNuevoClick = {
 
@@ -939,6 +946,21 @@ fun AppNavigation() {
                                 mensaje = "\"${contenido.titulo}\" fue aprobado por UTP."
                             )
                         }
+                    },
+                    onEliminarClick = { id ->
+
+                        contenidoViewModel.eliminarContenido(
+                            id,
+                            rolSeleccionado
+                        )
+                    },
+
+                    onReactivarClick = { id ->
+
+                        contenidoViewModel.reactivarContenido(
+                            id,
+                            rolSeleccionado
+                        )
                     },
 
                     onRechazarClick = { id ->
