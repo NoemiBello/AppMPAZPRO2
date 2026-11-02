@@ -28,11 +28,13 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -146,25 +148,32 @@ fun InicioScreen(
         Scaffold(
             topBar = {
 
-                TopAppBar(title = {
-                    Text(
-                        text = "MPAZ PRO 2", fontWeight = FontWeight.Bold
-                    )
-                }, navigationIcon = {
-
-                    IconButton(
-                        onClick = {
-
-                            scope.launch {
-                                drawerState.open()
-                            }
-                        }) {
-
-                        Icon(
-                            imageVector = Icons.Default.Menu, contentDescription = "Abrir menú"
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "MPAZ PRO 2",
+                            fontWeight = FontWeight.Bold
                         )
-                    }
-                })
+                    },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Abrir menú"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent
+                    )
+                )
             }) { paddingValues ->
 
             Column(

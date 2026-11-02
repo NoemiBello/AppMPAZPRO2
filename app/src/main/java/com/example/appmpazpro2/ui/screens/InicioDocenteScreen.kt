@@ -29,8 +29,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -129,8 +131,7 @@ fun InicioDocenteScreen(
                     onCerrarSesionClick()
                 }, icon = {
                     Icon(
-                        imageVector = Icons.Default.ExitToApp,
-                        contentDescription = "Cerrar sesion"
+                        imageVector = Icons.Default.ExitToApp, contentDescription = "Cerrar sesion"
                     )
                 })
             }
@@ -139,7 +140,8 @@ fun InicioDocenteScreen(
         Scaffold(
             topBar = {
 
-                TopAppBar(title = {
+                TopAppBar(
+                    title = {
                     Text(
                         text = "Panel Docente", fontWeight = FontWeight.Bold
                     )
@@ -156,7 +158,11 @@ fun InicioDocenteScreen(
                             imageVector = Icons.Default.Menu, contentDescription = "Abrir menu"
                         )
                     }
-                })
+                }, colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent
+                )
+                )
             }) { paddingValues ->
 
             Column(
@@ -200,7 +206,6 @@ fun InicioDocenteScreen(
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold
                         )
-
                         Text(
                             text = "Gestiona las actividades de Lenguaje",
                             modifier = Modifier.padding(top = 6.dp)
