@@ -44,65 +44,45 @@ import com.example.appmpazpro2.viewmodel.ProgresoViewModel
 import com.example.appmpazpro2.viewmodel.RolUsuario
 import com.example.appmpazpro2.viewmodel.RolViewModel
 import com.example.appmpazpro2.viewmodel.UsuarioViewModel
+import com.example.appmpazpro2.ui.screens.ActividadesEstudianteScreen
 
+private const val RUTA_SELECCION_PERFIL = "seleccion_perfil"
 
-private const val RUTA_SELECCION_PERFIL =
-    "seleccion_perfil"
+private const val RUTA_FORMULARIO_CONTENIDO = "formulario_contenido"
 
-private const val RUTA_FORMULARIO_CONTENIDO =
-    "formulario_contenido"
+private const val RUTA_CONTENIDO_ESTUDIANTE = "contenido_estudiante"
 
-private const val RUTA_CONTENIDO_ESTUDIANTE =
-    "contenido_estudiante"
+private const val RUTA_PERFIL = "perfil"
 
-private const val RUTA_PERFIL =
-    "perfil"
+private const val RUTA_REGISTRO = "registro"
 
-private const val RUTA_REGISTRO =
-    "registro"
+private const val RUTA_RESUMEN = "resumen"
 
-private const val RUTA_RESUMEN =
-    "resumen"
+private const val RUTA_GESTION_CONTENIDO = "gestion_contenido"
 
-private const val RUTA_GESTION_CONTENIDO =
-    "gestion_contenido"
+private const val RUTA_OBJETIVOS = "objetivos"
 
-private const val RUTA_REVISION_RESPUESTAS =
-    "revision_respuestas"
+private const val RUTA_CONTENIDOS_OBJETIVO = "contenidos_objetivo"
 
-private const val RUTA_OBJETIVOS =
-    "objetivos"
-
-private const val RUTA_CONTENIDOS_OBJETIVO =
-    "contenidos_objetivo"
-
+private const val RUTA_ACTIVIDADES_ESTUDIANTE = "actividades_estudiante"
 
 @Composable
 fun AppNavigation() {
 
-    val navController =
-        rememberNavController()
+    val navController = rememberNavController()
 
-    val usuarioViewModel:
-            UsuarioViewModel = viewModel()
+    val usuarioViewModel: UsuarioViewModel = viewModel()
 
-    val perfilViewModel:
-            PerfilViewModel = viewModel()
+    val perfilViewModel: PerfilViewModel = viewModel()
 
-    val rolViewModel:
-            RolViewModel = viewModel()
+    val rolViewModel: RolViewModel = viewModel()
 
-    val contenidoViewModel:
-            ContenidoViewModel = viewModel()
+    val contenidoViewModel: ContenidoViewModel = viewModel()
 
-    val progresoViewModel:
-            ProgresoViewModel = viewModel()
+    val progresoViewModel: ProgresoViewModel = viewModel()
 
 
-    val rolSeleccionado by
-    rolViewModel
-        .rolSeleccionado
-        .collectAsState()
+    val rolSeleccionado by rolViewModel.rolSeleccionado.collectAsState()
 
 
     var asignaturaSeleccionada by remember {
@@ -116,28 +96,23 @@ fun AppNavigation() {
     var objetivoSeleccionado by remember {
         mutableStateOf("")
     }
+    var contenidoSeleccionadoId by remember {
+        mutableStateOf(0)
+    }
 
 
-    val rutaActual =
-        navController
-            .currentBackStackEntryAsState()
-            .value
-            ?.destination
-            ?.route
+    val rutaActual = navController.currentBackStackEntryAsState().value?.destination?.route
 
 
     Scaffold(
 
         bottomBar = {
 
-            if (
-                rutaActual !=
-                RUTA_SELECCION_PERFIL
-            ) {
+            if (rutaActual != RUTA_SELECCION_PERFIL) {
 
                 BottomNavigationBar(
-                    navController =
-                        navController
+                    navController = navController,
+                    rolSeleccionado = rolSeleccionado
                 )
             }
         }
@@ -147,16 +122,13 @@ fun AppNavigation() {
 
         NavHost(
 
-            navController =
-                navController,
+            navController = navController,
 
-            startDestination =
-                RUTA_SELECCION_PERFIL,
+            startDestination = RUTA_SELECCION_PERFIL,
 
-            modifier =
-                Modifier.padding(
-                    innerPadding
-                )
+            modifier = Modifier.padding(
+                innerPadding
+            )
 
         ) {
 
@@ -171,47 +143,36 @@ fun AppNavigation() {
 
                     onUtpClick = {
 
-                        rolViewModel
-                            .seleccionarRol(
-                                RolUsuario.UTP
-                            )
+                        rolViewModel.seleccionarRol(
+                            RolUsuario.UTP
+                        )
 
-                        navController
-                            .navigate(
-                                RUTA_GESTION_CONTENIDO
-                            )
+                        navController.navigate(
+                            Screen.Inicio.route
+                        )
                     },
 
                     onDocenteClick = {
 
-                        rolViewModel
-                            .seleccionarRol(
-                                RolUsuario.DOCENTE
-                            )
+                        rolViewModel.seleccionarRol(
+                            RolUsuario.DOCENTE
+                        )
 
-                        navController
-                            .navigate(
-                                Screen
-                                    .Asignaturas
-                                    .route
-                            )
+                        navController.navigate(
+                            Screen.Asignaturas.route
+                        )
                     },
 
                     onEstudianteClick = {
 
-                        rolViewModel
-                            .seleccionarRol(
-                                RolUsuario.ESTUDIANTE
-                            )
+                        rolViewModel.seleccionarRol(
+                            RolUsuario.ESTUDIANTE
+                        )
 
-                        navController
-                            .navigate(
-                                Screen
-                                    .Asignaturas
-                                    .route
-                            )
-                    }
-                )
+                        navController.navigate(
+                            Screen.Asignaturas.route
+                        )
+                    })
             }
 
 
@@ -244,8 +205,7 @@ fun AppNavigation() {
 
                                     launchSingleTop = true
                                 }
-                            }
-                        )
+                            })
                     }
 
 
@@ -270,8 +230,7 @@ fun AppNavigation() {
 
                                     launchSingleTop = true
                                 }
-                            }
-                        )
+                            })
                     }
 
 
@@ -304,8 +263,7 @@ fun AppNavigation() {
 
                                     launchSingleTop = true
                                 }
-                            }
-                        )
+                            })
                     }
 
 
@@ -322,101 +280,78 @@ fun AppNavigation() {
 
                 AsignaturasScreen(
 
+                    mostrarTodas = rolSeleccionado == RolUsuario.UTP,
+
                     onLenguajeClick = {
 
-                        if (
-                            rolViewModel
-                                .puedeAccederAsignatura(
-                                    "Lenguaje"
-                                )
+                        if (rolViewModel.puedeAccederAsignatura(
+                                "Lenguaje"
+                            )
                         ) {
 
-                            asignaturaSeleccionada =
-                                "Lenguaje"
+                            asignaturaSeleccionada = "Lenguaje"
 
                             unidadSeleccionada = ""
 
-                            navController
-                                .navigate(
-                                    Screen
-                                        .UnidadObjetivo
-                                        .route
-                                )
+                            navController.navigate(
+                                Screen.UnidadObjetivo.route
+                            )
                         }
                     },
 
 
                     onMatematicaClick = {
 
-                        if (
-                            rolViewModel
-                                .puedeAccederAsignatura(
-                                    "Matematica"
-                                )
+                        if (rolViewModel.puedeAccederAsignatura(
+                                "Matematica"
+                            )
                         ) {
 
-                            asignaturaSeleccionada =
-                                "Matematica"
+                            asignaturaSeleccionada = "Matematica"
 
                             unidadSeleccionada = ""
 
-                            navController
-                                .navigate(
-                                    Screen
-                                        .UnidadObjetivo
-                                        .route
-                                )
+                            navController.navigate(
+                                Screen.UnidadObjetivo.route
+                            )
                         }
                     },
 
 
                     onCienciasClick = {
 
-                        if (
-                            rolViewModel
-                                .puedeAccederAsignatura(
-                                    "Ciencias Naturales"
-                                )
+                        if (rolViewModel.puedeAccederAsignatura(
+                                "Ciencias Naturales"
+                            )
                         ) {
 
-                            asignaturaSeleccionada =
-                                "Ciencias Naturales"
+                            asignaturaSeleccionada = "Ciencias Naturales"
 
                             unidadSeleccionada = ""
 
-                            navController
-                                .navigate(
-                                    Screen
-                                        .UnidadObjetivo
-                                        .route
-                                )
+                            navController.navigate(
+                                Screen.UnidadObjetivo.route
+                            )
                         }
                     },
 
 
                     onHistoriaClick = {
 
-                        if (
-                            rolViewModel
-                                .puedeAccederAsignatura(
-                                    "Historia"
-                                )
+                        if (rolViewModel.puedeAccederAsignatura(
+                                "Historia"
+                            )
                         ) {
 
-                            asignaturaSeleccionada =
-                                "Historia"
+                            asignaturaSeleccionada = "Historia"
 
                             unidadSeleccionada = ""
 
-                            navController
-                                .navigate(
-                                    Screen
-                                        .UnidadObjetivo
-                                        .route
-                                )
+                            navController.navigate(
+                                Screen.UnidadObjetivo.route
+                            )
                         }
-                    }
-                )
+                    })
             }
 
 
@@ -428,21 +363,18 @@ fun AppNavigation() {
 
                 UnidadObjetivoScreen(
 
-                    asignatura =
-                        asignaturaSeleccionada,
+                    asignatura = asignaturaSeleccionada,
 
                     onObjetivoClick = { unidad ->
 
-                        unidadSeleccionada =
-                            unidad
+                        unidadSeleccionada = unidad
 
                         objetivoSeleccionado = ""
 
                         navController.navigate(
                             RUTA_OBJETIVOS
                         )
-                    }
-                )
+                    })
             }
 
 
@@ -454,38 +386,30 @@ fun AppNavigation() {
 
                 ObjetivosScreen(
 
-                    asignatura =
-                        asignaturaSeleccionada,
+                    asignatura = asignaturaSeleccionada,
 
-                    unidad =
-                        unidadSeleccionada,
+                    unidad = unidadSeleccionada,
 
                     onObjetivoClick = { objetivo ->
 
-                        objetivoSeleccionado =
-                            objetivo
+                        objetivoSeleccionado = objetivo
 
 
-                        if (
-                            rolViewModel
-                                .puedeGestionarContenido()
-                        ) {
+                        if (rolViewModel.puedeGestionarContenido()) {
 
                             navController.navigate(
                                 RUTA_CONTENIDOS_OBJETIVO
                             )
+                        } else if (rolViewModel.puedeResponderContenido()) {
 
-                        } else if (
-                            rolViewModel
-                                .puedeResponderContenido()
-                        ) {
+                            contenidoSeleccionadoId = 0
 
                             navController.navigate(
-                                RUTA_CONTENIDO_ESTUDIANTE
+                                RUTA_ACTIVIDADES_ESTUDIANTE
                             )
                         }
-                    }
-                )
+
+                    })
             }
 
 
@@ -495,52 +419,36 @@ fun AppNavigation() {
                 RUTA_CONTENIDOS_OBJETIVO
             ) {
 
-                val contenidos by
-                contenidoViewModel
-                    .contenidos
-                    .collectAsState()
+                val contenidos by contenidoViewModel.contenidos.collectAsState()
 
 
-                val contenidosDelObjetivo =
-                    contenidos.filter { contenido ->
+                val contenidosDelObjetivo = contenidos.filter { contenido ->
 
-                        contenido.asignatura.equals(
-                            asignaturaSeleccionada,
-                            ignoreCase = true
-                        ) &&
-                                contenido.unidad.equals(
-                                    unidadSeleccionada,
-                                    ignoreCase = true
-                                ) &&
-                                contenido.objetivo.equals(
-                                    objetivoSeleccionado,
-                                    ignoreCase = true
-                                )
-                    }
+                    contenido.asignatura.equals(
+                        asignaturaSeleccionada, ignoreCase = true
+                    ) && contenido.unidad.equals(
+                        unidadSeleccionada, ignoreCase = true
+                    ) && contenido.objetivo.equals(
+                        objetivoSeleccionado, ignoreCase = true
+                    )
+                }
 
 
                 ContenidosObjetivoScreen(
 
-                    asignatura =
-                        asignaturaSeleccionada,
+                    asignatura = asignaturaSeleccionada,
 
-                    unidad =
-                        unidadSeleccionada,
+                    unidad = unidadSeleccionada,
 
-                    objetivo =
-                        objetivoSeleccionado,
+                    objetivo = objetivoSeleccionado,
 
-                    contenidos =
-                        contenidosDelObjetivo,
+                    contenidos = contenidosDelObjetivo,
 
                     onNuevoClick = {
 
-                        contenidoViewModel
-                            .prepararNuevoContenido(
-                                asignaturaSeleccionada,
-                                unidadSeleccionada,
-                                objetivoSeleccionado
-                            )
+                        contenidoViewModel.prepararNuevoContenido(
+                            asignaturaSeleccionada, unidadSeleccionada, objetivoSeleccionado
+                        )
 
                         navController.navigate(
                             RUTA_FORMULARIO_CONTENIDO
@@ -549,25 +457,20 @@ fun AppNavigation() {
 
                     onEditarClick = { contenido ->
 
-                        if (
-                            contenidoViewModel
-                                .puedeEditarContenido(
-                                    contenido,
-                                    rolSeleccionado
-                                )
+                        if (contenidoViewModel.puedeEditarContenido(
+                                contenido, rolSeleccionado
+                            )
                         ) {
 
-                            contenidoViewModel
-                                .cargarContenidoParaEditar(
-                                    contenido
-                                )
+                            contenidoViewModel.cargarContenidoParaEditar(
+                                contenido
+                            )
 
                             navController.navigate(
                                 RUTA_FORMULARIO_CONTENIDO
                             )
                         }
-                    }
-                )
+                    })
             }
 
 
@@ -577,60 +480,36 @@ fun AppNavigation() {
                 RUTA_FORMULARIO_CONTENIDO
             ) {
 
-                val uiState by
-                contenidoViewModel
-                    .uiState
-                    .collectAsState()
+                val uiState by contenidoViewModel.uiState.collectAsState()
 
 
-                val errores by
-                contenidoViewModel
-                    .errores
-                    .collectAsState()
+                val errores by contenidoViewModel.errores.collectAsState()
 
 
-                val esEdicion =
-                    uiState.id != 0
+                val esEdicion = uiState.id != 0
 
 
                 FormularioContenidoScreen(
 
-                    uiState =
-                        uiState,
+                    uiState = uiState,
 
-                    errores =
-                        errores,
+                    errores = errores,
 
-                    esEdicion =
-                        esEdicion,
+                    esEdicion = esEdicion,
 
-                    onAsignaturaChange =
-                        contenidoViewModel::
-                        actualizarAsignatura,
+                    onAsignaturaChange = contenidoViewModel::actualizarAsignatura,
 
-                    onUnidadChange =
-                        contenidoViewModel::
-                        actualizarUnidad,
+                    onUnidadChange = contenidoViewModel::actualizarUnidad,
 
-                    onObjetivoChange =
-                        contenidoViewModel::
-                        actualizarObjetivo,
+                    onObjetivoChange = contenidoViewModel::actualizarObjetivo,
 
-                    onTipoChange =
-                        contenidoViewModel::
-                        actualizarTipo,
+                    onTipoChange = contenidoViewModel::actualizarTipo,
 
-                    onTituloChange =
-                        contenidoViewModel::
-                        actualizarTitulo,
+                    onTituloChange = contenidoViewModel::actualizarTitulo,
 
-                    onContenidoChange =
-                        contenidoViewModel::
-                        actualizarContenido,
+                    onContenidoChange = contenidoViewModel::actualizarContenido,
 
-                    onPreguntaChange =
-                        contenidoViewModel::
-                        actualizarPregunta,
+                    onPreguntaChange = contenidoViewModel::actualizarPregunta,
 
                     onGuardarClick = {
 
@@ -638,29 +517,62 @@ fun AppNavigation() {
 
                             if (esEdicion) {
 
-                                contenidoViewModel
-                                    .editarContenido(
-                                        rolSeleccionado
-                                    )
+                                contenidoViewModel.editarContenido(
+                                    rolSeleccionado
+                                )
 
                             } else {
 
-                                contenidoViewModel
-                                    .guardarContenido(
-                                        rolSeleccionado
-                                    )
+                                contenidoViewModel.guardarContenido(
+                                    rolSeleccionado
+                                )
                             }
 
 
                         if (guardado) {
 
-                            navController
-                                .popBackStack()
+                            navController.popBackStack()
                         }
-                    }
-                )
+                    })
             }
+            // ACTIVIDADES DEL ESTUDIANTE
 
+            composable(
+                RUTA_ACTIVIDADES_ESTUDIANTE
+            ) {
+
+                val respuestas by progresoViewModel.respuestas.collectAsState()
+
+                val actividadesAprobadas = contenidoViewModel.contenidosVisibles(
+                    rolSeleccionado,
+                    asignaturaSeleccionada,
+                    unidadSeleccionada,
+                    objetivoSeleccionado
+                )
+
+                ActividadesEstudianteScreen(
+
+                    asignatura = asignaturaSeleccionada,
+
+                    unidad = unidadSeleccionada,
+
+                    objetivo = objetivoSeleccionado,
+
+                    contenidos = actividadesAprobadas,
+
+                    respuestas = respuestas,
+
+                    onActividadClick = { contenido ->
+
+                        contenidoSeleccionadoId = contenido.id
+
+                        progresoViewModel.actualizarRespuesta("")
+
+                        navController.navigate(
+                            RUTA_CONTENIDO_ESTUDIANTE
+                        )
+                    })
+            }
 
             // CONTENIDO DEL ESTUDIANTE
 
@@ -668,100 +580,71 @@ fun AppNavigation() {
                 RUTA_CONTENIDO_ESTUDIANTE
             ) {
 
-                val respuesta by
-                progresoViewModel
-                    .respuestaActual
-                    .collectAsState()
+                val respuesta by progresoViewModel.respuestaActual.collectAsState()
 
 
-                val respuestas by
-                progresoViewModel
-                    .respuestas
-                    .collectAsState()
+                val respuestas by progresoViewModel.respuestas.collectAsState()
+
+                val contenidosVisibles = contenidoViewModel.contenidosVisibles(
+                    rolSeleccionado,
+                    asignaturaSeleccionada,
+                    unidadSeleccionada,
+                    objetivoSeleccionado
+                )
+
+                val contenidoVisible = contenidosVisibles.firstOrNull {
+                    it.id == contenidoSeleccionadoId
+                } ?: ContenidoUiState(
+                    titulo = "Sin contenido", contenido = "Selecciona una actividad disponible."
+                )
 
 
-                val contenidoVisible =
-                    contenidoViewModel
-                        .contenidosVisibles(
-                            rolSeleccionado,
-                            asignaturaSeleccionada,
-                            unidadSeleccionada,
-                            objetivoSeleccionado
-                        )
-                        .firstOrNull()
-                        ?: ContenidoUiState(
-                            titulo = "Sin contenido",
-                            contenido =
-                                "Aun no hay contenido aprobado para este objetivo."
-                        )
+                val respuestaGuardada = respuestas.firstOrNull {
 
-
-                val respuestaGuardada =
-                    respuestas.firstOrNull {
-
-                        it.contenidoId ==
-                                contenidoVisible.id
-                    }
+                    it.contenidoId == contenidoVisible.id
+                }
 
 
                 ContenidoEstudianteScreen(
 
-                    titulo =
-                        contenidoVisible.titulo,
+                    titulo = contenidoVisible.titulo,
 
-                    contenido =
-                        contenidoVisible.contenido,
+                    contenido = contenidoVisible.contenido,
 
-                    pregunta =
-                        contenidoVisible.pregunta,
+                    pregunta = contenidoVisible.pregunta,
 
-                    respuesta =
-                        respuesta,
+                    respuesta = respuesta,
 
-                    intentosUsados =
-                        progresoViewModel.intentosUsados(
-                            contenidoVisible.id
-                        ),
+                    intentosUsados = progresoViewModel.intentosUsados(
+                        contenidoVisible.id
+                    ),
 
-                    maxIntentos =
-                        ProgresoViewModel.MAX_INTENTOS,
+                    maxIntentos = ProgresoViewModel.MAX_INTENTOS,
 
-                    puedeResponder =
-                        contenidoVisible.id != 0 &&
-                                progresoViewModel
-                                    .puedeResponder(
-                                        contenidoVisible.id
-                                    ),
+                    puedeResponder = contenidoVisible.id != 0 && progresoViewModel.puedeResponder(
+                        contenidoVisible.id
+                    ),
 
-                    hayContenido =
-                        contenidoVisible.id != 0,
+                    hayContenido = contenidoVisible.id != 0,
 
-                    respuestaEnviada =
-                        respuestaGuardada?.respuesta,
+                    respuestaEnviada = respuestaGuardada?.respuesta,
 
-                    estadoRespuesta =
-                        respuestaGuardada?.estado,
+                    estadoRespuesta = respuestaGuardada?.estado,
 
-                    onRespuestaChange =
-                        progresoViewModel::
-                        actualizarRespuesta,
+                    onRespuestaChange = progresoViewModel::actualizarRespuesta,
 
                     onEnviarClick = {
 
-                        if (
-                            contenidoVisible.id != 0 &&
-                            progresoViewModel.puedeResponder(
+                        if (contenidoVisible.id != 0 && progresoViewModel.puedeResponder(
                                 contenidoVisible.id
                             )
                         ) {
 
-                            progresoViewModel
-                                .registrarRespuesta(
-                                    contenidoVisible.id
-                                )
+                            progresoViewModel.registrarRespuesta(
+                                contenidoVisible.id
+                            )
                         }
-                    }
-                )
+                    })
             }
 
 
@@ -776,162 +659,84 @@ fun AppNavigation() {
 
                     RolUsuario.ESTUDIANTE -> {
 
-                        val progreso by
-                        progresoViewModel
-                            .progreso
-                            .collectAsState()
+                        val progreso by progresoViewModel.progreso.collectAsState()
 
 
-                        val porcentaje by
-                        progresoViewModel
-                            .porcentaje
-                            .collectAsState()
+                        val porcentaje by progresoViewModel.porcentaje.collectAsState()
 
 
-                        val respuestas by
-                        progresoViewModel
-                            .respuestas
-                            .collectAsState()
+                        val respuestas by progresoViewModel.respuestas.collectAsState()
 
 
-                        val correctas =
-                            respuestas.count {
+                        val correctas = respuestas.count {
 
-                                it.estado ==
-                                        EstadoRespuesta.CORRECTA
-                            }
+                            it.estado == EstadoRespuesta.CORRECTA
+                        }
 
 
-                        val incorrectas =
-                            respuestas.count {
+                        val incorrectas = respuestas.count {
 
-                                it.estado ==
-                                        EstadoRespuesta.INCORRECTA
-                            }
+                            it.estado == EstadoRespuesta.INCORRECTA
+                        }
 
 
-                        val pendientes =
-                            respuestas.count {
+                        val pendientes = respuestas.count {
 
-                                it.estado ==
-                                        EstadoRespuesta.PENDIENTE_REVISION
-                            }
+                            it.estado == EstadoRespuesta.PENDIENTE_REVISION
+                        }
 
 
                         ProgresoScreen(
 
-                            progreso =
-                                progreso,
+                            progreso = progreso,
 
-                            porcentaje =
-                                porcentaje,
+                            porcentaje = porcentaje,
 
-                            respuestasRegistradas =
-                                respuestas.size,
+                            respuestasRegistradas = respuestas.size,
 
-                            respuestasCorrectas =
-                                correctas,
+                            respuestasCorrectas = correctas,
 
-                            respuestasIncorrectas =
-                                incorrectas,
+                            respuestasIncorrectas = incorrectas,
 
-                            respuestasPendientes =
-                                pendientes
+                            respuestasPendientes = pendientes
                         )
                     }
 
 
                     RolUsuario.DOCENTE -> {
 
-                        val respuestas by
-                        progresoViewModel
-                            .respuestas
-                            .collectAsState()
+                        val respuestas by progresoViewModel.respuestas.collectAsState()
 
 
-                        val contenidos by
-                        contenidoViewModel
-                            .contenidos
-                            .collectAsState()
+                        val contenidos by contenidoViewModel.contenidos.collectAsState()
 
 
                         RevisionRespuestasScreen(
 
-                            respuestas =
-                                respuestas,
+                            respuestas = respuestas,
 
-                            contenidos =
-                                contenidos,
+                            contenidos = contenidos,
 
                             onCorrectaClick = { id ->
 
-                                progresoViewModel
-                                    .marcarCorrecta(
-                                        id,
-                                        rolSeleccionado
-                                    )
+                                progresoViewModel.marcarCorrecta(
+                                    id, rolSeleccionado
+                                )
                             },
 
                             onIncorrectaClick = { id ->
 
-                                progresoViewModel
-                                    .marcarIncorrecta(
-                                        id,
-                                        rolSeleccionado
-                                    )
-                            }
-                        )
+                                progresoViewModel.marcarIncorrecta(
+                                    id, rolSeleccionado
+                                )
+                            })
                     }
 
-
-                    RolUsuario.UTP -> {
-
-                        val respuestas by
-                        progresoViewModel
-                            .respuestas
-                            .collectAsState()
-
-
-                        val contenidos by
-                        contenidoViewModel
-                            .contenidos
-                            .collectAsState()
-
-
-                        RevisionRespuestasScreen(
-
-                            respuestas =
-                                respuestas,
-
-                            contenidos =
-                                contenidos,
-
-                            onCorrectaClick = { id ->
-
-                                progresoViewModel
-                                    .marcarCorrecta(
-                                        id,
-                                        rolSeleccionado
-                                    )
-                            },
-
-                            onIncorrectaClick = { id ->
-
-                                progresoViewModel
-                                    .marcarIncorrecta(
-                                        id,
-                                        rolSeleccionado
-                                    )
-                            }
-                        )
-                    }
-
+                    RolUsuario.UTP -> Unit
 
                     null -> Unit
                 }
             }
-
-
             // PERFIL
 
             composable(
@@ -939,8 +744,7 @@ fun AppNavigation() {
             ) {
 
                 PerfilScreen(
-                    viewModel =
-                        perfilViewModel
+                    viewModel = perfilViewModel
                 )
             }
 
@@ -951,54 +755,34 @@ fun AppNavigation() {
                 RUTA_REGISTRO
             ) {
 
-                val estado by
-                usuarioViewModel
-                    .uiState
-                    .collectAsState()
+                val estado by usuarioViewModel.uiState.collectAsState()
 
 
                 RegistroScreen(
 
-                    estado =
-                        estado,
+                    estado = estado,
 
-                    errores =
-                        estado.errores,
+                    errores = estado.errores,
 
-                    onNombreChange =
-                        usuarioViewModel::
-                        actualizarNombre,
+                    onNombreChange = usuarioViewModel::actualizarNombre,
 
-                    onCorreoChange =
-                        usuarioViewModel::
-                        actualizarCorreo,
+                    onCorreoChange = usuarioViewModel::actualizarCorreo,
 
-                    onClaveChange =
-                        usuarioViewModel::
-                        actualizarClave,
+                    onClaveChange = usuarioViewModel::actualizarClave,
 
-                    onDireccionChange =
-                        usuarioViewModel::
-                        actualizarDireccion,
+                    onDireccionChange = usuarioViewModel::actualizarDireccion,
 
-                    onAceptaTerminosChange =
-                        usuarioViewModel::
-                        actualizarTerminos,
+                    onAceptaTerminosChange = usuarioViewModel::actualizarTerminos,
 
                     onRegistrarClick = {
 
-                        if (
-                            usuarioViewModel
-                                .validarFormulario()
-                        ) {
+                        if (usuarioViewModel.validarFormulario()) {
 
-                            navController
-                                .navigate(
-                                    RUTA_RESUMEN
-                                )
+                            navController.navigate(
+                                RUTA_RESUMEN
+                            )
                         }
-                    }
-                )
+                    })
             }
 
 
@@ -1009,8 +793,7 @@ fun AppNavigation() {
             ) {
 
                 ResumenScreen(
-                    viewModel =
-                        usuarioViewModel
+                    viewModel = usuarioViewModel
                 )
             }
 
@@ -1021,113 +804,44 @@ fun AppNavigation() {
                 RUTA_GESTION_CONTENIDO
             ) {
 
-                val contenidos by
-                contenidoViewModel
-                    .contenidos
-                    .collectAsState()
+                val contenidos by contenidoViewModel.contenidos.collectAsState()
 
 
-                val pendientes =
-                    contenidos.filter {
+                val pendientes = contenidos.filter {
 
-                        it.estado ==
-                                EstadoContenido.PENDIENTE
-                    }
+                    it.estado == EstadoContenido.PENDIENTE
+                }
 
 
                 GestionContenidoScreen(
 
-                    contenidos =
-                        pendientes,
+                    contenidos = pendientes,
 
                     onAprobarClick = { id ->
 
-                        contenidoViewModel
-                            .aprobarContenido(
-                                id,
-                                rolSeleccionado
-                            )
+                        contenidoViewModel.aprobarContenido(
+                            id, rolSeleccionado
+                        )
                     },
 
                     onRechazarClick = { id ->
 
-                        contenidoViewModel
-                            .rechazarContenido(
-                                id,
-                                rolSeleccionado
-                            )
+                        contenidoViewModel.rechazarContenido(
+                            id, rolSeleccionado
+                        )
                     },
 
                     onOcultarClick = { id ->
 
-                        contenidoViewModel
-                            .ocultarContenido(
-                                id,
-                                rolSeleccionado
-                            )
-                    },
-
-                    onVerAsignaturasClick = {
+                        contenidoViewModel.ocultarContenido(
+                            id, rolSeleccionado
+                        )
+                    }, onVerAsignaturasClick = {
 
                         navController.navigate(
                             Screen.Asignaturas.route
                         )
-                    },
-
-                    onRevisarRespuestasClick = {
-
-                        navController.navigate(
-                            RUTA_REVISION_RESPUESTAS
-                        )
-                    }
-                )
-            }
-
-
-            // REVISION DE RESPUESTAS
-
-            composable(
-                RUTA_REVISION_RESPUESTAS
-            ) {
-
-                val respuestas by
-                progresoViewModel
-                    .respuestas
-                    .collectAsState()
-
-
-                val contenidos by
-                contenidoViewModel
-                    .contenidos
-                    .collectAsState()
-
-
-                RevisionRespuestasScreen(
-
-                    respuestas =
-                        respuestas,
-
-                    contenidos =
-                        contenidos,
-
-                    onCorrectaClick = { id ->
-
-                        progresoViewModel
-                            .marcarCorrecta(
-                                id,
-                                rolSeleccionado
-                            )
-                    },
-
-                    onIncorrectaClick = { id ->
-
-                        progresoViewModel
-                            .marcarIncorrecta(
-                                id,
-                                rolSeleccionado
-                            )
-                    }
-                )
+                    })
             }
         }
     }

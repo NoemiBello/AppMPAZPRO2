@@ -22,11 +22,9 @@ class ContenidoDataStore(
 
     companion object {
 
-        private val CONTENIDOS =
-            stringPreferencesKey("contenidos_guardados")
+        private val CONTENIDOS = stringPreferencesKey("contenidos_guardados")
 
-        private val RESPUESTAS =
-            stringPreferencesKey("respuestas_guardadas")
+        private val RESPUESTAS = stringPreferencesKey("respuestas_guardadas")
 
         private const val SEPARADOR_REGISTRO = ";;"
         private const val SEPARADOR_CAMPO = "|"
@@ -58,8 +56,7 @@ class ContenidoDataStore(
 
         context.contenidoDataStore.edit { preferencias ->
 
-            preferencias[CONTENIDOS] =
-                codificarContenidos(contenidos)
+            preferencias[CONTENIDOS] = codificarContenidos(contenidos)
         }
     }
 
@@ -69,8 +66,7 @@ class ContenidoDataStore(
 
         context.contenidoDataStore.edit { preferencias ->
 
-            preferencias[RESPUESTAS] =
-                codificarRespuestas(respuestas)
+            preferencias[RESPUESTAS] = codificarRespuestas(respuestas)
         }
     }
 
@@ -99,6 +95,7 @@ class ContenidoDataStore(
             }
         }
     }
+
     private fun decodificarContenidos(
         valor: String
     ): List<ContenidoUiState> {
@@ -107,16 +104,11 @@ class ContenidoDataStore(
             return emptyList()
         }
 
-        return valor
-            .split(SEPARADOR_REGISTRO)
-            .mapNotNull { registro ->
+        return valor.split(SEPARADOR_REGISTRO).mapNotNull { registro ->
 
-                val campos =
-                    registro
-                        .split(SEPARADOR_CAMPO)
-                        .map { campo ->
-                            Uri.decode(campo)
-                        }
+                val campos = registro.split(SEPARADOR_CAMPO).map { campo ->
+                        Uri.decode(campo)
+                    }
 
                 when (campos.size) {
 
@@ -194,16 +186,11 @@ class ContenidoDataStore(
             return emptyList()
         }
 
-        return valor
-            .split(SEPARADOR_REGISTRO)
-            .mapNotNull { registro ->
+        return valor.split(SEPARADOR_REGISTRO).mapNotNull { registro ->
 
-                val campos =
-                    registro
-                        .split(SEPARADOR_CAMPO)
-                        .map { campo ->
-                            Uri.decode(campo)
-                        }
+                val campos = registro.split(SEPARADOR_CAMPO).map { campo ->
+                        Uri.decode(campo)
+                    }
 
                 if (campos.size != 4) {
                     return@mapNotNull null

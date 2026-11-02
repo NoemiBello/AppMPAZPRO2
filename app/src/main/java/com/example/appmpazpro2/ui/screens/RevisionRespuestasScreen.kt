@@ -39,8 +39,7 @@ fun RevisionRespuestasScreen(
     ) {
 
         Text(
-            text = "Revision de respuestas",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Revision de respuestas", style = MaterialTheme.typography.headlineMedium
         )
 
         if (pendientes.isEmpty()) {
@@ -52,89 +51,60 @@ fun RevisionRespuestasScreen(
         } else {
 
             LazyColumn(
-                verticalArrangement =
-                    Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
                 items(
-                    items = pendientes,
-                    key = { it.id }
-                ) { respuesta ->
+                    items = pendientes, key = { it.id }) { respuesta ->
 
-                    val contenido =
-                        contenidos.firstOrNull {
-                            it.id ==
-                                    respuesta.contenidoId
-                        }
+                    val contenido = contenidos.firstOrNull {
+                        it.id == respuesta.contenidoId
+                    }
 
                     Card(
-                        modifier =
-                            Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     ) {
 
                         Column(
-                            modifier =
-                                Modifier.padding(16.dp),
-                            verticalArrangement =
-                                Arrangement.spacedBy(8.dp)
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
 
                             Text(
-                                text =
-                                    contenido?.titulo
-                                        ?: "Contenido",
-                                style =
-                                    MaterialTheme
-                                        .typography
-                                        .titleLarge
+                                text = contenido?.titulo ?: "Contenido",
+                                style = MaterialTheme.typography.titleLarge
                             )
 
                             Text(
-                                text =
-                                    "Asignatura: ${
-                                        contenido
-                                            ?.asignatura
-                                            ?: "Sin informacion"
-                                    }"
+                                text = "Asignatura: ${
+                                    contenido?.asignatura ?: "Sin informacion"
+                                }"
                             )
 
                             Text(
-                                text =
-                                    "Unidad: ${
-                                        contenido
-                                            ?.unidad
-                                            ?: "Sin informacion"
-                                    }"
+                                text = "Unidad: ${
+                                    contenido?.unidad ?: "Sin informacion"
+                                }"
                             )
 
                             Text(
-                                text =
-                                    "Objetivo: ${
-                                        contenido
-                                            ?.objetivo
-                                            ?: "Sin informacion"
-                                    }"
+                                text = "Objetivo: ${
+                                    contenido?.objetivo ?: "Sin informacion"
+                                }"
                             )
 
                             Text(
-                                text =
-                                    "Respuesta del estudiante:",
-                                style =
-                                    MaterialTheme
-                                        .typography
-                                        .titleMedium
+                                text = "Respuesta del estudiante:",
+                                style = MaterialTheme.typography.titleMedium
                             )
 
                             Text(
-                                text =
-                                    respuesta.respuesta
+                                text = respuesta.respuesta
                             )
 
                             Row(
-                                modifier =
-                                    Modifier.fillMaxWidth(),
-                                horizontalArrangement =
-                                    Arrangement.spacedBy(8.dp)
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
 
                                 Button(
@@ -142,8 +112,7 @@ fun RevisionRespuestasScreen(
                                         onCorrectaClick(
                                             respuesta.id
                                         )
-                                    }
-                                ) {
+                                    }) {
                                     Text("Correcta")
                                 }
 
@@ -152,8 +121,7 @@ fun RevisionRespuestasScreen(
                                         onIncorrectaClick(
                                             respuesta.id
                                         )
-                                    }
-                                ) {
+                                    }) {
                                     Text("Incorrecta")
                                 }
                             }

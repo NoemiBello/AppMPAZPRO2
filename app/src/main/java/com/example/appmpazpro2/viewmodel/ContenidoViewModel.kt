@@ -16,35 +16,27 @@ class ContenidoViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val dataStore =
-        ContenidoDataStore(application)
+    private val dataStore = ContenidoDataStore(application)
 
-    private val _uiState =
-        MutableStateFlow(ContenidoUiState())
+    private val _uiState = MutableStateFlow(ContenidoUiState())
 
-    val uiState: StateFlow<ContenidoUiState> =
-        _uiState.asStateFlow()
+    val uiState: StateFlow<ContenidoUiState> = _uiState.asStateFlow()
 
-    private val _errores =
-        MutableStateFlow(ContenidoErrores())
+    private val _errores = MutableStateFlow(ContenidoErrores())
 
-    val errores: StateFlow<ContenidoErrores> =
-        _errores.asStateFlow()
+    val errores: StateFlow<ContenidoErrores> = _errores.asStateFlow()
 
-    private val _contenidos =
-        MutableStateFlow<List<ContenidoUiState>>(
-            emptyList()
-        )
+    private val _contenidos = MutableStateFlow<List<ContenidoUiState>>(
+        emptyList()
+    )
 
-    val contenidos: StateFlow<List<ContenidoUiState>> =
-        _contenidos.asStateFlow()
+    val contenidos: StateFlow<List<ContenidoUiState>> = _contenidos.asStateFlow()
 
     init {
 
         viewModelScope.launch {
 
-            dataStore.obtenerContenidos()
-                .collect { lista ->
+            dataStore.obtenerContenidos().collect { lista ->
 
                     _contenidos.value = lista
                 }
@@ -53,160 +45,130 @@ class ContenidoViewModel(
 
     fun actualizarAsignatura(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                asignatura = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            asignatura = valor
+        )
 
-        _errores.value =
-            _errores.value.copy(
-                asignatura = null
-            )
+        _errores.value = _errores.value.copy(
+            asignatura = null
+        )
     }
 
     fun actualizarUnidad(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                unidad = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            unidad = valor
+        )
 
-        _errores.value =
-            _errores.value.copy(
-                unidad = null
-            )
+        _errores.value = _errores.value.copy(
+            unidad = null
+        )
     }
 
     fun actualizarObjetivo(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                objetivo = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            objetivo = valor
+        )
 
-        _errores.value =
-            _errores.value.copy(
-                objetivo = null
-            )
+        _errores.value = _errores.value.copy(
+            objetivo = null
+        )
     }
 
     fun actualizarTipo(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                tipo = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            tipo = valor
+        )
 
-        _errores.value =
-            _errores.value.copy(
-                tipo = null
-            )
+        _errores.value = _errores.value.copy(
+            tipo = null
+        )
     }
 
     fun actualizarTitulo(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                titulo = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            titulo = valor
+        )
 
-        _errores.value =
-            _errores.value.copy(
-                titulo = null
-            )
+        _errores.value = _errores.value.copy(
+            titulo = null
+        )
     }
 
     fun actualizarContenido(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                contenido = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            contenido = valor
+        )
 
-        _errores.value =
-            _errores.value.copy(
-                contenido = null
-            )
+        _errores.value = _errores.value.copy(
+            contenido = null
+        )
     }
 
     fun actualizarPregunta(valor: String) {
 
-        _uiState.value =
-            _uiState.value.copy(
-                pregunta = valor
-            )
+        _uiState.value = _uiState.value.copy(
+            pregunta = valor
+        )
     }
 
     fun validarFormulario(): Boolean {
 
-        val estadoActual =
-            _uiState.value
+        val estadoActual = _uiState.value
 
-        val nuevosErrores =
-            ContenidoErrores(
+        val nuevosErrores = ContenidoErrores(
 
-                asignatura =
-                    if (estadoActual.asignatura.isBlank()) {
-                        "La asignatura es obligatoria"
-                    } else {
-                        null
-                    },
+            asignatura = if (estadoActual.asignatura.isBlank()) {
+                "La asignatura es obligatoria"
+            } else {
+                null
+            },
 
-                unidad =
-                    if (estadoActual.unidad.isBlank()) {
-                        "La unidad es obligatoria"
-                    } else {
-                        null
-                    },
+            unidad = if (estadoActual.unidad.isBlank()) {
+                "La unidad es obligatoria"
+            } else {
+                null
+            },
 
-                objetivo =
-                    if (estadoActual.objetivo.isBlank()) {
-                        "El objetivo es obligatorio"
-                    } else {
-                        null
-                    },
+            objetivo = if (estadoActual.objetivo.isBlank()) {
+                "El objetivo es obligatorio"
+            } else {
+                null
+            },
 
-                tipo =
-                    if (estadoActual.tipo.isBlank()) {
-                        "El tipo es obligatorio"
-                    } else {
-                        null
-                    },
+            tipo = if (estadoActual.tipo.isBlank()) {
+                "El tipo es obligatorio"
+            } else {
+                null
+            },
 
-                titulo =
-                    if (estadoActual.titulo.isBlank()) {
-                        "El titulo es obligatorio"
-                    } else {
-                        null
-                    },
+            titulo = if (estadoActual.titulo.isBlank()) {
+                "El titulo es obligatorio"
+            } else {
+                null
+            },
 
-                contenido =
-                    if (estadoActual.contenido.isBlank()) {
-                        "El contenido es obligatorio"
-                    } else {
-                        null
-                    }
-            )
+            contenido = if (estadoActual.contenido.isBlank()) {
+                "El contenido es obligatorio"
+            } else {
+                null
+            }
+        )
 
-        _errores.value =
-            nuevosErrores
+        _errores.value = nuevosErrores
 
-        return nuevosErrores.asignatura == null &&
-                nuevosErrores.unidad == null &&
-                nuevosErrores.objetivo == null &&
-                nuevosErrores.tipo == null &&
-                nuevosErrores.titulo == null &&
-                nuevosErrores.contenido == null
+        return nuevosErrores.asignatura == null && nuevosErrores.unidad == null && nuevosErrores.objetivo == null && nuevosErrores.tipo == null && nuevosErrores.titulo == null && nuevosErrores.contenido == null
     }
 
     fun guardarContenido(
         rol: RolUsuario?
     ): Boolean {
 
-        if (
-            rol != RolUsuario.UTP &&
-            rol != RolUsuario.DOCENTE
-        ) {
+        if (rol != RolUsuario.UTP && rol != RolUsuario.DOCENTE) {
             return false
         }
 
@@ -214,50 +176,38 @@ class ContenidoViewModel(
             return false
         }
 
-        if (
-            rol == RolUsuario.DOCENTE &&
-            !_uiState.value.asignatura.equals(
-                "Lenguaje",
-                ignoreCase = true
+        if (rol == RolUsuario.DOCENTE && !_uiState.value.asignatura.equals(
+                "Lenguaje", ignoreCase = true
             )
         ) {
 
-            _errores.value =
-                _errores.value.copy(
-                    asignatura =
-                        "El docente solo puede trabajar con Lenguaje"
-                )
+            _errores.value = _errores.value.copy(
+                asignatura = "El docente solo puede trabajar con Lenguaje"
+            )
 
             return false
         }
 
-        val nuevoId =
-            (_contenidos.value.maxOfOrNull {
-                it.id
-            } ?: 0) + 1
+        val nuevoId = (_contenidos.value.maxOfOrNull {
+            it.id
+        } ?: 0) + 1
 
-        val estadoInicial =
-            if (rol == RolUsuario.UTP) {
+        val estadoInicial = if (rol == RolUsuario.UTP) {
+            EstadoContenido.APROBADO
+        } else {
+            EstadoContenido.PENDIENTE
+        }
+
+
+        val nuevoContenido = _uiState.value.copy(
+            id = nuevoId, estado = if (rol == RolUsuario.UTP) {
                 EstadoContenido.APROBADO
             } else {
                 EstadoContenido.PENDIENTE
             }
+        )
 
-
-        val nuevoContenido =
-            _uiState.value.copy(
-                id = nuevoId,
-                estado =
-                    if (rol == RolUsuario.UTP) {
-                        EstadoContenido.APROBADO
-                    } else {
-                        EstadoContenido.PENDIENTE
-                    }
-            )
-
-        val nuevaLista =
-            _contenidos.value +
-                    nuevoContenido
+        val nuevaLista = _contenidos.value + nuevoContenido
 
         guardarLista(nuevaLista)
 
@@ -276,83 +226,58 @@ class ContenidoViewModel(
 
         val base = when (rol) {
 
-            RolUsuario.ESTUDIANTE ->
-                _contenidos.value.filter {
-                    it.estado == EstadoContenido.APROBADO
-                }
+            RolUsuario.ESTUDIANTE -> _contenidos.value.filter {
+                it.estado == EstadoContenido.APROBADO
+            }
 
-            RolUsuario.UTP,
-            RolUsuario.DOCENTE ->
-                _contenidos.value
+            RolUsuario.UTP, RolUsuario.DOCENTE -> _contenidos.value
 
-            null ->
-                emptyList()
+            null -> emptyList()
         }
 
         return base.filter { contenido ->
 
-            val coincideAsignatura =
-                asignatura.isNullOrBlank() ||
-                        contenido.asignatura.equals(
-                            asignatura,
-                            ignoreCase = true
-                        )
-
-            val coincideUnidad =
-                unidad.isNullOrBlank() ||
-                        contenido.unidad.equals(
-                            unidad,
-                            ignoreCase = true
-                        )
-
-            val coincideObjetivo =
-                objetivo.isNullOrBlank() ||
-                        contenido.objetivo.equals(
-                            objetivo,
-                            ignoreCase = true
-                        )
-
-            coincideAsignatura &&
-                    coincideUnidad &&
-                    coincideObjetivo
-        }
-    }
-    fun prepararNuevoContenido(
-        asignatura: String,
-        unidad: String,
-        objetivo: String
-    ) {
-
-        _uiState.value =
-            ContenidoUiState(
-                asignatura = asignatura,
-                unidad = unidad,
-                objetivo = objetivo
+            val coincideAsignatura = asignatura.isNullOrBlank() || contenido.asignatura.equals(
+                asignatura, ignoreCase = true
             )
 
-        _errores.value =
-            ContenidoErrores()
+            val coincideUnidad = unidad.isNullOrBlank() || contenido.unidad.equals(
+                unidad, ignoreCase = true
+            )
+
+            val coincideObjetivo = objetivo.isNullOrBlank() || contenido.objetivo.equals(
+                objetivo, ignoreCase = true
+            )
+
+            coincideAsignatura && coincideUnidad && coincideObjetivo
+        }
+    }
+
+    fun prepararNuevoContenido(
+        asignatura: String, unidad: String, objetivo: String
+    ) {
+
+        _uiState.value = ContenidoUiState(
+            asignatura = asignatura, unidad = unidad, objetivo = objetivo
+        )
+
+        _errores.value = ContenidoErrores()
     }
 
     fun cargarContenidoParaEditar(
         contenido: ContenidoUiState
     ) {
 
-        _uiState.value =
-            contenido
+        _uiState.value = contenido
 
-        _errores.value =
-            ContenidoErrores()
+        _errores.value = ContenidoErrores()
     }
 
     fun editarContenido(
         rol: RolUsuario?
     ): Boolean {
 
-        if (
-            rol != RolUsuario.UTP &&
-            rol != RolUsuario.DOCENTE
-        ) {
+        if (rol != RolUsuario.UTP && rol != RolUsuario.DOCENTE) {
             return false
         }
 
@@ -361,51 +286,40 @@ class ContenidoViewModel(
         }
 
 
-        if (
-            rol == RolUsuario.DOCENTE &&
-            !_uiState.value.asignatura.equals(
-                "Lenguaje",
-                ignoreCase = true
+        if (rol == RolUsuario.DOCENTE && !_uiState.value.asignatura.equals(
+                "Lenguaje", ignoreCase = true
             )
         ) {
 
-            _errores.value =
-                _errores.value.copy(
-                    asignatura =
-                        "El docente solo puede trabajar con Lenguaje"
-                )
+            _errores.value = _errores.value.copy(
+                asignatura = "El docente solo puede trabajar con Lenguaje"
+            )
 
             return false
         }
 
-        val contenidoEditado =
-            if (rol == RolUsuario.DOCENTE) {
+        val contenidoEditado = if (rol == RolUsuario.DOCENTE) {
 
-                _uiState.value.copy(
-                    estado =
-                        EstadoContenido.PENDIENTE
-                )
+            _uiState.value.copy(
+                estado = EstadoContenido.PENDIENTE
+            )
+
+        } else {
+
+            _uiState.value
+        }
+
+        val nuevaLista = _contenidos.value.map { contenido ->
+
+            if (contenido.id == contenidoEditado.id) {
+
+                contenidoEditado
 
             } else {
 
-                _uiState.value
+                contenido
             }
-
-        val nuevaLista =
-            _contenidos.value.map { contenido ->
-
-                if (
-                    contenido.id ==
-                    contenidoEditado.id
-                ) {
-
-                    contenidoEditado
-
-                } else {
-
-                    contenido
-                }
-            }
+        }
 
         guardarLista(nuevaLista)
 
@@ -415,8 +329,7 @@ class ContenidoViewModel(
     }
 
     fun aprobarContenido(
-        id: Int,
-        rol: RolUsuario?
+        id: Int, rol: RolUsuario?
     ): Boolean {
 
         if (rol != RolUsuario.UTP) {
@@ -424,16 +337,14 @@ class ContenidoViewModel(
         }
 
         cambiarEstado(
-            id,
-            EstadoContenido.APROBADO
+            id, EstadoContenido.APROBADO
         )
 
         return true
     }
 
     fun rechazarContenido(
-        id: Int,
-        rol: RolUsuario?
+        id: Int, rol: RolUsuario?
     ): Boolean {
 
         if (rol != RolUsuario.UTP) {
@@ -441,16 +352,14 @@ class ContenidoViewModel(
         }
 
         cambiarEstado(
-            id,
-            EstadoContenido.RECHAZADO
+            id, EstadoContenido.RECHAZADO
         )
 
         return true
     }
 
     fun ocultarContenido(
-        id: Int,
-        rol: RolUsuario?
+        id: Int, rol: RolUsuario?
     ): Boolean {
 
         if (rol != RolUsuario.UTP) {
@@ -458,73 +367,58 @@ class ContenidoViewModel(
         }
 
         cambiarEstado(
-            id,
-            EstadoContenido.OCULTO
+            id, EstadoContenido.OCULTO
         )
 
         return true
     }
 
 
-
-    fun contenidosPendientes():
-            List<ContenidoUiState> {
+    fun contenidosPendientes(): List<ContenidoUiState> {
 
         return _contenidos.value.filter {
 
-            it.estado ==
-                    EstadoContenido.PENDIENTE
+            it.estado == EstadoContenido.PENDIENTE
         }
     }
 
-    fun contenidosAprobados():
-            List<ContenidoUiState> {
+    fun contenidosAprobados(): List<ContenidoUiState> {
 
         return _contenidos.value.filter {
 
-            it.estado ==
-                    EstadoContenido.APROBADO
+            it.estado == EstadoContenido.APROBADO
         }
     }
 
-    fun contenidosOcultos():
-            List<ContenidoUiState> {
+    fun contenidosOcultos(): List<ContenidoUiState> {
 
         return _contenidos.value.filter {
 
-            it.estado ==
-                    EstadoContenido.OCULTO
+            it.estado == EstadoContenido.OCULTO
         }
     }
 
-    fun contenidosRechazados():
-            List<ContenidoUiState> {
+    fun contenidosRechazados(): List<ContenidoUiState> {
 
         return _contenidos.value.filter {
 
-            it.estado ==
-                    EstadoContenido.RECHAZADO
+            it.estado == EstadoContenido.RECHAZADO
         }
     }
 
     fun puedeEditarContenido(
-        contenido: ContenidoUiState,
-        rol: RolUsuario?
+        contenido: ContenidoUiState, rol: RolUsuario?
     ): Boolean {
 
         return when (rol) {
 
-            RolUsuario.UTP ->
-                true
+            RolUsuario.UTP -> true
 
-            RolUsuario.DOCENTE ->
-                contenido.asignatura.equals(
-                    "Lenguaje",
-                    ignoreCase = true
-                )
+            RolUsuario.DOCENTE -> contenido.asignatura.equals(
+                "Lenguaje", ignoreCase = true
+            )
 
-            else ->
-                false
+            else -> false
         }
     }
 
@@ -538,24 +432,22 @@ class ContenidoViewModel(
     }
 
     private fun cambiarEstado(
-        id: Int,
-        nuevoEstado: EstadoContenido
+        id: Int, nuevoEstado: EstadoContenido
     ) {
 
-        val nuevaLista =
-            _contenidos.value.map { contenido ->
+        val nuevaLista = _contenidos.value.map { contenido ->
 
-                if (contenido.id == id) {
+            if (contenido.id == id) {
 
-                    contenido.copy(
-                        estado = nuevoEstado
-                    )
+                contenido.copy(
+                    estado = nuevoEstado
+                )
 
-                } else {
+            } else {
 
-                    contenido
-                }
+                contenido
             }
+        }
 
         guardarLista(nuevaLista)
     }
@@ -564,8 +456,7 @@ class ContenidoViewModel(
         nuevaLista: List<ContenidoUiState>
     ) {
 
-        _contenidos.value =
-            nuevaLista
+        _contenidos.value = nuevaLista
 
         viewModelScope.launch {
 
@@ -577,10 +468,8 @@ class ContenidoViewModel(
 
     private fun limpiarFormulario() {
 
-        _uiState.value =
-            ContenidoUiState()
+        _uiState.value = ContenidoUiState()
 
-        _errores.value =
-            ContenidoErrores()
+        _errores.value = ContenidoErrores()
     }
 }

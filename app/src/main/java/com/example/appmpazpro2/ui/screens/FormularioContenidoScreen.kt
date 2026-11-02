@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
@@ -38,8 +41,9 @@ fun FormularioContenidoScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+            .padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
         Text(
@@ -47,13 +51,11 @@ fun FormularioContenidoScreen(
                 "Editar contenido"
             } else {
                 "Nuevo contenido"
-            },
-            style = MaterialTheme.typography.headlineMedium
+            }, style = MaterialTheme.typography.headlineMedium
         )
 
         Text(
-            text = "2° Básico",
-            style = MaterialTheme.typography.titleMedium
+            text = "2° Básico", style = MaterialTheme.typography.titleMedium
         )
 
         Card(
@@ -61,13 +63,11 @@ fun FormularioContenidoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+                modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
 
                 Text(
-                    text = "Información académica",
-                    style = MaterialTheme.typography.titleMedium
+                    text = "Información académica", style = MaterialTheme.typography.titleMedium
                 )
 
                 OutlinedTextField(
@@ -81,8 +81,7 @@ fun FormularioContenidoScreen(
                     trailingIcon = {
                         if (errores.asignatura != null) {
                             Icon(
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Error"
+                                imageVector = Icons.Default.Error, contentDescription = "Error"
                             )
                         }
                     },
@@ -91,34 +90,25 @@ fun FormularioContenidoScreen(
 
                 if (errores.asignatura != null) {
                     Text(
-                        text = errores.asignatura,
-                        style = MaterialTheme.typography.bodySmall
+                        text = errores.asignatura, style = MaterialTheme.typography.bodySmall
                     )
                 }
 
                 OutlinedTextField(
-                    value = uiState.unidad,
-                    onValueChange = onUnidadChange,
-                    label = {
-                        Text("Unidad")
-                    },
-                    singleLine = true,
-                    isError = errores.unidad != null,
-                    trailingIcon = {
-                        if (errores.unidad != null) {
-                            Icon(
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    value = uiState.unidad, onValueChange = onUnidadChange, label = {
+                    Text("Unidad")
+                }, singleLine = true, isError = errores.unidad != null, trailingIcon = {
+                    if (errores.unidad != null) {
+                        Icon(
+                            imageVector = Icons.Default.Error, contentDescription = "Error"
+                        )
+                    }
+                }, modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errores.unidad != null) {
                     Text(
-                        text = errores.unidad,
-                        style = MaterialTheme.typography.bodySmall
+                        text = errores.unidad, style = MaterialTheme.typography.bodySmall
                     )
                 }
 
@@ -133,8 +123,7 @@ fun FormularioContenidoScreen(
                     trailingIcon = {
                         if (errores.objetivo != null) {
                             Icon(
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Error"
+                                imageVector = Icons.Default.Error, contentDescription = "Error"
                             )
                         }
                     },
@@ -143,8 +132,7 @@ fun FormularioContenidoScreen(
 
                 if (errores.objetivo != null) {
                     Text(
-                        text = errores.objetivo,
-                        style = MaterialTheme.typography.bodySmall
+                        text = errores.objetivo, style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
@@ -155,64 +143,46 @@ fun FormularioContenidoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+                modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
 
                 Text(
-                    text = "Información del contenido",
-                    style = MaterialTheme.typography.titleMedium
+                    text = "Información del contenido", style = MaterialTheme.typography.titleMedium
                 )
 
                 OutlinedTextField(
-                    value = uiState.tipo,
-                    onValueChange = onTipoChange,
-                    label = {
-                        Text("Tipo de contenido")
-                    },
-                    singleLine = true,
-                    isError = errores.tipo != null,
-                    trailingIcon = {
-                        if (errores.tipo != null) {
-                            Icon(
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    value = uiState.tipo, onValueChange = onTipoChange, label = {
+                    Text("Tipo de contenido")
+                }, singleLine = true, isError = errores.tipo != null, trailingIcon = {
+                    if (errores.tipo != null) {
+                        Icon(
+                            imageVector = Icons.Default.Error, contentDescription = "Error"
+                        )
+                    }
+                }, modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errores.tipo != null) {
                     Text(
-                        text = errores.tipo,
-                        style = MaterialTheme.typography.bodySmall
+                        text = errores.tipo, style = MaterialTheme.typography.bodySmall
                     )
                 }
 
                 OutlinedTextField(
-                    value = uiState.titulo,
-                    onValueChange = onTituloChange,
-                    label = {
-                        Text("Título")
-                    },
-                    singleLine = true,
-                    isError = errores.titulo != null,
-                    trailingIcon = {
-                        if (errores.titulo != null) {
-                            Icon(
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    value = uiState.titulo, onValueChange = onTituloChange, label = {
+                    Text("Título")
+                }, singleLine = true, isError = errores.titulo != null, trailingIcon = {
+                    if (errores.titulo != null) {
+                        Icon(
+                            imageVector = Icons.Default.Error, contentDescription = "Error"
+                        )
+                    }
+                }, modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errores.titulo != null) {
                     Text(
-                        text = errores.titulo,
-                        style = MaterialTheme.typography.bodySmall
+                        text = errores.titulo, style = MaterialTheme.typography.bodySmall
                     )
                 }
 
@@ -227,8 +197,7 @@ fun FormularioContenidoScreen(
                     trailingIcon = {
                         if (errores.contenido != null) {
                             Icon(
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Error"
+                                imageVector = Icons.Default.Error, contentDescription = "Error"
                             )
                         }
                     },
@@ -237,10 +206,10 @@ fun FormularioContenidoScreen(
 
                 if (errores.contenido != null) {
                     Text(
-                        text = errores.contenido,
-                        style = MaterialTheme.typography.bodySmall
+                        text = errores.contenido, style = MaterialTheme.typography.bodySmall
                     )
                 }
+
                 OutlinedTextField(
                     value = uiState.pregunta,
                     onValueChange = onPreguntaChange,
@@ -248,7 +217,9 @@ fun FormularioContenidoScreen(
                         Text("Pregunta")
                     },
                     placeholder = {
-                        Text("Ej: ¿Por qué el personaje actuó de esa forma?")
+                        Text(
+                            "Ej: ¿Por qué el personaje actuó de esa forma?"
+                        )
                     },
                     minLines = 2,
                     modifier = Modifier.fillMaxWidth()
@@ -257,9 +228,9 @@ fun FormularioContenidoScreen(
         }
 
         Button(
-            onClick = onGuardarClick,
-            modifier = Modifier.fillMaxWidth()
+            onClick = onGuardarClick, modifier = Modifier.fillMaxWidth()
         ) {
+
             Text(
                 if (esEdicion) {
                     "Guardar cambios"
@@ -277,14 +248,14 @@ fun FormularioContenidoScreenPreview() {
 
     FormularioContenidoScreen(
         uiState = ContenidoUiState(
-            asignatura = "Matemática",
-            unidad = "Unidad 1",
-            objetivo = "Resolver problemas utilizando números y operaciones.",
-            tipo = "Actividad",
-            titulo = "Ejercicios de números",
-            contenido = "Resuelve los siguientes ejercicios.",
-            pregunta = "¿Qué operación debes realizar para resolver el ejercicio?"
-        ),
+        asignatura = "Matemática",
+        unidad = "Unidad 1",
+        objetivo = "Resolver problemas utilizando números y operaciones.",
+        tipo = "Actividad",
+        titulo = "Ejercicios de números",
+        contenido = "Resuelve los siguientes ejercicios.",
+        pregunta = "¿Qué operación debes realizar para resolver el ejercicio?"
+    ),
         errores = ContenidoErrores(),
         onAsignaturaChange = {},
         onUnidadChange = {},
@@ -293,6 +264,5 @@ fun FormularioContenidoScreenPreview() {
         onTituloChange = {},
         onContenidoChange = {},
         onPreguntaChange = {},
-        onGuardarClick = {}
-    )
+        onGuardarClick = {})
 }

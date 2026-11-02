@@ -36,13 +36,11 @@ fun ContenidosObjetivoScreen(
     ) {
 
         Text(
-            text = "Contenidos",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Contenidos", style = MaterialTheme.typography.headlineMedium
         )
 
         Text(
-            text = asignatura,
-            style = MaterialTheme.typography.titleLarge
+            text = asignatura, style = MaterialTheme.typography.titleLarge
         )
 
         Text(
@@ -54,8 +52,7 @@ fun ContenidosObjetivoScreen(
         )
 
         Button(
-            onClick = onNuevoClick,
-            modifier = Modifier.fillMaxWidth()
+            onClick = onNuevoClick, modifier = Modifier.fillMaxWidth()
         ) {
             Text("Nuevo contenido")
         }
@@ -70,15 +67,11 @@ fun ContenidosObjetivoScreen(
         } else {
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement =
-                    Arrangement.spacedBy(12.dp)
+                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
                 items(
-                    items = contenidos,
-                    key = { it.id }
-                ) { contenido ->
+                    items = contenidos, key = { it.id }) { contenido ->
 
                     Card(
                         modifier = Modifier.fillMaxWidth()
@@ -86,14 +79,12 @@ fun ContenidosObjetivoScreen(
 
                         Column(
                             modifier = Modifier.padding(16.dp),
-                            verticalArrangement =
-                                Arrangement.spacedBy(8.dp)
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
 
                             Text(
                                 text = contenido.titulo,
-                                style =
-                                    MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.titleMedium
                             )
 
                             Text(
@@ -106,17 +97,13 @@ fun ContenidosObjetivoScreen(
 
                             val textoEstado = when (contenido.estado) {
 
-                                EstadoContenido.PENDIENTE ->
-                                    "Pendiente de autorizacion"
+                                EstadoContenido.PENDIENTE -> "Pendiente de autorizacion"
 
-                                EstadoContenido.APROBADO ->
-                                    "Aprobada"
+                                EstadoContenido.APROBADO -> "Aprobada"
 
-                                EstadoContenido.RECHAZADO ->
-                                    "Rechazada"
+                                EstadoContenido.RECHAZADO -> "Rechazada"
 
-                                EstadoContenido.OCULTO ->
-                                    "Deshabilitada"
+                                EstadoContenido.OCULTO -> "Deshabilitada"
                             }
 
                             Text(
@@ -128,8 +115,7 @@ fun ContenidosObjetivoScreen(
                             Button(
                                 onClick = {
                                     onEditarClick(contenido)
-                                },
-                                modifier = Modifier.fillMaxWidth()
+                                }, modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text("Editar")
                             }

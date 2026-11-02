@@ -15,41 +15,31 @@ class ProgresoViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val dataStore =
-        ContenidoDataStore(application)
+    private val dataStore = ContenidoDataStore(application)
 
-    private val _respuestaActual =
-        MutableStateFlow("")
+    private val _respuestaActual = MutableStateFlow("")
 
-    val respuestaActual: StateFlow<String> =
-        _respuestaActual.asStateFlow()
+    val respuestaActual: StateFlow<String> = _respuestaActual.asStateFlow()
 
-    private val _respuestas =
-        MutableStateFlow<List<RespuestaUiState>>(
-            emptyList()
-        )
+    private val _respuestas = MutableStateFlow<List<RespuestaUiState>>(
+        emptyList()
+    )
 
-    val respuestas: StateFlow<List<RespuestaUiState>> =
-        _respuestas.asStateFlow()
+    val respuestas: StateFlow<List<RespuestaUiState>> = _respuestas.asStateFlow()
 
-    private val _progreso =
-        MutableStateFlow(0f)
+    private val _progreso = MutableStateFlow(0f)
 
-    val progreso: StateFlow<Float> =
-        _progreso.asStateFlow()
+    val progreso: StateFlow<Float> = _progreso.asStateFlow()
 
-    private val _porcentaje =
-        MutableStateFlow(0)
+    private val _porcentaje = MutableStateFlow(0)
 
-    val porcentaje: StateFlow<Int> =
-        _porcentaje.asStateFlow()
+    val porcentaje: StateFlow<Int> = _porcentaje.asStateFlow()
 
     init {
 
         viewModelScope.launch {
 
-            dataStore.obtenerRespuestas()
-                .collect { lista ->
+            dataStore.obtenerRespuestas().collect { lista ->
 
                     _respuestas.value = lista
 
@@ -77,18 +67,16 @@ class ProgresoViewModel(
             return false
         }
 
-        val nuevoId =
-            (_respuestas.value.maxOfOrNull {
-                it.id
-            } ?: 0) + 1
+        val nuevoId = (_respuestas.value.maxOfOrNull {
+            it.id
+        } ?: 0) + 1
 
-        val nuevaRespuesta =
-            RespuestaUiState(
-                id = nuevoId,
-                contenidoId = contenidoId,
-                respuesta = _respuestaActual.value,
-                estado = EstadoRespuesta.PENDIENTE_REVISION
-            )
+        val nuevaRespuesta = RespuestaUiState(
+            id = nuevoId,
+            contenidoId = contenidoId,
+            respuesta = _respuestaActual.value,
+            estado = EstadoRespuesta.PENDIENTE_REVISION
+        )
 
         guardarRespuestas(
             _respuestas.value + nuevaRespuesta
@@ -100,52 +88,40 @@ class ProgresoViewModel(
     }
 
     fun marcarCorrecta(
-        respuestaId: Int,
-        rol: RolUsuario?
+        respuestaId: Int, rol: RolUsuario?
     ): Boolean {
 
-        if (
-            rol != RolUsuario.UTP &&
-            rol != RolUsuario.DOCENTE
-        ) {
+        if (rol != RolUsuario.UTP && rol != RolUsuario.DOCENTE) {
             return false
         }
 
         cambiarEstadoRespuesta(
-            respuestaId,
-            EstadoRespuesta.CORRECTA
+            respuestaId, EstadoRespuesta.CORRECTA
         )
 
         return true
     }
 
     fun marcarIncorrecta(
-        respuestaId: Int,
-        rol: RolUsuario?
+        respuestaId: Int, rol: RolUsuario?
     ): Boolean {
 
-        if (
-            rol != RolUsuario.UTP &&
-            rol != RolUsuario.DOCENTE
-        ) {
+        if (rol != RolUsuario.UTP && rol != RolUsuario.DOCENTE) {
             return false
         }
 
         cambiarEstadoRespuesta(
-            respuestaId,
-            EstadoRespuesta.INCORRECTA
+            respuestaId, EstadoRespuesta.INCORRECTA
         )
 
         return true
     }
 
-    fun respuestasPendientes():
-            List<RespuestaUiState> {
+    fun respuestasPendientes(): List<RespuestaUiState> {
 
         return _respuestas.value.filter {
 
-            it.estado ==
-                    EstadoRespuesta.PENDIENTE_REVISION
+            it.estado == EstadoRespuesta.PENDIENTE_REVISION
         }
     }
 
@@ -155,44 +131,36 @@ class ProgresoViewModel(
 
         return _respuestas.value.filter {
 
-            it.contenidoId ==
-                    contenidoId
+            it.contenidoId == contenidoId
         }
     }
 
-    fun obtenerRespuestasPendientes():
-            List<RespuestaUiState> {
+    fun obtenerRespuestasPendientes(): List<RespuestaUiState> {
 
         return _respuestas.value.filter {
 
-            it.estado ==
-                    EstadoRespuesta.PENDIENTE_REVISION
+            it.estado == EstadoRespuesta.PENDIENTE_REVISION
         }
     }
 
 
     private fun cambiarEstadoRespuesta(
-        respuestaId: Int,
-        nuevoEstado: EstadoRespuesta
+        respuestaId: Int, nuevoEstado: EstadoRespuesta
     ) {
 
-        val nuevaLista =
-            _respuestas.value.map { respuesta ->
+        val nuevaLista = _respuestas.value.map { respuesta ->
 
-                if (
-                    respuesta.id ==
-                    respuestaId
-                ) {
+            if (respuesta.id == respuestaId) {
 
-                    respuesta.copy(
-                        estado = nuevoEstado
-                    )
+                respuesta.copy(
+                    estado = nuevoEstado
+                )
 
-                } else {
+            } else {
 
-                    respuesta
-                }
+                respuesta
             }
+        }
 
         guardarRespuestas(
             nuevaLista
@@ -200,12 +168,10 @@ class ProgresoViewModel(
     }
 
     private fun guardarRespuestas(
-        nuevaLista:
-        List<RespuestaUiState>
+        nuevaLista: List<RespuestaUiState>
     ) {
 
-        _respuestas.value =
-            nuevaLista
+        _respuestas.value = nuevaLista
 
         calcularProgreso()
 
@@ -219,8 +185,7 @@ class ProgresoViewModel(
 
     private fun calcularProgreso() {
 
-        val total =
-            _respuestas.value.size
+        val total = _respuestas.value.size
 
         if (total == 0) {
 
@@ -230,25 +195,16 @@ class ProgresoViewModel(
             return
         }
 
-        val correctas =
-            _respuestas.value.count {
+        val correctas = _respuestas.value.count {
 
-                it.estado ==
-                        EstadoRespuesta.CORRECTA
-            }
+            it.estado == EstadoRespuesta.CORRECTA
+        }
 
-        val porcentajeCalculado =
-            (
-                    correctas.toFloat() /
-                            total.toFloat() *
-                            100
-                    ).toInt()
+        val porcentajeCalculado = (correctas.toFloat() / total.toFloat() * 100).toInt()
 
-        _porcentaje.value =
-            porcentajeCalculado
+        _porcentaje.value = porcentajeCalculado
 
-        _progreso.value =
-            porcentajeCalculado / 100f
+        _progreso.value = porcentajeCalculado / 100f
     }
 
     companion object {
@@ -262,9 +218,7 @@ class ProgresoViewModel(
     }
 
     fun intentosRestantes(contenidoId: Int): Int {
-        return (
-                MAX_INTENTOS - intentosUsados(contenidoId)
-                ).coerceAtLeast(0)
+        return (MAX_INTENTOS - intentosUsados(contenidoId)).coerceAtLeast(0)
     }
 
     fun puedeResponder(contenidoId: Int): Boolean {

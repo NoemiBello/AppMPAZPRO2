@@ -2,7 +2,6 @@ package com.example.appmpazpro2.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,8 +23,7 @@ fun GestionContenidoScreen(
     onAprobarClick: (Int) -> Unit,
     onRechazarClick: (Int) -> Unit,
     onOcultarClick: (Int) -> Unit,
-    onVerAsignaturasClick: () -> Unit,
-    onRevisarRespuestasClick: () -> Unit
+    onVerAsignaturasClick: () -> Unit
 ) {
 
     Column(
@@ -36,89 +34,65 @@ fun GestionContenidoScreen(
     ) {
 
         Text(
-            text = "Gestion de contenidos",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Gestion de contenidos", style = MaterialTheme.typography.headlineMedium
         )
 
         // Ir a las 4 asignaturas
         Button(
-            onClick = onVerAsignaturasClick,
-            modifier = Modifier.fillMaxWidth()
+            onClick = onVerAsignaturasClick, modifier = Modifier.fillMaxWidth()
         ) {
             Text("Ver asignaturas")
         }
 
-        // Revisar respuestas enviadas
-        Button(
-            onClick = onRevisarRespuestasClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Revisar respuestas")
-        }
-
         Text(
-            text = "Contenidos pendientes",
-            style = MaterialTheme.typography.titleMedium
+            text = "Contenidos pendientes", style = MaterialTheme.typography.titleMedium
         )
 
         if (contenidos.isEmpty()) {
 
             Text(
-                text = "No hay contenidos pendientes",
-                modifier = Modifier.padding(top = 12.dp)
+                text = "No hay contenidos pendientes", modifier = Modifier.padding(top = 12.dp)
             )
 
         } else {
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement =
-                    Arrangement.spacedBy(12.dp)
+                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
                 items(
-                    items = contenidos,
-                    key = { contenido ->
+                    items = contenidos, key = { contenido ->
                         contenido.id
-                    }
-                ) { contenido ->
+                    }) { contenido ->
 
                     Card(
-                        modifier =
-                            Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     ) {
 
                         Column(
-                            modifier =
-                                Modifier.padding(16.dp),
-                            verticalArrangement =
-                                Arrangement.spacedBy(8.dp)
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
 
                             Text(
                                 text = contenido.titulo,
-                                style =
-                                    MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.titleMedium
                             )
 
                             Text(
-                                text =
-                                    "Asignatura: ${contenido.asignatura}"
+                                text = "Asignatura: ${contenido.asignatura}"
                             )
 
                             Text(
-                                text =
-                                    "Unidad: ${contenido.unidad}"
+                                text = "Unidad: ${contenido.unidad}"
                             )
 
                             Text(
-                                text =
-                                    "Objetivo: ${contenido.objetivo}"
+                                text = "Objetivo: ${contenido.objetivo}"
                             )
 
                             Text(
-                                text =
-                                    "Tipo: ${contenido.tipo}"
+                                text = "Tipo: ${contenido.tipo}"
                             )
 
                             Text(
@@ -126,20 +100,14 @@ fun GestionContenidoScreen(
                             )
 
                             Text(
-                                text =
-                                    "Estado: ${contenido.estado.name}"
+                                text = "Estado: ${contenido.estado.name}"
                             )
 
-                            if (
-                                contenido.estado ==
-                                EstadoContenido.PENDIENTE
-                            ) {
+                            if (contenido.estado == EstadoContenido.PENDIENTE) {
 
                                 Column(
-                                    modifier =
-                                        Modifier.fillMaxWidth(),
-                                    verticalArrangement =
-                                        Arrangement.spacedBy(8.dp)
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
 
                                     Button(
@@ -147,9 +115,7 @@ fun GestionContenidoScreen(
                                             onAprobarClick(
                                                 contenido.id
                                             )
-                                        },
-                                        modifier =
-                                            Modifier.fillMaxWidth()
+                                        }, modifier = Modifier.fillMaxWidth()
                                     ) {
                                         Text("Aprobar")
                                     }
@@ -159,9 +125,7 @@ fun GestionContenidoScreen(
                                             onRechazarClick(
                                                 contenido.id
                                             )
-                                        },
-                                        modifier =
-                                            Modifier.fillMaxWidth()
+                                        }, modifier = Modifier.fillMaxWidth()
                                     ) {
                                         Text("Rechazar")
                                     }
@@ -171,9 +135,7 @@ fun GestionContenidoScreen(
                                             onOcultarClick(
                                                 contenido.id
                                             )
-                                        },
-                                        modifier =
-                                            Modifier.fillMaxWidth()
+                                        }, modifier = Modifier.fillMaxWidth()
                                     ) {
                                         Text("Ocultar")
                                     }

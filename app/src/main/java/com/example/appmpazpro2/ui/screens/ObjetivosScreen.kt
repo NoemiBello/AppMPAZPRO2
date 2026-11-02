@@ -15,32 +15,25 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ObjetivosScreen(
-    asignatura: String,
-    unidad: String,
-    onObjetivoClick: (String) -> Unit
+    asignatura: String, unidad: String, onObjetivoClick: (String) -> Unit
 ) {
 
     val objetivos = when {
 
-        asignatura == "Lenguaje" &&
-                unidad == "Unidad 1" -> listOf(
+        asignatura == "Lenguaje" && unidad == "Unidad 1" -> listOf(
             "Comprender textos breves",
             "Identificar informacion explicita",
             "Reconocer personajes e ideas principales"
         )
 
-        asignatura == "Lenguaje" &&
-                unidad == "Unidad 2" -> listOf(
+        asignatura == "Lenguaje" && unidad == "Unidad 2" -> listOf(
             "Escribir oraciones simples",
             "Organizar ideas antes de escribir",
             "Revisar textos breves"
         )
 
-        asignatura == "Lenguaje" &&
-                unidad == "Unidad 3" -> listOf(
-            "Expresarse oralmente",
-            "Escuchar instrucciones",
-            "Participar en conversaciones"
+        asignatura == "Lenguaje" && unidad == "Unidad 3" -> listOf(
+            "Expresarse oralmente", "Escuchar instrucciones", "Participar en conversaciones"
         )
 
         asignatura == "Matematica" -> listOf(
@@ -70,46 +63,34 @@ fun ObjetivosScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        verticalArrangement =
-            Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
         Text(
-            text = asignatura,
-            style =
-                MaterialTheme.typography.headlineMedium
+            text = asignatura, style = MaterialTheme.typography.headlineMedium
         )
 
         Text(
-            text = unidad,
-            style =
-                MaterialTheme.typography.titleLarge
+            text = unidad, style = MaterialTheme.typography.titleLarge
         )
 
         Text(
-            text = "Selecciona un objetivo",
-            style =
-                MaterialTheme.typography.bodyLarge
+            text = "Selecciona un objetivo", style = MaterialTheme.typography.bodyLarge
         )
 
         objetivos.forEachIndexed { index, objetivo ->
 
             Card(
-                modifier =
-                    Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
 
                 Column(
-                    modifier =
-                        Modifier.padding(16.dp),
-                    verticalArrangement =
-                        Arrangement.spacedBy(8.dp)
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
 
                     Text(
-                        text = "Objetivo ${index + 1}",
-                        style =
-                            MaterialTheme.typography.titleMedium
+                        text = "Objetivo ${index + 1}", style = MaterialTheme.typography.titleMedium
                     )
 
                     Text(
@@ -119,9 +100,7 @@ fun ObjetivosScreen(
                     Button(
                         onClick = {
                             onObjetivoClick(objetivo)
-                        },
-                        modifier =
-                            Modifier.fillMaxWidth()
+                        }, modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Seleccionar")
                     }

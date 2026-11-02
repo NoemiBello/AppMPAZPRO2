@@ -16,62 +16,46 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun UnidadObjetivoScreen(
-    asignatura: String,
-    onObjetivoClick: (String) -> Unit
+    asignatura: String, onObjetivoClick: (String) -> Unit
 ) {
 
     val unidad1 = when (asignatura) {
 
-        "Matematica" ->
-            "Números y operaciones"
+        "Matematica" -> "Números y operaciones"
 
-        "Lenguaje" ->
-            "Lectura"
+        "Lenguaje" -> "Lectura"
 
-        "Ciencias Naturales" ->
-            "Ciencias de la vida"
+        "Ciencias Naturales" -> "Ciencias de la vida"
 
-        "Historia" ->
-            "Historia y comunidad"
+        "Historia" -> "Historia y comunidad"
 
-        else ->
-            "Unidad de aprendizaje"
+        else -> "Unidad de aprendizaje"
     }
 
     val unidad2 = when (asignatura) {
 
-        "Matematica" ->
-            "Patrones y álgebra"
+        "Matematica" -> "Patrones y álgebra"
 
-        "Lenguaje" ->
-            "Escritura"
+        "Lenguaje" -> "Escritura"
 
-        "Ciencias Naturales" ->
-            "Ciencias físicas"
+        "Ciencias Naturales" -> "Ciencias físicas"
 
-        "Historia" ->
-            "Geografía y entorno"
+        "Historia" -> "Geografía y entorno"
 
-        else ->
-            "Unidad de aprendizaje"
+        else -> "Unidad de aprendizaje"
     }
 
     val unidad3 = when (asignatura) {
 
-        "Matematica" ->
-            "Geometría"
+        "Matematica" -> "Geometría"
 
-        "Lenguaje" ->
-            "Comunicación oral"
+        "Lenguaje" -> "Comunicación oral"
 
-        "Ciencias Naturales" ->
-            "Tierra y universo"
+        "Ciencias Naturales" -> "Tierra y universo"
 
-        "Historia" ->
-            "Formación ciudadana"
+        "Historia" -> "Formación ciudadana"
 
-        else ->
-            "Unidad de aprendizaje"
+        else -> "Unidad de aprendizaje"
     }
 
     Column(
@@ -83,18 +67,15 @@ fun UnidadObjetivoScreen(
     ) {
 
         Text(
-            text = asignatura,
-            style = MaterialTheme.typography.headlineMedium
+            text = asignatura, style = MaterialTheme.typography.headlineMedium
         )
 
         Text(
-            text = "2° Básico",
-            style = MaterialTheme.typography.titleMedium
+            text = "2° Básico", style = MaterialTheme.typography.titleMedium
         )
 
         Text(
-            text = "Selecciona una unidad",
-            style = MaterialTheme.typography.bodyLarge
+            text = "Selecciona una unidad", style = MaterialTheme.typography.bodyLarge
         )
 
         Card(
@@ -102,13 +83,11 @@ fun UnidadObjetivoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 Text(
-                    text = "Unidad 1",
-                    style = MaterialTheme.typography.titleLarge
+                    text = "Unidad 1", style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -118,8 +97,7 @@ fun UnidadObjetivoScreen(
                 Button(
                     onClick = {
                         onObjetivoClick("Unidad 1")
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
                 }
@@ -131,13 +109,11 @@ fun UnidadObjetivoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 Text(
-                    text = "Unidad 2",
-                    style = MaterialTheme.typography.titleLarge
+                    text = "Unidad 2", style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -147,8 +123,7 @@ fun UnidadObjetivoScreen(
                 Button(
                     onClick = {
                         onObjetivoClick("Unidad 2")
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
                 }
@@ -160,13 +135,11 @@ fun UnidadObjetivoScreen(
         ) {
 
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 Text(
-                    text = "Unidad 3",
-                    style = MaterialTheme.typography.titleLarge
+                    text = "Unidad 3", style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -176,8 +149,7 @@ fun UnidadObjetivoScreen(
                 Button(
                     onClick = {
                         onObjetivoClick("Unidad 3")
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Ver objetivos")
                 }
