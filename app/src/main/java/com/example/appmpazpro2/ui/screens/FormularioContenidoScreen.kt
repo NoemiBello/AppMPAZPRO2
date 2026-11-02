@@ -24,6 +24,7 @@ import com.example.appmpazpro2.model.ContenidoUiState
 fun FormularioContenidoScreen(
     uiState: ContenidoUiState,
     errores: ContenidoErrores,
+    esEdicion: Boolean = false,
     onAsignaturaChange: (String) -> Unit,
     onUnidadChange: (String) -> Unit,
     onObjetivoChange: (String) -> Unit,
@@ -42,7 +43,11 @@ fun FormularioContenidoScreen(
     ) {
 
         Text(
-            text = "Nuevo contenido",
+            text = if (esEdicion) {
+                "Editar contenido"
+            } else {
+                "Nuevo contenido"
+            },
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -255,7 +260,13 @@ fun FormularioContenidoScreen(
             onClick = onGuardarClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Guardar contenido")
+            Text(
+                if (esEdicion) {
+                    "Guardar cambios"
+                } else {
+                    "Guardar contenido"
+                }
+            )
         }
     }
 }

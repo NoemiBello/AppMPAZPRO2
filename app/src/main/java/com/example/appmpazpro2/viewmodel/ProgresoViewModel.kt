@@ -69,9 +69,11 @@ class ProgresoViewModel(
         contenidoId: Int
     ): Boolean {
 
-        if (
-            _respuestaActual.value.isBlank()
-        ) {
+        if (_respuestaActual.value.isBlank()) {
+            return false
+        }
+
+        if (!puedeResponder(contenidoId)) {
             return false
         }
 
@@ -85,16 +87,11 @@ class ProgresoViewModel(
                 id = nuevoId,
                 contenidoId = contenidoId,
                 respuesta = _respuestaActual.value,
-                estado =
-                    EstadoRespuesta.PENDIENTE_REVISION
+                estado = EstadoRespuesta.PENDIENTE_REVISION
             )
 
-        val nuevaLista =
-            _respuestas.value +
-                    nuevaRespuesta
-
         guardarRespuestas(
-            nuevaLista
+            _respuestas.value + nuevaRespuesta
         )
 
         _respuestaActual.value = ""
@@ -252,5 +249,25 @@ class ProgresoViewModel(
 
         _progreso.value =
             porcentajeCalculado / 100f
+    }
+
+    companion object {
+        const val MAX_INTENTOS = 3
+    }
+
+    fun intentosUsados(contenidoId: Int): Int {
+        return _respuestas.value.count {
+            it.contenidoId == contenidoId
+        }
+    }
+
+    fun intentosRestantes(contenidoId: Int): Int {
+        return (
+                MAX_INTENTOS - intentosUsados(contenidoId)
+                ).coerceAtLeast(0)
+    }
+
+    fun puedeResponder(contenidoId: Int): Boolean {
+        return intentosUsados(contenidoId) < MAX_INTENTOS
     }
 }

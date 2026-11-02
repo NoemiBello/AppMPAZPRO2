@@ -23,9 +23,12 @@ import com.example.appmpazpro2.ui.components.BottomNavigationBar
 
 import com.example.appmpazpro2.ui.screens.AsignaturasScreen
 import com.example.appmpazpro2.ui.screens.ContenidoEstudianteScreen
+import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
 import com.example.appmpazpro2.ui.screens.FormularioContenidoScreen
 import com.example.appmpazpro2.ui.screens.GestionContenidoScreen
+import com.example.appmpazpro2.ui.screens.InicioDocenteScreen
 import com.example.appmpazpro2.ui.screens.InicioScreen
+import com.example.appmpazpro2.ui.screens.InicioUtpScreen
 import com.example.appmpazpro2.ui.screens.ObjetivosScreen
 import com.example.appmpazpro2.ui.screens.PerfilScreen
 import com.example.appmpazpro2.ui.screens.ProgresoScreen
@@ -70,6 +73,9 @@ private const val RUTA_REVISION_RESPUESTAS =
 private const val RUTA_OBJETIVOS =
     "objetivos"
 
+private const val RUTA_CONTENIDOS_OBJETIVO =
+    "contenidos_objetivo"
+
 
 @Composable
 fun AppNavigation() {
@@ -103,11 +109,9 @@ fun AppNavigation() {
         mutableStateOf("Lenguaje")
     }
 
-
     var unidadSeleccionada by remember {
         mutableStateOf("")
     }
-
 
     var objetivoSeleccionado by remember {
         mutableStateOf("")
@@ -178,7 +182,6 @@ fun AppNavigation() {
                             )
                     },
 
-
                     onDocenteClick = {
 
                         rolViewModel
@@ -193,7 +196,6 @@ fun AppNavigation() {
                                     .route
                             )
                     },
-
 
                     onEstudianteClick = {
 
@@ -219,10 +221,96 @@ fun AppNavigation() {
                 Screen.Inicio.route
             ) {
 
-                InicioScreen(
-                    navController =
-                        navController
-                )
+                when (rolSeleccionado) {
+
+                    RolUsuario.ESTUDIANTE -> {
+
+                        InicioScreen(
+                            navController = navController,
+
+                            onCerrarSesionClick = {
+
+                                rolViewModel.limpiarRol()
+
+                                navController.navigate(
+                                    RUTA_SELECCION_PERFIL
+                                ) {
+
+                                    popUpTo(
+                                        RUTA_SELECCION_PERFIL
+                                    ) {
+                                        inclusive = true
+                                    }
+
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
+
+
+                    RolUsuario.DOCENTE -> {
+
+                        InicioDocenteScreen(
+                            navController = navController,
+
+                            onCerrarSesionClick = {
+
+                                rolViewModel.limpiarRol()
+
+                                navController.navigate(
+                                    RUTA_SELECCION_PERFIL
+                                ) {
+
+                                    popUpTo(
+                                        RUTA_SELECCION_PERFIL
+                                    ) {
+                                        inclusive = true
+                                    }
+
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
+
+
+                    RolUsuario.UTP -> {
+
+                        InicioUtpScreen(
+
+                            navController = navController,
+
+                            onGestionContenidoClick = {
+
+                                navController.navigate(
+                                    RUTA_GESTION_CONTENIDO
+                                )
+                            },
+
+                            onCerrarSesionClick = {
+
+                                rolViewModel.limpiarRol()
+
+                                navController.navigate(
+                                    RUTA_SELECCION_PERFIL
+                                ) {
+
+                                    popUpTo(
+                                        RUTA_SELECCION_PERFIL
+                                    ) {
+                                        inclusive = true
+                                    }
+
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
+
+
+                    null -> Unit
+                }
             }
 
 
@@ -383,23 +471,8 @@ fun AppNavigation() {
                                 .puedeGestionarContenido()
                         ) {
 
-                            contenidoViewModel
-                                .actualizarAsignatura(
-                                    asignaturaSeleccionada
-                                )
-
-                            contenidoViewModel
-                                .actualizarUnidad(
-                                    unidadSeleccionada
-                                )
-
-                            contenidoViewModel
-                                .actualizarObjetivo(
-                                    objetivoSeleccionado
-                                )
-
                             navController.navigate(
-                                RUTA_FORMULARIO_CONTENIDO
+                                RUTA_CONTENIDOS_OBJETIVO
                             )
 
                         } else if (
@@ -409,6 +482,88 @@ fun AppNavigation() {
 
                             navController.navigate(
                                 RUTA_CONTENIDO_ESTUDIANTE
+                            )
+                        }
+                    }
+                )
+            }
+
+
+            // CONTENIDOS DEL OBJETIVO
+
+            composable(
+                RUTA_CONTENIDOS_OBJETIVO
+            ) {
+
+                val contenidos by
+                contenidoViewModel
+                    .contenidos
+                    .collectAsState()
+
+
+                val contenidosDelObjetivo =
+                    contenidos.filter { contenido ->
+
+                        contenido.asignatura.equals(
+                            asignaturaSeleccionada,
+                            ignoreCase = true
+                        ) &&
+                                contenido.unidad.equals(
+                                    unidadSeleccionada,
+                                    ignoreCase = true
+                                ) &&
+                                contenido.objetivo.equals(
+                                    objetivoSeleccionado,
+                                    ignoreCase = true
+                                )
+                    }
+
+
+                ContenidosObjetivoScreen(
+
+                    asignatura =
+                        asignaturaSeleccionada,
+
+                    unidad =
+                        unidadSeleccionada,
+
+                    objetivo =
+                        objetivoSeleccionado,
+
+                    contenidos =
+                        contenidosDelObjetivo,
+
+                    onNuevoClick = {
+
+                        contenidoViewModel
+                            .prepararNuevoContenido(
+                                asignaturaSeleccionada,
+                                unidadSeleccionada,
+                                objetivoSeleccionado
+                            )
+
+                        navController.navigate(
+                            RUTA_FORMULARIO_CONTENIDO
+                        )
+                    },
+
+                    onEditarClick = { contenido ->
+
+                        if (
+                            contenidoViewModel
+                                .puedeEditarContenido(
+                                    contenido,
+                                    rolSeleccionado
+                                )
+                        ) {
+
+                            contenidoViewModel
+                                .cargarContenidoParaEditar(
+                                    contenido
+                                )
+
+                            navController.navigate(
+                                RUTA_FORMULARIO_CONTENIDO
                             )
                         }
                     }
@@ -427,10 +582,15 @@ fun AppNavigation() {
                     .uiState
                     .collectAsState()
 
+
                 val errores by
                 contenidoViewModel
                     .errores
                     .collectAsState()
+
+
+                val esEdicion =
+                    uiState.id != 0
 
 
                 FormularioContenidoScreen(
@@ -441,57 +601,61 @@ fun AppNavigation() {
                     errores =
                         errores,
 
+                    esEdicion =
+                        esEdicion,
 
                     onAsignaturaChange =
                         contenidoViewModel::
                         actualizarAsignatura,
 
-
                     onUnidadChange =
                         contenidoViewModel::
                         actualizarUnidad,
-
 
                     onObjetivoChange =
                         contenidoViewModel::
                         actualizarObjetivo,
 
-
                     onTipoChange =
                         contenidoViewModel::
                         actualizarTipo,
-
 
                     onTituloChange =
                         contenidoViewModel::
                         actualizarTitulo,
 
-
                     onContenidoChange =
                         contenidoViewModel::
                         actualizarContenido,
-
 
                     onPreguntaChange =
                         contenidoViewModel::
                         actualizarPregunta,
 
-
                     onGuardarClick = {
 
-                        if (
-                            contenidoViewModel
-                                .guardarContenido(
-                                    rolSeleccionado
-                                )
-                        ) {
+                        val guardado =
+
+                            if (esEdicion) {
+
+                                contenidoViewModel
+                                    .editarContenido(
+                                        rolSeleccionado
+                                    )
+
+                            } else {
+
+                                contenidoViewModel
+                                    .guardarContenido(
+                                        rolSeleccionado
+                                    )
+                            }
+
+
+                        if (guardado) {
 
                             navController
-                                .navigate(
-                                    Screen
-                                        .Asignaturas
-                                        .route
-                                )
+                                .popBackStack()
                         }
                     }
                 )
@@ -538,6 +702,8 @@ fun AppNavigation() {
                         it.contenidoId ==
                                 contenidoVisible.id
                     }
+
+
                 ContenidoEstudianteScreen(
 
                     titulo =
@@ -551,6 +717,21 @@ fun AppNavigation() {
 
                     respuesta =
                         respuesta,
+
+                    intentosUsados =
+                        progresoViewModel.intentosUsados(
+                            contenidoVisible.id
+                        ),
+
+                    maxIntentos =
+                        ProgresoViewModel.MAX_INTENTOS,
+
+                    puedeResponder =
+                        contenidoVisible.id != 0 &&
+                                progresoViewModel
+                                    .puedeResponder(
+                                        contenidoVisible.id
+                                    ),
 
                     hayContenido =
                         contenidoVisible.id != 0,
@@ -568,7 +749,10 @@ fun AppNavigation() {
                     onEnviarClick = {
 
                         if (
-                            contenidoVisible.id != 0
+                            contenidoVisible.id != 0 &&
+                            progresoViewModel.puedeResponder(
+                                contenidoVisible.id
+                            )
                         ) {
 
                             progresoViewModel
@@ -578,9 +762,8 @@ fun AppNavigation() {
                         }
                     }
                 )
-
-
             }
+
 
             // PROGRESO
 
@@ -680,7 +863,6 @@ fun AppNavigation() {
                             contenidos =
                                 contenidos,
 
-
                             onCorrectaClick = { id ->
 
                                 progresoViewModel
@@ -689,7 +871,6 @@ fun AppNavigation() {
                                         rolSeleccionado
                                     )
                             },
-
 
                             onIncorrectaClick = { id ->
 
@@ -725,7 +906,6 @@ fun AppNavigation() {
                             contenidos =
                                 contenidos,
 
-
                             onCorrectaClick = { id ->
 
                                 progresoViewModel
@@ -734,7 +914,6 @@ fun AppNavigation() {
                                         rolSeleccionado
                                     )
                             },
-
 
                             onIncorrectaClick = { id ->
 
@@ -748,10 +927,7 @@ fun AppNavigation() {
                     }
 
 
-                    null -> {
-
-                        // No se muestra nada si no hay rol seleccionado
-                    }
+                    null -> Unit
                 }
             }
 
@@ -789,31 +965,25 @@ fun AppNavigation() {
                     errores =
                         estado.errores,
 
-
                     onNombreChange =
                         usuarioViewModel::
                         actualizarNombre,
-
 
                     onCorreoChange =
                         usuarioViewModel::
                         actualizarCorreo,
 
-
                     onClaveChange =
                         usuarioViewModel::
                         actualizarClave,
-
 
                     onDireccionChange =
                         usuarioViewModel::
                         actualizarDireccion,
 
-
                     onAceptaTerminosChange =
                         usuarioViewModel::
                         actualizarTerminos,
-
 
                     onRegistrarClick = {
 
@@ -870,7 +1040,6 @@ fun AppNavigation() {
                     contenidos =
                         pendientes,
 
-
                     onAprobarClick = { id ->
 
                         contenidoViewModel
@@ -879,7 +1048,6 @@ fun AppNavigation() {
                                 rolSeleccionado
                             )
                     },
-
 
                     onRechazarClick = { id ->
 
@@ -890,7 +1058,6 @@ fun AppNavigation() {
                             )
                     },
 
-
                     onOcultarClick = { id ->
 
                         contenidoViewModel
@@ -900,14 +1067,12 @@ fun AppNavigation() {
                             )
                     },
 
-
                     onVerAsignaturasClick = {
 
                         navController.navigate(
                             Screen.Asignaturas.route
                         )
                     },
-
 
                     onRevisarRespuestasClick = {
 
@@ -945,7 +1110,6 @@ fun AppNavigation() {
                     contenidos =
                         contenidos,
 
-
                     onCorrectaClick = { id ->
 
                         progresoViewModel
@@ -954,7 +1118,6 @@ fun AppNavigation() {
                                 rolSeleccionado
                             )
                     },
-
 
                     onIncorrectaClick = { id ->
 
