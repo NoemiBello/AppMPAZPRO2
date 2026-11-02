@@ -31,23 +31,19 @@ fun ProgresoScreen(
     ) {
 
         Text(
-            text = "Mi progreso",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Mi progreso", style = MaterialTheme.typography.headlineMedium
         )
 
         Text(
-            text = "Avance: $porcentaje%",
-            style = MaterialTheme.typography.titleLarge
+            text = "Avance: $porcentaje%", style = MaterialTheme.typography.titleLarge
         )
 
         LinearProgressIndicator(
             progress = {
                 progreso.coerceIn(
-                    0f,
-                    1f
+                    0f, 1f
                 )
-            },
-            modifier = Modifier.fillMaxWidth()
+            }, modifier = Modifier.fillMaxWidth()
         )
 
         Card(
@@ -56,28 +52,23 @@ fun ProgresoScreen(
 
             Column(
                 modifier = Modifier.padding(16.dp),
-                verticalArrangement =
-                    Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
 
                 Text(
-                    text =
-                        "Respuestas realizadas: $respuestasRegistradas"
+                    text = "Respuestas realizadas: $respuestasRegistradas"
                 )
 
                 Text(
-                    text =
-                        "Correctas: $respuestasCorrectas"
+                    text = "Correctas: $respuestasCorrectas"
                 )
 
                 Text(
-                    text =
-                        "Incorrectas: $respuestasIncorrectas"
+                    text = "Incorrectas: $respuestasIncorrectas"
                 )
 
                 Text(
-                    text =
-                        "Pendientes de revision: $respuestasPendientes"
+                    text = "Pendientes de revision: $respuestasPendientes"
                 )
             }
         }

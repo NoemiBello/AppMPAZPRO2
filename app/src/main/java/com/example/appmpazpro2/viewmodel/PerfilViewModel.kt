@@ -10,8 +10,7 @@ class PerfilViewModel : ViewModel() {
 
     private val _imagenUri = MutableStateFlow<Uri?>(null)
 
-    val imagenUri: StateFlow<Uri?> =
-        _imagenUri.asStateFlow()
+    val imagenUri: StateFlow<Uri?> = _imagenUri.asStateFlow()
 
     fun actualizarDesdeGaleria(uri: Uri?) {
         if (uri != null) {

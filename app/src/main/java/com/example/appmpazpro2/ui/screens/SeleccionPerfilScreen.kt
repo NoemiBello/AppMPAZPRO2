@@ -32,9 +32,7 @@ import com.example.appmpazpro2.ui.utils.obtenerWindowSizeClass
 
 @Composable
 fun SeleccionPerfilScreen(
-    onUtpClick: () -> Unit,
-    onDocenteClick: () -> Unit,
-    onEstudianteClick: () -> Unit
+    onUtpClick: () -> Unit, onDocenteClick: () -> Unit, onEstudianteClick: () -> Unit
 ) {
 
     val windowSizeClass = obtenerWindowSizeClass()
@@ -71,18 +69,15 @@ fun SeleccionPerfilScreen(
 fun LogoMPaz() {
 
     Card(
-        shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(
+        shape = RoundedCornerShape(28.dp), colors = CardDefaults.cardColors(
             containerColor = AmarilloClaroMPaz
         )
     ) {
 
         Column(
             modifier = Modifier.padding(
-                horizontal = 30.dp,
-                vertical = 16.dp
-            ),
-            horizontalAlignment = Alignment.CenterHorizontally
+                horizontal = 30.dp, vertical = 16.dp
+            ), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Icon(
@@ -138,8 +133,7 @@ fun EncabezadoSeleccionPerfil() {
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(
-            top = 8.dp,
-            bottom = 18.dp
+            top = 8.dp, bottom = 18.dp
         )
     )
 }
@@ -169,8 +163,7 @@ fun TarjetaPerfil(
         ) {
 
             Text(
-                text = emoji,
-                style = MaterialTheme.typography.headlineLarge
+                text = emoji, style = MaterialTheme.typography.headlineLarge
             )
 
             Column(
@@ -187,8 +180,7 @@ fun TarjetaPerfil(
                     text = descripcion,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(
-                        top = 4.dp,
-                        bottom = 10.dp
+                        top = 4.dp, bottom = 10.dp
                     )
                 )
 
@@ -202,8 +194,7 @@ fun TarjetaPerfil(
                 ) {
 
                     Text(
-                        text = textoBoton,
-                        textAlign = TextAlign.Center
+                        text = textoBoton, textAlign = TextAlign.Center
                     )
                 }
             }
@@ -213,9 +204,7 @@ fun TarjetaPerfil(
 
 @Composable
 fun ContenidoPerfiles(
-    onUtpClick: () -> Unit,
-    onDocenteClick: () -> Unit,
-    onEstudianteClick: () -> Unit
+    onUtpClick: () -> Unit, onDocenteClick: () -> Unit, onEstudianteClick: () -> Unit
 ) {
 
     Column(
@@ -253,9 +242,7 @@ fun ContenidoPerfiles(
 
 @Composable
 fun SeleccionPerfilCompact(
-    onUtpClick: () -> Unit,
-    onDocenteClick: () -> Unit,
-    onEstudianteClick: () -> Unit
+    onUtpClick: () -> Unit, onDocenteClick: () -> Unit, onEstudianteClick: () -> Unit
 ) {
 
     Column(
@@ -278,9 +265,7 @@ fun SeleccionPerfilCompact(
 
 @Composable
 fun SeleccionPerfilMedium(
-    onUtpClick: () -> Unit,
-    onDocenteClick: () -> Unit,
-    onEstudianteClick: () -> Unit
+    onUtpClick: () -> Unit, onDocenteClick: () -> Unit, onEstudianteClick: () -> Unit
 ) {
 
     Column(
@@ -303,9 +288,7 @@ fun SeleccionPerfilMedium(
 
 @Composable
 fun SeleccionPerfilExpanded(
-    onUtpClick: () -> Unit,
-    onDocenteClick: () -> Unit,
-    onEstudianteClick: () -> Unit
+    onUtpClick: () -> Unit, onDocenteClick: () -> Unit, onEstudianteClick: () -> Unit
 ) {
 
     Column(
@@ -319,8 +302,7 @@ fun SeleccionPerfilExpanded(
         EncabezadoSeleccionPerfil()
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
             Column(
@@ -369,46 +351,28 @@ fun SeleccionPerfilExpanded(
 }
 
 @Preview(
-    showBackground = true,
-    widthDp = 360,
-    heightDp = 800
+    showBackground = true, widthDp = 360, heightDp = 800
 )
 @Composable
 fun SeleccionPerfilCompactPreview() {
 
-    SeleccionPerfilCompact(
-        onUtpClick = {},
-        onDocenteClick = {},
-        onEstudianteClick = {}
-    )
+    SeleccionPerfilCompact(onUtpClick = {}, onDocenteClick = {}, onEstudianteClick = {})
 }
 
 @Preview(
-    showBackground = true,
-    widthDp = 700,
-    heightDp = 900
+    showBackground = true, widthDp = 700, heightDp = 900
 )
 @Composable
 fun SeleccionPerfilMediumPreview() {
 
-    SeleccionPerfilMedium(
-        onUtpClick = {},
-        onDocenteClick = {},
-        onEstudianteClick = {}
-    )
+    SeleccionPerfilMedium(onUtpClick = {}, onDocenteClick = {}, onEstudianteClick = {})
 }
 
 @Preview(
-    showBackground = true,
-    widthDp = 1000,
-    heightDp = 700
+    showBackground = true, widthDp = 1000, heightDp = 700
 )
 @Composable
 fun SeleccionPerfilExpandedPreview() {
 
-    SeleccionPerfilExpanded(
-        onUtpClick = {},
-        onDocenteClick = {},
-        onEstudianteClick = {}
-    )
+    SeleccionPerfilExpanded(onUtpClick = {}, onDocenteClick = {}, onEstudianteClick = {})
 }

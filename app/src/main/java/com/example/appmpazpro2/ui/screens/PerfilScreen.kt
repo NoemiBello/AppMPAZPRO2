@@ -32,30 +32,27 @@ fun PerfilScreen(
 
     val imagenUri by viewModel.imagenUri.collectAsState()
 
-    val imagenCamaraTemporal =
-        remember {
-            mutableStateOf<Uri?>(null)
+    val imagenCamaraTemporal = remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val galeriaLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+
+        viewModel.actualizarDesdeGaleria(uri)
+    }
+
+    val camaraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { exito ->
+
+        if (exito) {
+            viewModel.actualizarDesdeCamara(
+                imagenCamaraTemporal.value
+            )
         }
-
-    val galeriaLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent()
-        ) { uri ->
-
-            viewModel.actualizarDesdeGaleria(uri)
-        }
-
-    val camaraLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.TakePicture()
-        ) { exito ->
-
-            if (exito) {
-                viewModel.actualizarDesdeCamara(
-                    imagenCamaraTemporal.value
-                )
-            }
-        }
+    }
 
     Column(
         modifier = Modifier
@@ -74,8 +71,7 @@ fun PerfilScreen(
         Button(
             onClick = {
                 galeriaLauncher.launch("image/*")
-            }
-        ) {
+            }) {
             Text("Seleccionar de galeria")
         }
 
@@ -83,22 +79,17 @@ fun PerfilScreen(
             onClick = {
 
                 val archivo = File.createTempFile(
-                    "foto_perfil_",
-                    ".jpg",
-                    context.cacheDir
+                    "foto_perfil_", ".jpg", context.cacheDir
                 )
 
                 val uri = FileProvider.getUriForFile(
-                    context,
-                    "${context.packageName}.fileprovider",
-                    archivo
+                    context, "${context.packageName}.fileprovider", archivo
                 )
 
                 imagenCamaraTemporal.value = uri
 
                 camaraLauncher.launch(uri)
-            }
-        ) {
+            }) {
             Text("Tomar foto")
         }
     }

@@ -39,8 +39,7 @@ fun RegistroScreen(
     ) {
 
         Text(
-            text = "Registro",
-            style = MaterialTheme.typography.titleLarge
+            text = "Registro", style = MaterialTheme.typography.titleLarge
         )
 
         OutlinedTextField(
@@ -100,16 +99,14 @@ fun RegistroScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = estado.aceptaTerminos,
-                onCheckedChange = onAceptaTerminosChange
+                checked = estado.aceptaTerminos, onCheckedChange = onAceptaTerminosChange
             )
 
             Text("Acepto los términos")
         }
 
         Button(
-            onClick = onRegistrarClick,
-            modifier = Modifier.fillMaxWidth()
+            onClick = onRegistrarClick, modifier = Modifier.fillMaxWidth()
         ) {
             Text("Registrar")
         }
@@ -127,6 +124,5 @@ fun RegistroScreenPreview() {
         onClaveChange = {},
         onDireccionChange = {},
         onAceptaTerminosChange = {},
-        onRegistrarClick = {}
-    )
+        onRegistrarClick = {})
 }

@@ -47,8 +47,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InicioScreen(
-    navController: NavHostController,
-    onCerrarSesionClick: () -> Unit
+    navController: NavHostController, onCerrarSesionClick: () -> Unit
 ) {
 
     val drawerState = rememberDrawerState(
@@ -58,8 +57,7 @@ fun InicioScreen(
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
+        drawerState = drawerState, drawerContent = {
 
             ModalDrawerSheet {
 
@@ -70,74 +68,56 @@ fun InicioScreen(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Inicio")
-                    },
-                    selected = true,
-                    onClick = {
+                NavigationDrawerItem(label = {
+                    Text("Inicio")
+                }, selected = true, onClick = {
 
-                        scope.launch {
-                            drawerState.close()
-                        }
-
-                        navController.navigate(
-                            Screen.Inicio.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "Inicio"
-                        )
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Asignaturas")
-                    },
-                    selected = false,
-                    onClick = {
+                    navController.navigate(
+                        Screen.Inicio.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.Home, contentDescription = "Inicio"
+                    )
+                })
 
-                        scope.launch {
-                            drawerState.close()
-                        }
+                NavigationDrawerItem(label = {
+                    Text("Asignaturas")
+                }, selected = false, onClick = {
 
-                        navController.navigate(
-                            Screen.Asignaturas.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.School,
-                            contentDescription = "Asignaturas"
-                        )
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Progreso")
-                    },
-                    selected = false,
-                    onClick = {
+                    navController.navigate(
+                        Screen.Asignaturas.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.School, contentDescription = "Asignaturas"
+                    )
+                })
 
-                        scope.launch {
-                            drawerState.close()
-                        }
+                NavigationDrawerItem(label = {
+                    Text("Progreso")
+                }, selected = false, onClick = {
 
-                        navController.navigate(
-                            Screen.Progreso.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.ShowChart,
-                            contentDescription = "Progreso"
-                        )
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
+
+                    navController.navigate(
+                        Screen.Progreso.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.ShowChart, contentDescription = "Progreso"
+                    )
+                })
 
                 HorizontalDivider(
                     modifier = Modifier.padding(
@@ -145,213 +125,149 @@ fun InicioScreen(
                     )
                 )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Cerrar sesion")
-                    },
-                    selected = false,
-                    onClick = {
+                NavigationDrawerItem(label = {
+                    Text("Cerrar sesion")
+                }, selected = false, onClick = {
 
-                        scope.launch {
-                            drawerState.close()
-                        }
-
-                        onCerrarSesionClick()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.ExitToApp,
-                            contentDescription = "Cerrar sesion"
-                        )
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
+
+                    onCerrarSesionClick()
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "Cerrar sesion"
+                    )
+                })
             }
-        }
-    ) {
+        }) {
 
         Scaffold(
             topBar = {
 
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "MPAZ PRO 2",
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
+                TopAppBar(title = {
+                    Text(
+                        text = "MPAZ PRO 2", fontWeight = FontWeight.Bold
+                    )
+                }, navigationIcon = {
 
-                        IconButton(
-                            onClick = {
+                    IconButton(
+                        onClick = {
 
-                                scope.launch {
-                                    drawerState.open()
-                                }
+                            scope.launch {
+                                drawerState.open()
                             }
-                        ) {
+                        }) {
 
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Abrir menú"
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Default.Menu, contentDescription = "Abrir menú"
+                        )
                     }
-                )
-            }
-        ) { paddingValues ->
+                })
+            }) { paddingValues ->
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
                     .padding(20.dp),
-                verticalArrangement =
-                    Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
                 Text(
                     text = "¡Bienvenido! 👋",
-                    style =
-                        MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
-                    color =
-                        MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary
                 )
 
                 Text(
                     text = "Aprende, practica y avanza",
-                    style =
-                        MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 Card(
-                    modifier =
-                        Modifier.fillMaxWidth(),
-                    shape =
-                        RoundedCornerShape(28.dp),
-                    colors =
-                        CardDefaults.cardColors(
-                            containerColor =
-                                AmarilloClaroMPaz
-                        )
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(28.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AmarilloClaroMPaz
+                    )
                 ) {
 
                     Column(
-                        modifier =
-                            Modifier.padding(20.dp),
-                        horizontalAlignment =
-                            Alignment.CenterHorizontally
+                        modifier = Modifier.padding(20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
                         Text(
-                            text = "📖",
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .headlineLarge
+                            text = "📖", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Text(
                             text = "MPAZ PRO 2",
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .headlineMedium,
-                            fontWeight =
-                                FontWeight.Bold,
-                            color =
-                                MaterialTheme
-                                    .colorScheme
-                                    .primary
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
                         )
 
                         Text(
                             text = "2° Básico",
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .titleLarge,
-                            modifier =
-                                Modifier.padding(
-                                    top = 6.dp
-                                )
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(
+                                top = 6.dp
+                            )
                         )
 
                         Text(
-                            text =
-                                "¡Tu espacio para aprender jugando!",
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .bodyLarge,
-                            modifier =
-                                Modifier.padding(
-                                    top = 6.dp
-                                )
+                            text = "¡Tu espacio para aprender jugando!",
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(
+                                top = 6.dp
+                            )
                         )
                     }
                 }
 
                 Text(
                     text = "¿Qué quieres hacer?",
-                    style =
-                        MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
 
                 Card(
-                    modifier =
-                        Modifier.fillMaxWidth(),
-                    shape =
-                        RoundedCornerShape(24.dp),
-                    colors =
-                        CardDefaults.cardColors(
-                            containerColor =
-                                AzulClaroMPaz
-                        )
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AzulClaroMPaz
+                    )
                 ) {
 
                     Row(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(18.dp),
-                        verticalAlignment =
-                            Alignment.CenterVertically,
-                        horizontalArrangement =
-                            Arrangement.spacedBy(16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
 
                         Text(
-                            text = "📚",
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .headlineLarge
+                            text = "📚", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Column(
-                            modifier =
-                                Modifier.weight(1f)
+                            modifier = Modifier.weight(1f)
                         ) {
 
                             Text(
                                 text = "Mis asignaturas",
-                                style =
-                                    MaterialTheme
-                                        .typography
-                                        .titleLarge,
-                                fontWeight =
-                                    FontWeight.Bold
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text =
-                                    "Revisa tus unidades y actividades",
-                                style =
-                                    MaterialTheme
-                                        .typography
-                                        .bodyMedium
+                                text = "Revisa tus unidades y actividades",
+                                style = MaterialTheme.typography.bodyMedium
                             )
 
                             Button(
@@ -360,13 +276,11 @@ fun InicioScreen(
                                     navController.navigate(
                                         Screen.Asignaturas.route
                                     )
-                                },
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(
-                                            top = 10.dp
-                                        )
+                                }, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        top = 10.dp
+                                    )
                             ) {
 
                                 Text(
@@ -378,58 +292,38 @@ fun InicioScreen(
                 }
 
                 Card(
-                    modifier =
-                        Modifier.fillMaxWidth(),
-                    shape =
-                        RoundedCornerShape(24.dp),
-                    colors =
-                        CardDefaults.cardColors(
-                            containerColor =
-                                VerdeClaroMPaz
-                        )
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = VerdeClaroMPaz
+                    )
                 ) {
 
                     Row(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(18.dp),
-                        verticalAlignment =
-                            Alignment.CenterVertically,
-                        horizontalArrangement =
-                            Arrangement.spacedBy(16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
 
                         Text(
-                            text = "⭐",
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .headlineLarge
+                            text = "⭐", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Column(
-                            modifier =
-                                Modifier.weight(1f)
+                            modifier = Modifier.weight(1f)
                         ) {
 
                             Text(
                                 text = "Mi progreso",
-                                style =
-                                    MaterialTheme
-                                        .typography
-                                        .titleLarge,
-                                fontWeight =
-                                    FontWeight.Bold
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text =
-                                    "Revisa cuánto has avanzado",
-                                style =
-                                    MaterialTheme
-                                        .typography
-                                        .bodyMedium
+                                text = "Revisa cuánto has avanzado",
+                                style = MaterialTheme.typography.bodyMedium
                             )
 
                             Button(
@@ -438,13 +332,11 @@ fun InicioScreen(
                                     navController.navigate(
                                         Screen.Progreso.route
                                     )
-                                },
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(
-                                            top = 10.dp
-                                        )
+                                }, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        top = 10.dp
+                                    )
                             ) {
 
                                 Text(
@@ -463,11 +355,8 @@ fun InicioScreen(
 @Composable
 fun InicioScreenPreview() {
 
-    val navController =
-        rememberNavController()
+    val navController = rememberNavController()
 
     InicioScreen(
-        navController = navController,
-        onCerrarSesionClick = {}
-    )
+        navController = navController, onCerrarSesionClick = {})
 }

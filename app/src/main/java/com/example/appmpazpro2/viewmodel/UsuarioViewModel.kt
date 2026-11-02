@@ -11,8 +11,7 @@ class UsuarioViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(UsuarioUiState())
 
-    val uiState: StateFlow<UsuarioUiState> =
-        _uiState.asStateFlow()
+    val uiState: StateFlow<UsuarioUiState> = _uiState.asStateFlow()
 
     fun actualizarNombre(nombre: String) {
         _uiState.value = _uiState.value.copy(
@@ -55,10 +54,7 @@ class UsuarioViewModel : ViewModel() {
                 null
             },
 
-            correo = if (
-                estado.correo.isBlank() ||
-                !estado.correo.contains("@")
-            ) {
+            correo = if (estado.correo.isBlank() || !estado.correo.contains("@")) {
                 "Ingrese un correo valido"
             } else {
                 null
@@ -82,10 +78,7 @@ class UsuarioViewModel : ViewModel() {
         )
 
         val camposValidos =
-            errores.nombre == null &&
-                    errores.correo == null &&
-                    errores.clave == null &&
-                    errores.direccion == null
+            errores.nombre == null && errores.correo == null && errores.clave == null && errores.direccion == null
 
         return camposValidos && estado.aceptaTerminos
     }
