@@ -26,6 +26,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import com.example.appmpazpro2.ui.components.BarraVolver
+import android.graphics.BitmapFactory
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 @Composable
 fun FormularioContenidoScreen(
     uiState: ContenidoUiState,
@@ -43,6 +56,40 @@ fun FormularioContenidoScreen(
     puedeEditarInformacionAcademica: Boolean,
 ) {
 
+    val context = LocalContext.current
+
+    var imagenSeleccionada by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val selectorImagen = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+
+        imagenSeleccionada = uri
+    }
+
+    val bitmapSeleccionado = remember(imagenSeleccionada) {
+
+        imagenSeleccionada?.let { uri ->
+
+            try {
+
+                context.contentResolver
+                    .openInputStream(uri)
+                    ?.use { inputStream ->
+
+                        BitmapFactory
+                            .decodeStream(inputStream)
+                            ?.asImageBitmap()
+                    }
+
+            } catch (e: Exception) {
+
+                null
+            }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -196,6 +243,27 @@ fun FormularioContenidoScreen(
                 if (errores.contenido != null) {
                     Text(
                         text = errores.contenido, style = MaterialTheme.typography.bodySmall
+                    )
+                }
+
+                Button(
+                    onClick = {
+                        selectorImagen.launch("image/*")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Seleccionar imagen de galería")
+                }
+
+                bitmapSeleccionado?.let { bitmap ->
+
+                    Image(
+                        bitmap = bitmap,
+                        contentDescription = "Imagen seleccionada",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp),
+                        contentScale = ContentScale.Crop
                     )
                 }
 
