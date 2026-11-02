@@ -43,8 +43,7 @@ fun AsignaturasScreen(
         )
 
         Text(
-            text = "2° Básico",
-            style = MaterialTheme.typography.titleLarge
+            text = "2° Básico", style = MaterialTheme.typography.titleLarge
         )
 
         Text(
@@ -53,22 +52,25 @@ fun AsignaturasScreen(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
+        // Lenguaje siempre está disponible para
+        // Docente y Estudiante en este MVP.
         TarjetaAsignatura(
-            emoji = "➕➖",
-            titulo = "Matemática",
-            descripcion = "Números, operaciones y desafíos",
-            color = Color(0xFFDDEBFF),
-            onClick = onMatematicaClick
+            emoji = "📚",
+            titulo = "Lenguaje",
+            descripcion = "Lectura, escritura y comunicación",
+            color = Color(0xFFFFDFEF),
+            onClick = onLenguajeClick
         )
 
+        // UTP puede visualizar las 4 asignaturas.
         if (mostrarTodas) {
 
             TarjetaAsignatura(
-                emoji = "📚",
-                titulo = "Lenguaje",
-                descripcion = "Lectura, escritura y comunicación",
-                color = Color(0xFFFFDFEF),
-                onClick = onLenguajeClick
+                emoji = "➕➖",
+                titulo = "Matemática",
+                descripcion = "Números, operaciones y desafíos",
+                color = Color(0xFFDDEBFF),
+                onClick = onMatematicaClick
             )
 
             TarjetaAsignatura(
@@ -92,11 +94,7 @@ fun AsignaturasScreen(
 
 @Composable
 fun TarjetaAsignatura(
-    emoji: String,
-    titulo: String,
-    descripcion: String,
-    color: Color,
-    onClick: () -> Unit
+    emoji: String, titulo: String, descripcion: String, color: Color, onClick: () -> Unit
 ) {
 
     Card(
@@ -112,16 +110,14 @@ fun TarjetaAsignatura(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = 20.dp,
-                    vertical = 20.dp
+                    horizontal = 20.dp, vertical = 20.dp
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(18.dp)
         ) {
 
             Text(
-                text = emoji,
-                style = MaterialTheme.typography.headlineLarge
+                text = emoji, style = MaterialTheme.typography.headlineLarge
             )
 
             Column(
@@ -152,9 +148,7 @@ fun TarjetaAsignatura(
 }
 
 @Preview(
-    showBackground = true,
-    widthDp = 360,
-    heightDp = 800
+    showBackground = true, widthDp = 360, heightDp = 800
 )
 @Composable
 fun AsignaturasScreenPreview() {
@@ -164,6 +158,5 @@ fun AsignaturasScreenPreview() {
         onMatematicaClick = {},
         onLenguajeClick = {},
         onCienciasClick = {},
-        onHistoriaClick = {}
-    )
+        onHistoriaClick = {})
 }

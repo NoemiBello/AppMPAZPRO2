@@ -45,8 +45,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InicioDocenteScreen(
-    navController: NavHostController,
-    onCerrarSesionClick: () -> Unit
+    navController: NavHostController, onCerrarSesionClick: () -> Unit
 ) {
 
     val drawerState = rememberDrawerState(
@@ -56,8 +55,7 @@ fun InicioDocenteScreen(
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
+        drawerState = drawerState, drawerContent = {
 
             ModalDrawerSheet {
 
@@ -68,128 +66,98 @@ fun InicioDocenteScreen(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Inicio")
-                    },
-                    selected = true,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-
-                        navController.navigate(
-                            Screen.Inicio.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "Inicio"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Inicio")
+                }, selected = true, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Lenguaje")
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
+                    navController.navigate(
+                        Screen.Inicio.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.Home, contentDescription = "Inicio"
+                    )
+                })
 
-                        navController.navigate(
-                            Screen.Asignaturas.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.School,
-                            contentDescription = "Lenguaje"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Lenguaje")
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Revisar respuestas")
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
+                    navController.navigate(
+                        Screen.Asignaturas.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.School, contentDescription = "Lenguaje"
+                    )
+                })
 
-                        navController.navigate(
-                            Screen.Progreso.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.ShowChart,
-                            contentDescription = "Revisar respuestas"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Revisar respuestas")
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
+
+                    navController.navigate(
+                        Screen.Progreso.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.ShowChart,
+                        contentDescription = "Revisar respuestas"
+                    )
+                })
 
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Cerrar sesion")
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-
-                        onCerrarSesionClick()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.ExitToApp,
-                            contentDescription = "Cerrar sesion"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Cerrar sesion")
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
+
+                    onCerrarSesionClick()
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "Cerrar sesion"
+                    )
+                })
             }
-        }
-    ) {
+        }) {
 
         Scaffold(
             topBar = {
 
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Panel Docente",
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
+                TopAppBar(title = {
+                    Text(
+                        text = "Panel Docente", fontWeight = FontWeight.Bold
+                    )
+                }, navigationIcon = {
 
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.open()
-                                }
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                drawerState.open()
                             }
-                        ) {
+                        }) {
 
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Abrir menu"
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Default.Menu, contentDescription = "Abrir menu"
+                        )
                     }
-                )
-            }
-        ) { paddingValues ->
+                })
+            }) { paddingValues ->
 
             Column(
                 modifier = Modifier
@@ -207,8 +175,7 @@ fun InicioDocenteScreen(
                 )
 
                 Text(
-                    text = "Segundo Basico - Lenguaje",
-                    style = MaterialTheme.typography.titleMedium
+                    text = "Segundo Basico - Lenguaje", style = MaterialTheme.typography.titleMedium
                 )
 
                 Card(
@@ -225,8 +192,7 @@ fun InicioDocenteScreen(
                     ) {
 
                         Text(
-                            text = "📚",
-                            style = MaterialTheme.typography.headlineLarge
+                            text = "📚", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Text(
@@ -265,8 +231,7 @@ fun InicioDocenteScreen(
                     ) {
 
                         Text(
-                            text = "📖",
-                            style = MaterialTheme.typography.headlineLarge
+                            text = "📖", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Column(
@@ -288,8 +253,7 @@ fun InicioDocenteScreen(
                                     navController.navigate(
                                         Screen.Asignaturas.route
                                     )
-                                },
-                                modifier = Modifier
+                                }, modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 10.dp)
                             ) {
@@ -316,8 +280,7 @@ fun InicioDocenteScreen(
                     ) {
 
                         Text(
-                            text = "✅",
-                            style = MaterialTheme.typography.headlineLarge
+                            text = "✅", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Column(
@@ -339,8 +302,7 @@ fun InicioDocenteScreen(
                                     navController.navigate(
                                         Screen.Progreso.route
                                     )
-                                },
-                                modifier = Modifier
+                                }, modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 10.dp)
                             ) {

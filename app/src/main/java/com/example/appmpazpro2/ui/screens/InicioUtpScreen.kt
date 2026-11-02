@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -56,8 +59,7 @@ fun InicioUtpScreen(
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
+        drawerState = drawerState, drawerContent = {
 
             ModalDrawerSheet {
 
@@ -68,125 +70,102 @@ fun InicioUtpScreen(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Inicio")
-                    },
-                    selected = true,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-
-                        navController.navigate(
-                            Screen.Inicio.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "Inicio"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Inicio")
+                }, selected = true, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Asignaturas")
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
+                    navController.navigate(
+                        Screen.Inicio.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.Home, contentDescription = "Inicio"
+                    )
+                })
 
-                        navController.navigate(
-                            Screen.Asignaturas.route
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.School,
-                            contentDescription = "Asignaturas"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Asignaturas")
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Gestion de contenidos")
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
+                    navController.navigate(
+                        Screen.Asignaturas.route
+                    )
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.School, contentDescription = "Asignaturas"
+                    )
+                })
 
-                        onGestionContenidoClick()
+                NavigationDrawerItem(label = {
+                    Text("Gestión de contenidos")
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
+
+                    onGestionContenidoClick()
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Gestión de contenidos"
+                    )
+                })
 
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Cerrar sesion")
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-
-                        onCerrarSesionClick()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.ExitToApp,
-                            contentDescription = "Cerrar sesion"
-                        )
+                NavigationDrawerItem(label = {
+                    Text("Cerrar sesion")
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
                     }
-                )
+
+                    onCerrarSesionClick()
+                }, icon = {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "Cerrar sesion"
+                    )
+                })
             }
-        }
-    ) {
+        }) {
 
         Scaffold(
             topBar = {
 
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Panel UTP",
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
+                TopAppBar(title = {
+                    Text(
+                        text = "Panel UTP", fontWeight = FontWeight.Bold
+                    )
+                }, navigationIcon = {
 
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.open()
-                                }
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                drawerState.open()
                             }
-                        ) {
+                        }) {
 
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Abrir menu"
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Default.Menu, contentDescription = "Abrir menu"
+                        )
                     }
-                )
-            }
-        ) { paddingValues ->
+                })
+            }) { paddingValues ->
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .verticalScroll(rememberScrollState())
                     .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -199,7 +178,7 @@ fun InicioUtpScreen(
                 )
 
                 Text(
-                    text = "Administracion pedagogica - 2° Basico",
+                    text = "Administración pedagógica - 2° Básico",
                     style = MaterialTheme.typography.titleMedium
                 )
 
@@ -217,8 +196,7 @@ fun InicioUtpScreen(
                     ) {
 
                         Text(
-                            text = "🏫",
-                            style = MaterialTheme.typography.headlineLarge
+                            text = "🏫", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Text(
@@ -228,14 +206,14 @@ fun InicioUtpScreen(
                         )
 
                         Text(
-                            text = "Gestiona y autoriza contenidos pedagogicos",
+                            text = "Gestiona y autoriza contenidos pedagógicos",
                             modifier = Modifier.padding(top = 6.dp)
                         )
                     }
                 }
 
                 Text(
-                    text = "¿Que quieres hacer?",
+                    text = "¿Qué quieres hacer?",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -257,8 +235,7 @@ fun InicioUtpScreen(
                     ) {
 
                         Text(
-                            text = "📚",
-                            style = MaterialTheme.typography.headlineLarge
+                            text = "📚", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Column(
@@ -272,7 +249,7 @@ fun InicioUtpScreen(
                             )
 
                             Text(
-                                text = "Lenguaje, Matematica, Ciencias e Historia"
+                                text = "Lenguaje, Matemática, Ciencias e Historia"
                             )
 
                             Button(
@@ -280,8 +257,7 @@ fun InicioUtpScreen(
                                     navController.navigate(
                                         Screen.Asignaturas.route
                                     )
-                                },
-                                modifier = Modifier
+                                }, modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 10.dp)
                             ) {
@@ -308,8 +284,7 @@ fun InicioUtpScreen(
                     ) {
 
                         Text(
-                            text = "✅",
-                            style = MaterialTheme.typography.headlineLarge
+                            text = "✅", style = MaterialTheme.typography.headlineLarge
                         )
 
                         Column(
@@ -317,13 +292,13 @@ fun InicioUtpScreen(
                         ) {
 
                             Text(
-                                text = "Gestion de contenidos",
+                                text = "Gestión de contenidos",
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text = "Aprueba, rechaza o deshabilita contenidos"
+                                text = "Aprueba, rechaza y administra contenidos pedagógicos"
                             )
 
                             Button(
@@ -332,7 +307,7 @@ fun InicioUtpScreen(
                                     .fillMaxWidth()
                                     .padding(top = 10.dp)
                             ) {
-                                Text("Revisar contenidos")
+                                Text("Gestionar contenidos")
                             }
                         }
                     }

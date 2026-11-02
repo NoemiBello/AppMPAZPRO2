@@ -13,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.appmpazpro2.navigation.Screen
+import com.example.appmpazpro2.viewmodel.RolUsuario
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavHostController
+    navController: NavHostController,
+    rolSeleccionado: RolUsuario?
 ) {
 
     val backStackEntry =
@@ -32,7 +34,9 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = rutaActual == Screen.Inicio.route,
             onClick = {
-                navController.navigate(Screen.Inicio.route)
+                navController.navigate(
+                    Screen.Inicio.route
+                )
             },
             icon = {
                 Icon(
@@ -48,7 +52,9 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = rutaActual == Screen.Asignaturas.route,
             onClick = {
-                navController.navigate(Screen.Asignaturas.route)
+                navController.navigate(
+                    Screen.Asignaturas.route
+                )
             },
             icon = {
                 Icon(
@@ -61,20 +67,45 @@ fun BottomNavigationBar(
             }
         )
 
-        NavigationBarItem(
-            selected = rutaActual == Screen.Progreso.route,
-            onClick = {
-                navController.navigate(Screen.Progreso.route)
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.ShowChart,
-                    contentDescription = "Progreso"
-                )
-            },
-            label = {
-                Text("Progreso")
-            }
-        )
+        if (
+            rolSeleccionado == RolUsuario.DOCENTE ||
+            rolSeleccionado == RolUsuario.ESTUDIANTE
+        ) {
+
+            NavigationBarItem(
+                selected = rutaActual == Screen.Progreso.route,
+                onClick = {
+                    navController.navigate(
+                        Screen.Progreso.route
+                    )
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.ShowChart,
+                        contentDescription =
+                            if (
+                                rolSeleccionado ==
+                                RolUsuario.DOCENTE
+                            ) {
+                                "Revisar respuestas"
+                            } else {
+                                "Progreso"
+                            }
+                    )
+                },
+                label = {
+                    Text(
+                        if (
+                            rolSeleccionado ==
+                            RolUsuario.DOCENTE
+                        ) {
+                            "Revisión"
+                        } else {
+                            "Progreso"
+                        }
+                    )
+                }
+            )
+        }
     }
 }

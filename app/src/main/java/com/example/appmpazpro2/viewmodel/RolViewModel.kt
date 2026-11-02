@@ -6,21 +6,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 enum class RolUsuario {
-    UTP,
-    DOCENTE,
-    ESTUDIANTE
+    UTP, DOCENTE, ESTUDIANTE
 }
 
 class RolViewModel : ViewModel() {
 
-    private val _rolSeleccionado =
-        MutableStateFlow<RolUsuario?>(null)
+    private val _rolSeleccionado = MutableStateFlow<RolUsuario?>(null)
 
-    val rolSeleccionado: StateFlow<RolUsuario?> =
-        _rolSeleccionado.asStateFlow()
+    val rolSeleccionado: StateFlow<RolUsuario?> = _rolSeleccionado.asStateFlow()
 
-    // Para el MVP dejamos Lenguaje como asignatura del docente
+    // Para este MVP:
+    // el docente trabaja con Lenguaje
+    // y el estudiante tiene Lenguaje asignado.
     val asignaturaDocente = "Lenguaje"
+    val asignaturaEstudiante = "Lenguaje"
 
     fun seleccionarRol(
         rol: RolUsuario
@@ -34,30 +33,22 @@ class RolViewModel : ViewModel() {
 
     fun puedeGestionarContenido(): Boolean {
 
-        return _rolSeleccionado.value ==
-                RolUsuario.UTP ||
-                _rolSeleccionado.value ==
-                RolUsuario.DOCENTE
+        return _rolSeleccionado.value == RolUsuario.UTP || _rolSeleccionado.value == RolUsuario.DOCENTE
     }
 
     fun puedeRevisarContenido(): Boolean {
 
-        return _rolSeleccionado.value ==
-                RolUsuario.UTP
+        return _rolSeleccionado.value == RolUsuario.UTP
     }
 
     fun puedeRevisarRespuestas(): Boolean {
 
-        return _rolSeleccionado.value ==
-                RolUsuario.UTP ||
-                _rolSeleccionado.value ==
-                RolUsuario.DOCENTE
+        return _rolSeleccionado.value == RolUsuario.DOCENTE
     }
 
     fun puedeResponderContenido(): Boolean {
 
-        return _rolSeleccionado.value ==
-                RolUsuario.ESTUDIANTE
+        return _rolSeleccionado.value == RolUsuario.ESTUDIANTE
     }
 
     fun puedeAccederAsignatura(
@@ -66,20 +57,17 @@ class RolViewModel : ViewModel() {
 
         return when (_rolSeleccionado.value) {
 
-            RolUsuario.UTP ->
-                true
+            RolUsuario.UTP -> true
 
-            RolUsuario.DOCENTE ->
-                asignatura.equals(
-                    asignaturaDocente,
-                    ignoreCase = true
-                )
+            RolUsuario.DOCENTE -> asignatura.equals(
+                asignaturaDocente, ignoreCase = true
+            )
 
-            RolUsuario.ESTUDIANTE ->
-                true
+            RolUsuario.ESTUDIANTE -> asignatura.equals(
+                asignaturaEstudiante, ignoreCase = true
+            )
 
-            null ->
-                false
+            null -> false
         }
     }
 }
