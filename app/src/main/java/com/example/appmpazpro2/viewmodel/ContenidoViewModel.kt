@@ -114,6 +114,10 @@ class ContenidoViewModel(
         _uiState.value = _uiState.value.copy(
             pregunta = valor
         )
+
+        _errores.value = _errores.value.copy(
+            pregunta = null
+        )
     }
 
     fun validarFormulario(): Boolean {
@@ -151,9 +155,14 @@ class ContenidoViewModel(
             } else {
                 null
             },
-
             contenido = if (estadoActual.contenido.isBlank()) {
                 "El contenido es obligatorio"
+            } else {
+                null
+            },
+
+            pregunta = if (estadoActual.pregunta.isBlank()) {
+                "La pregunta es obligatoria"
             } else {
                 null
             }
@@ -161,7 +170,13 @@ class ContenidoViewModel(
 
         _errores.value = nuevosErrores
 
-        return nuevosErrores.asignatura == null && nuevosErrores.unidad == null && nuevosErrores.objetivo == null && nuevosErrores.tipo == null && nuevosErrores.titulo == null && nuevosErrores.contenido == null
+        return nuevosErrores.asignatura == null &&
+                nuevosErrores.unidad == null &&
+                nuevosErrores.objetivo == null &&
+                nuevosErrores.tipo == null &&
+                nuevosErrores.titulo == null &&
+                nuevosErrores.contenido == null &&
+                nuevosErrores.pregunta == null
     }
 
     fun guardarContenido(
