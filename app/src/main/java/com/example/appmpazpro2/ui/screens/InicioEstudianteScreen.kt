@@ -30,12 +30,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -48,8 +50,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InicioScreen(
-    navController: NavHostController, onCerrarSesionClick: () -> Unit
+fun InicioEstudianteScreen(
+    navController: NavHostController,
+    progreso: Float = 0f,
+    porcentaje: Int = 0,
+    onCerrarSesionClick: () -> Unit
 ) {
 
     val drawerState = rememberDrawerState(
@@ -205,35 +210,41 @@ fun InicioScreen(
                 ) {
 
                     Column(
-                        modifier = Modifier.padding(20.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp, vertical = 18.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
                         Text(
-                            text = "📖", style = MaterialTheme.typography.headlineLarge
+                            text = "📖",
+                            style = MaterialTheme.typography.headlineLarge,
+                            textAlign = TextAlign.Center
                         )
 
                         Text(
                             text = "MPAZ PRO 2",
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(top = 2.dp)
                         )
 
                         Text(
                             text = "2° Básico",
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(
-                                top = 6.dp
-                            )
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(top = 4.dp)
                         )
 
                         Text(
                             text = "¡Tu espacio para aprender jugando!",
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(
-                                top = 6.dp
-                            )
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(top = 6.dp)
                         )
                     }
                 }
@@ -246,7 +257,7 @@ fun InicioScreen(
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = AzulClaroMPaz
                     )
@@ -302,7 +313,7 @@ fun InicioScreen(
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = VerdeClaroMPaz
                     )
@@ -335,6 +346,22 @@ fun InicioScreen(
                                 style = MaterialTheme.typography.bodyMedium
                             )
 
+
+                            LinearProgressIndicator(
+                                progress = {
+                                    progreso.coerceIn(0f, 1f)
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp)
+                            )
+
+                            Text(
+                                text = "$porcentaje% completado",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+
                             Button(
                                 onClick = {
 
@@ -362,10 +389,12 @@ fun InicioScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun InicioScreenPreview() {
+fun InicioEstudianteScreenPreview(){
 
     val navController = rememberNavController()
 
-    InicioScreen(
-        navController = navController, onCerrarSesionClick = {})
+    InicioEstudianteScreen(
+        navController = navController,
+        onCerrarSesionClick = {}
+    )
 }
