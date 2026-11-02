@@ -1,13 +1,20 @@
 package com.example.appmpazpro2.ui.screens
 
+import android.graphics.BitmapFactory
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -16,16 +23,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoErrores
 import com.example.appmpazpro2.model.ContenidoUiState
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
-import androidx.compose.ui.Alignment
 import com.example.appmpazpro2.ui.components.BarraVolver
+
 @Composable
 fun FormularioContenidoScreen(
     uiState: ContenidoUiState,
@@ -40,15 +51,51 @@ fun FormularioContenidoScreen(
     onPreguntaChange: (String) -> Unit,
     onVolverClick: () -> Unit,
     onGuardarClick: () -> Unit,
-    puedeEditarInformacionAcademica: Boolean,
+    puedeEditarInformacionAcademica: Boolean
 ) {
+
+    val context = LocalContext.current
+
+    var imagenSeleccionada by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val selectorImagen = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+
+        imagenSeleccionada = uri
+    }
+
+    val bitmapSeleccionado = remember(imagenSeleccionada) {
+
+        imagenSeleccionada?.let { uri ->
+
+            try {
+
+                context.contentResolver
+                    .openInputStream(uri)
+                    ?.use { inputStream ->
+
+                        BitmapFactory
+                            .decodeStream(inputStream)
+                            ?.asImageBitmap()
+                    }
+
+            } catch (e: Exception) {
+
+                null
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .imePadding()
-            .padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
         BarraVolver(
@@ -60,21 +107,24 @@ fun FormularioContenidoScreen(
             onVolverClick = onVolverClick
         )
 
-
         Text(
-            text = "2° Básico", style = MaterialTheme.typography.titleMedium
+            text = "2° Básico",
+            style = MaterialTheme.typography.titleMedium
         )
 
+        // INFORMACION ACADEMICA
         Card(
             modifier = Modifier.fillMaxWidth()
         ) {
 
             Column(
-                modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)
+                modifier = Modifier.padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
 
                 Text(
-                    text = "Información académica", style = MaterialTheme.typography.titleMedium
+                    text = "Información académica",
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 OutlinedTextField(
@@ -88,8 +138,10 @@ fun FormularioContenidoScreen(
                 )
 
                 if (errores.asignatura != null) {
+
                     Text(
-                        text = errores.asignatura, style = MaterialTheme.typography.bodySmall
+                        text = errores.asignatura,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
 
@@ -104,8 +156,10 @@ fun FormularioContenidoScreen(
                 )
 
                 if (errores.unidad != null) {
+
                     Text(
-                        text = errores.unidad, style = MaterialTheme.typography.bodySmall
+                        text = errores.unidad,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
 
@@ -120,58 +174,85 @@ fun FormularioContenidoScreen(
                 )
 
                 if (errores.objetivo != null) {
+
                     Text(
-                        text = errores.objetivo, style = MaterialTheme.typography.bodySmall
+                        text = errores.objetivo,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
         }
 
+        // INFORMACION DEL CONTENIDO
         Card(
             modifier = Modifier.fillMaxWidth()
         ) {
 
             Column(
-                modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)
+                modifier = Modifier.padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
 
                 Text(
-                    text = "Información del contenido", style = MaterialTheme.typography.titleMedium
+                    text = "Información del contenido",
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 OutlinedTextField(
-                    value = uiState.tipo, onValueChange = onTipoChange, label = {
-                    Text("Tipo de contenido")
-                }, singleLine = true, isError = errores.tipo != null, trailingIcon = {
-                    if (errores.tipo != null) {
-                        Icon(
-                            imageVector = Icons.Default.Error, contentDescription = "Error"
-                        )
-                    }
-                }, modifier = Modifier.fillMaxWidth()
+                    value = uiState.tipo,
+                    onValueChange = onTipoChange,
+                    label = {
+                        Text("Tipo de contenido")
+                    },
+                    singleLine = true,
+                    isError = errores.tipo != null,
+                    trailingIcon = {
+
+                        if (errores.tipo != null) {
+
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errores.tipo != null) {
+
                     Text(
-                        text = errores.tipo, style = MaterialTheme.typography.bodySmall
+                        text = errores.tipo,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
 
                 OutlinedTextField(
-                    value = uiState.titulo, onValueChange = onTituloChange, label = {
-                    Text("Título")
-                }, singleLine = true, isError = errores.titulo != null, trailingIcon = {
-                    if (errores.titulo != null) {
-                        Icon(
-                            imageVector = Icons.Default.Error, contentDescription = "Error"
-                        )
-                    }
-                }, modifier = Modifier.fillMaxWidth()
+                    value = uiState.titulo,
+                    onValueChange = onTituloChange,
+                    label = {
+                        Text("Título")
+                    },
+                    singleLine = true,
+                    isError = errores.titulo != null,
+                    trailingIcon = {
+
+                        if (errores.titulo != null) {
+
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 if (errores.titulo != null) {
+
                     Text(
-                        text = errores.titulo, style = MaterialTheme.typography.bodySmall
+                        text = errores.titulo,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
 
@@ -184,9 +265,12 @@ fun FormularioContenidoScreen(
                     minLines = 2,
                     isError = errores.contenido != null,
                     trailingIcon = {
+
                         if (errores.contenido != null) {
+
                             Icon(
-                                imageVector = Icons.Default.Error, contentDescription = "Error"
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
                             )
                         }
                     },
@@ -194,8 +278,34 @@ fun FormularioContenidoScreen(
                 )
 
                 if (errores.contenido != null) {
+
                     Text(
-                        text = errores.contenido, style = MaterialTheme.typography.bodySmall
+                        text = errores.contenido,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+
+                // RECURSO NATIVO: GALERIA
+                Button(
+                    onClick = {
+                        selectorImagen.launch("image/*")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+
+                    Text("Seleccionar imagen de galería")
+                }
+
+                // MOSTRAR LA IMAGEN ELEGIDA
+                bitmapSeleccionado?.let { bitmap ->
+
+                    Image(
+                        bitmap = bitmap,
+                        contentDescription = "Imagen seleccionada",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp),
+                        contentScale = ContentScale.Crop
                     )
                 }
 
@@ -206,6 +316,7 @@ fun FormularioContenidoScreen(
                         Text("Pregunta")
                     },
                     placeholder = {
+
                         Text(
                             "Ej: ¿Por qué el personaje actuó de esa forma?"
                         )
@@ -217,7 +328,8 @@ fun FormularioContenidoScreen(
         }
 
         Button(
-            onClick = onGuardarClick, modifier = Modifier.fillMaxWidth()
+            onClick = onGuardarClick,
+            modifier = Modifier.fillMaxWidth()
         ) {
 
             Text(
