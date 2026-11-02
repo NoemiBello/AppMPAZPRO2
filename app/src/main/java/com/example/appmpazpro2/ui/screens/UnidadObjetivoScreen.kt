@@ -67,7 +67,10 @@ fun UnidadObjetivoScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(
+                horizontal = 24.dp,
+                vertical = 8.dp
+            ),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -76,16 +79,20 @@ fun UnidadObjetivoScreen(
             titulo = asignatura,
             onVolverClick = onVolverClick
         )
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "2° Básico",
+                style = MaterialTheme.typography.titleLarge,
+            )
 
-        Text(
-            text = "2° Básico",
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        Text(
-            text = "Selecciona una unidad",
-            style = MaterialTheme.typography.bodyLarge
-        )
+            Text(
+                text = "Selecciona una unidad",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
 
         Card(
             modifier = Modifier.fillMaxWidth()
