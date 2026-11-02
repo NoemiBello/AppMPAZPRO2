@@ -30,7 +30,9 @@ fun GestionContenidoScreen(
     onRechazarClick: (Int) -> Unit,
     onOcultarClick: (Int) -> Unit,
     onVolverClick: () -> Unit,
-    onVerAsignaturasClick: () -> Unit
+    onVerAsignaturasClick: () -> Unit,
+    onEliminarClick: (Int) -> Unit,
+    onReactivarClick: (Int) -> Unit
 ) {
 
     Column(
@@ -108,36 +110,37 @@ fun GestionContenidoScreen(
                                 text = contenido.contenido
                             )
 
+                            val textoEstado = when (contenido.estado) {
+                                EstadoContenido.PENDIENTE -> "Pendiente"
+                                EstadoContenido.APROBADO -> "Aprobado"
+                                EstadoContenido.RECHAZADO -> "Rechazado"
+                                EstadoContenido.OCULTO -> "Deshabilitada"
+                            }
+
                             Text(
-                                text = "Estado: ${contenido.estado.name}"
+                                text = "Estado: $textoEstado"
                             )
 
                             when (contenido.estado) {
 
                                 EstadoContenido.PENDIENTE -> {
 
-                                    Column(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    Button(
+                                        onClick = {
+                                            onAprobarClick(contenido.id)
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
                                     ) {
+                                        Text("Aprobar")
+                                    }
 
-                                        Button(
-                                            onClick = {
-                                                onAprobarClick(contenido.id)
-                                            },
-                                            modifier = Modifier.fillMaxWidth()
-                                        ) {
-                                            Text("Aprobar")
-                                        }
-
-                                        Button(
-                                            onClick = {
-                                                onRechazarClick(contenido.id)
-                                            },
-                                            modifier = Modifier.fillMaxWidth()
-                                        ) {
-                                            Text("Rechazar")
-                                        }
+                                    Button(
+                                        onClick = {
+                                            onRechazarClick(contenido.id)
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text("Rechazar")
                                     }
                                 }
 
@@ -153,6 +156,18 @@ fun GestionContenidoScreen(
                                     }
                                 }
 
+                                EstadoContenido.OCULTO -> {
+
+                                    Button(
+                                        onClick = {
+                                            onReactivarClick(contenido.id)
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text("Reactivar")
+                                    }
+                                }
+
                                 EstadoContenido.RECHAZADO -> {
 
                                     Text(
@@ -160,14 +175,16 @@ fun GestionContenidoScreen(
                                         color = MaterialTheme.colorScheme.error
                                     )
                                 }
+                            }
 
-                                EstadoContenido.OCULTO -> {
-
-                                    Text(
-                                        text = "Contenido deshabilitado",
-                                        color = MaterialTheme.colorScheme.secondary
-                                    )
-                                }
+                                // UTP siempre puede eliminar
+                            Button(
+                                onClick = {
+                                    onEliminarClick(contenido.id)
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("Eliminar")
                             }
                         }
                     }
