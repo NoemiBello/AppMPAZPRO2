@@ -27,9 +27,12 @@ fun RevisionRespuestasScreen(
     onIncorrectaClick: (Int) -> Unit
 ) {
 
-    val pendientes = respuestas.filter {
-        it.estado == EstadoRespuesta.PENDIENTE_REVISION
-    }
+    val respuestasOrdenadas = respuestas
+        .groupBy { it.contenidoId }
+        .mapNotNull { (_, intentos) ->
+            intentos.maxByOrNull { it.id }
+        }
+        .sortedByDescending { it.id }
 
     Column(
         modifier = Modifier
@@ -42,10 +45,10 @@ fun RevisionRespuestasScreen(
             text = "Revision de respuestas", style = MaterialTheme.typography.headlineMedium
         )
 
-        if (pendientes.isEmpty()) {
+        if (respuestasOrdenadas.isEmpty()) {
 
             Text(
-                text = "No hay respuestas pendientes"
+                text = "No hay respuestas registradas"
             )
 
         } else {
@@ -55,8 +58,13 @@ fun RevisionRespuestasScreen(
             ) {
 
                 items(
-                    items = pendientes, key = { it.id }) { respuesta ->
+                    items = respuestasOrdenadas,
+                    key = { it.id }
+                ) { respuesta ->
 
+                    val intentosUsados = respuestas.count {
+                        it.contenidoId == respuesta.contenidoId
+                    }
                     val contenido = contenidos.firstOrNull {
                         it.id == respuesta.contenidoId
                     }
@@ -97,31 +105,45 @@ fun RevisionRespuestasScreen(
                                 text = "Respuesta del estudiante:",
                                 style = MaterialTheme.typography.titleMedium
                             )
-
                             Text(
-                                text = respuesta.respuesta
+                                text = respuesta.respuesta,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                            Text(
+                                text = when (respuesta.estado) {
+                                    EstadoRespuesta.PENDIENTE_REVISION ->
+                                        "Estado: Pendiente de revisión"
+
+                                    EstadoRespuesta.CORRECTA ->
+                                        "Estado: Correcta"
+
+                                    EstadoRespuesta.INCORRECTA ->
+                                        "Estado: Incorrecta"
+                                },
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = "Intentos: $intentosUsados de 3",
+                                style = MaterialTheme.typography.bodyMedium
                             )
 
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-
                                 Button(
                                     onClick = {
-                                        onCorrectaClick(
-                                            respuesta.id
-                                        )
-                                    }) {
+                                        onCorrectaClick(respuesta.id)
+                                    }
+                                ) {
                                     Text("Correcta")
                                 }
 
                                 Button(
                                     onClick = {
-                                        onIncorrectaClick(
-                                            respuesta.id
-                                        )
-                                    }) {
+                                        onIncorrectaClick(respuesta.id)
+                                    }
+                                ) {
                                     Text("Incorrecta")
                                 }
                             }

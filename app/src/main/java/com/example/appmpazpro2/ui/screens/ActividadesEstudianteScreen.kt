@@ -37,6 +37,11 @@ import androidx.compose.ui.unit.sp
 import com.example.appmpazpro2.model.ContenidoUiState
 import com.example.appmpazpro2.model.EstadoRespuesta
 import com.example.appmpazpro2.model.RespuestaUiState
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.AnimatedVisibility
 
 @Composable
 fun ActividadesEstudianteScreen(
@@ -70,14 +75,18 @@ fun ActividadesEstudianteScreen(
             style = MaterialTheme.typography.bodyLarge,
             color = Color(0xFF5F5968)
         )
-
-        if (contenidos.isNotEmpty()) {
+        AnimatedVisibility(
+            visible = contenidos.isNotEmpty(),
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             Text(
                 text = "Actividades disponibles",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
+
         if (contenidos.isEmpty()) {
 
             Column(
@@ -200,76 +209,77 @@ fun ActividadesEstudianteScreen(
                                     color = Color(0xFF6D6675)
                                 )
                             }
+                            AnimatedContent(
+                                targetState = respuesta?.estado,
+                                transitionSpec = {
+                                    fadeIn() togetherWith fadeOut()
+                                },
+                                label = "estadoActividad"
+                            ) { estado ->
 
-                            when (respuesta?.estado) {
+                                when (estado) {
 
-                                EstadoRespuesta.PENDIENTE_REVISION -> {
-                                    Row(
-                                        horizontalArrangement =
-                                            Arrangement.spacedBy(6.dp)
-                                    ) {
-                                        Icon(
-                                            imageVector =
-                                                Icons.Default.HourglassTop,
-                                            contentDescription = null,
-                                            tint = Color(0xFFB77900)
-                                        )
+                                    EstadoRespuesta.PENDIENTE_REVISION -> {
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.HourglassTop,
+                                                contentDescription = null,
+                                                tint = Color(0xFFB77900)
+                                            )
+
+                                            Text(
+                                                text = "Pendiente de revisión",
+                                                color = Color(0xFF805500),
+                                                style = MaterialTheme.typography.bodySmall
+                                            )
+                                        }
+                                    }
+
+                                    EstadoRespuesta.CORRECTA -> {
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.CheckCircle,
+                                                contentDescription = null,
+                                                tint = Color(0xFF2E7D32)
+                                            )
+
+                                            Text(
+                                                text = "Aprobada",
+                                                color = Color(0xFF2E7D32),
+                                                style = MaterialTheme.typography.bodySmall
+                                            )
+                                        }
+                                    }
+
+                                    EstadoRespuesta.INCORRECTA -> {
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Refresh,
+                                                contentDescription = null,
+                                                tint = Color(0xFFC62828)
+                                            )
+
+                                            Text(
+                                                text = "Necesita revisión",
+                                                color = Color(0xFFC62828),
+                                                style = MaterialTheme.typography.bodySmall
+                                            )
+                                        }
+                                    }
+
+                                    null -> {
                                         Text(
-                                            text = "Pendiente de revisión",
-                                            color = Color(0xFF805500),
-                                            style =
-                                                MaterialTheme.typography.bodySmall
+                                            text = "Sin responder",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = Color(0xFF77717F)
                                         )
                                     }
-                                }
-
-                                EstadoRespuesta.CORRECTA -> {
-                                    Row(
-                                        horizontalArrangement =
-                                            Arrangement.spacedBy(6.dp)
-                                    ) {
-                                        Icon(
-                                            imageVector =
-                                                Icons.Default.CheckCircle,
-                                            contentDescription = null,
-                                            tint = Color(0xFF2E7D32)
-                                        )
-                                        Text(
-                                            text = "Aprobada",
-                                            color = Color(0xFF2E7D32),
-                                            style =
-                                                MaterialTheme.typography.bodySmall
-                                        )
-                                    }
-                                }
-
-                                EstadoRespuesta.INCORRECTA -> {
-                                    Row(
-                                        horizontalArrangement =
-                                            Arrangement.spacedBy(6.dp)
-                                    ) {
-                                        Icon(
-                                            imageVector =
-                                                Icons.Default.Refresh,
-                                            contentDescription = null,
-                                            tint = Color(0xFFC62828)
-                                        )
-                                        Text(
-                                            text = "Necesita revisión",
-                                            color = Color(0xFFC62828),
-                                            style =
-                                                MaterialTheme.typography.bodySmall
-                                        )
-                                    }
-                                }
-
-                                null -> {
-                                    Text(
-                                        text = "Sin responder",
-                                        style =
-                                            MaterialTheme.typography.bodySmall,
-                                        color = Color(0xFF77717F)
-                                    )
                                 }
                             }
 
