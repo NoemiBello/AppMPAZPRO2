@@ -45,7 +45,14 @@ import com.example.appmpazpro2.viewmodel.RolUsuario
 import com.example.appmpazpro2.viewmodel.RolViewModel
 import com.example.appmpazpro2.viewmodel.UsuarioViewModel
 import com.example.appmpazpro2.ui.screens.ActividadesEstudianteScreen
-
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import com.example.appmpazpro2.utils.mostrarNotificacion
 private const val RUTA_SELECCION_PERFIL = "seleccion_perfil"
 
 private const val RUTA_FORMULARIO_CONTENIDO = "formulario_contenido"
@@ -103,6 +110,28 @@ fun AppNavigation() {
 
     val rutaActual = navController.currentBackStackEntryAsState().value?.destination?.route
 
+    val context = LocalContext.current
+
+    val permisoNotificaciones =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) {
+        }
+
+    LaunchedEffect(Unit) {
+
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            context.checkSelfPermission(
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            permisoNotificaciones.launch(
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+        }
+    }
 
     Scaffold(
 
@@ -470,6 +499,13 @@ fun AppNavigation() {
 
                     onEliminarClick = { contenido ->
                         contenidoViewModel.eliminarContenido(
+                            contenido.id,
+                            rolSeleccionado
+                        )
+                    },
+                    onReactivarClick = { contenido ->
+
+                        contenidoViewModel.reactivarContenido(
                             contenido.id,
                             rolSeleccionado
                         )
@@ -897,16 +933,61 @@ fun AppNavigation() {
 
                     onAprobarClick = { id ->
 
+                        val contenido =
+                            contenidos.firstOrNull {
+                                it.id == id
+                            }
+
                         contenidoViewModel.aprobarContenido(
-                            id, rolSeleccionado
+                            id,
+                            rolSeleccionado
+                        )
+
+                        if (contenido != null) {
+
+                            mostrarNotificacion(
+                                context = context,
+                                titulo = "Contenido aprobado",
+                                mensaje = "\"${contenido.titulo}\" fue aprobado por UTP."
+                            )
+                        }
+                    },
+                    onEliminarClick = { id ->
+
+                        contenidoViewModel.eliminarContenido(
+                            id,
+                            rolSeleccionado
+                        )
+                    },
+
+                    onReactivarClick = { id ->
+
+                        contenidoViewModel.reactivarContenido(
+                            id,
+                            rolSeleccionado
                         )
                     },
 
                     onRechazarClick = { id ->
 
+                        val contenido =
+                            contenidos.firstOrNull {
+                                it.id == id
+                            }
+
                         contenidoViewModel.rechazarContenido(
-                            id, rolSeleccionado
+                            id,
+                            rolSeleccionado
                         )
+
+                        if (contenido != null) {
+
+                            mostrarNotificacion(
+                                context = context,
+                                titulo = "Contenido rechazado",
+                                mensaje = "\"${contenido.titulo}\" fue rechazado por UTP."
+                            )
+                        }
                     },
 
                     onVolverClick = {

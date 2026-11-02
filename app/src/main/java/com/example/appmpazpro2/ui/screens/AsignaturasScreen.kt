@@ -17,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.ui.components.BarraVolver
+import com.example.appmpazpro2.R
 
 @Composable
 fun AsignaturasScreen(
@@ -59,35 +61,35 @@ fun AsignaturasScreen(
         // Lenguaje disponible para Docente y Estudiante
         TarjetaAsignatura(
             emoji = "📚",
-            titulo = "Lenguaje",
-            descripcion = "Lectura, escritura y comunicación",
+            titulo = stringResource(R.string.asignatura_lenguaje),
+            descripcion = stringResource(R.string.descripcion_lenguaje),
             color = Color(0xFFFFDFEF),
             onClick = onLenguajeClick
         )
 
-        // UTP puede visualizar las 4 asignaturas
+// UTP puede visualizar las 4 asignaturas
         if (mostrarTodas) {
 
             TarjetaAsignatura(
                 emoji = "➕➖",
-                titulo = "Matemática",
-                descripcion = "Números, operaciones y desafíos",
+                titulo = stringResource(R.string.asignatura_matematica),
+                descripcion = stringResource(R.string.descripcion_matematica),
                 color = Color(0xFFDDEBFF),
                 onClick = onMatematicaClick
             )
 
             TarjetaAsignatura(
                 emoji = "🧪",
-                titulo = "Ciencias",
-                descripcion = "Descubre el mundo y la naturaleza",
+                titulo = stringResource(R.string.asignatura_ciencias),
+                descripcion = stringResource(R.string.descripcion_ciencias),
                 color = Color(0xFFDDF5E1),
                 onClick = onCienciasClick
             )
 
             TarjetaAsignatura(
                 emoji = "🌎",
-                titulo = "Historia",
-                descripcion = "Nuestra comunidad y nuestro entorno",
+                titulo = stringResource(R.string.asignatura_historia),
+                descripcion = stringResource(R.string.descripcion_historia),
                 color = Color(0xFFFFF0C9),
                 onClick = onHistoriaClick
             )

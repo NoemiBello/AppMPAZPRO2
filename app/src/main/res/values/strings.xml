@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">AppMPAZPRO2</string>
+    <string name="asignatura_lenguaje">Lenguaje</string>
+    <string name="descripcion_lenguaje">Lectura, escritura y comunicación</string>
+
+    <string name="asignatura_matematica">Matemática</string>
+    <string name="descripcion_matematica">Números, operaciones y desafíos</string>
+
+    <string name="asignatura_ciencias">Ciencias</string>
+    <string name="descripcion_ciencias">Descubre el mundo y la naturaleza</string>
+
+    <string name="asignatura_historia">Historia</string>
+    <string name="descripcion_historia">Nuestra comunidad y nuestro entorno</string>
 </resources>
