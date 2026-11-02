@@ -490,6 +490,22 @@ fun AppNavigation() {
 
                     contenidos = contenidosDelObjetivo,
 
+                    onAprobarClick = { contenido ->
+
+                        contenidoViewModel.aprobarContenido(
+                            contenido.id,
+                            rolSeleccionado
+                        )
+                    },
+
+                    onRechazarClick = { contenido ->
+
+                        contenidoViewModel.rechazarContenido(
+                            contenido.id,
+                            rolSeleccionado
+                        )
+                    },
+
                     puedeDeshabilitar =
                         rolSeleccionado == RolUsuario.UTP,
 

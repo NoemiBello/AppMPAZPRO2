@@ -31,6 +31,8 @@ fun ContenidosObjetivoScreen(
     onReactivarClick: (ContenidoUiState) -> Unit,
     onEliminarClick: (ContenidoUiState) -> Unit,
     onDeshabilitarClick: (ContenidoUiState) -> Unit,
+    onAprobarClick: (ContenidoUiState) -> Unit,
+    onRechazarClick: (ContenidoUiState) -> Unit,
     onEditarClick: (ContenidoUiState) -> Unit
 ) {
 
@@ -135,6 +137,30 @@ fun ContenidosObjetivoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text("Editar")
+                            }
+
+                            if (
+                                puedeDeshabilitar &&
+                                contenido.estado == EstadoContenido.PENDIENTE
+                            ) {
+
+                                Button(
+                                    onClick = {
+                                        onAprobarClick(contenido)
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Aprobar")
+                                }
+
+                                Button(
+                                    onClick = {
+                                        onRechazarClick(contenido)
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Rechazar")
+                                }
                             }
 
                             if (
