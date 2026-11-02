@@ -1,72 +1,83 @@
 # MPAZ PRO 2
 
-Aplicación móvil de apoyo didáctico para estudiantes de Segundo Básico, desarrollada en el contexto de la asignatura **DSY1105 – Desarrollo de Aplicaciones Móviles** de Duoc UC.
+Aplicación móvil de apoyo didáctico para estudiantes de Segundo Básico, desarrollada en **Kotlin y Jetpack Compose**.
 
 ## Descripción
 
-MPAZ PRO 2 es un Producto Mínimo Viable orientado a apoyar la gestión y ejecución de contenidos pedagógicos para Segundo Básico.
+**MPAZ PRO 2** es una aplicación móvil orientada a centralizar y digitalizar la gestión de contenidos pedagógicos para Segundo Básico.
 
-La solución surge a partir del caso de la Escuela Escritora Marcela Paz, donde gran parte de los contenidos, actividades y evaluaciones se gestionan mediante material impreso, dificultando la trazabilidad, el registro de avances y la centralización de información pedagógica.
+La plataforma permite organizar asignaturas, unidades, objetivos de aprendizaje, contenidos y actividades mediante perfiles diferenciados para **Jefatura UTP, Docente y Estudiante**, facilitando la administración pedagógica, la revisión de contenidos y el seguimiento de actividades.
 
-El proyecto propone una aplicación móvil que organiza asignaturas, unidades, objetivos de aprendizaje, contenidos y actividades, incorporando perfiles diferenciados para Jefatura UTP, Docente y Estudiante.
+El sistema fue diseñado considerando una experiencia simple, clara y de baja carga cognitiva, adecuada para estudiantes en etapa inicial de lectura.
 
-## Integrantes
+## Objetivos
 
-- Noemi Bello Nanculeo
-- Jeanpiere Adrian Quito Vidal
-
-## Objetivo del proyecto
-
-Desarrollar una aplicación móvil funcional que permita:
-
-- Organizar contenidos pedagógicos de Segundo Básico.
+- Centralizar contenidos pedagógicos de Segundo Básico.
 - Gestionar asignaturas, unidades y objetivos de aprendizaje.
-- Diferenciar funcionalidades y permisos según el perfil de usuario.
-- Facilitar la creación, revisión y visualización de contenidos.
-- Permitir el registro de respuestas y seguimiento de progreso.
+- Diferenciar permisos y funcionalidades según el perfil de usuario.
+- Implementar un flujo de creación, revisión y aprobación de contenidos.
+- Permitir a los estudiantes responder actividades y consultar su progreso.
+- Permitir a los docentes revisar respuestas y estados de actividades.
 - Mantener información mediante persistencia local.
-- Entregar una interfaz clara, coherente y adaptada a estudiantes de Segundo Básico.
+- Proporcionar una interfaz clara y adaptable a dispositivos Android.
 
 ## Perfiles de usuario
 
 ### Jefatura UTP
 
-Perfil responsable de la gestión pedagógica general del sistema.
+Perfil responsable de la administración pedagógica general.
 
-Entre sus funciones se consideran:
+Funciones principales:
 
-- Visualización de las asignaturas del nivel.
+- Acceso a las cuatro asignaturas del nivel.
+- Consulta de unidades y objetivos de aprendizaje.
 - Gestión de contenidos pedagógicos.
-- Revisión de estados de contenidos.
-- Aprobación, rechazo u ocultamiento de contenidos según la lógica definida en el MVP.
+- Revisión de contenidos pendientes.
+- Aprobación, rechazo y deshabilitación de contenidos.
 
 ### Docente
 
-Perfil orientado a la gestión y utilización de contenidos pedagógicos.
+Perfil orientado a la creación de contenidos y seguimiento de actividades.
 
-Entre sus funciones se consideran:
+Funciones principales:
 
 - Consulta de unidades y objetivos de aprendizaje.
-- Revisión de recursos y contenidos.
 - Creación y edición de contenidos.
-- Gestión de actividades asociadas a la asignatura definida para el MVP.
-- Revisión de información relacionada con el avance del estudiante.
+- Envío de contenidos para revisión.
+- Consulta de respuestas de estudiantes.
+- Revisión y clasificación de respuestas.
 
 ### Estudiante
 
 Perfil orientado a la ejecución de contenidos y actividades.
 
-Entre sus funciones se consideran:
+Funciones principales:
 
-- Acceso a asignaturas habilitadas.
-- Consulta de unidades y objetivos de aprendizaje.
-- Visualización de recursos y contenidos.
-- Respuesta de actividades.
-- Consulta de información de progreso.
+- Acceso a contenidos habilitados.
+- Navegación por unidades y objetivos de aprendizaje.
+- Visualización de actividades aprobadas.
+- Selección de actividades disponibles.
+- Envío de respuestas.
+- Consulta del estado de cada actividad.
+- Visualización de progreso.
 
-## Flujo principal
+## Flujo funcional
 
-El flujo principal considerado para la aplicación es:
+### Gestión de contenidos
+
+```text
+Docente crea contenido
+        ↓
+Contenido pendiente
+        ↓
+Jefatura UTP revisa
+        ↓
+Aprobado / Rechazado / Deshabilitado
+        ↓
+El estudiante accede únicamente al contenido aprobado
+```
+
+### Flujo del estudiante
 
 ```text
 Selección de perfil
@@ -77,57 +88,100 @@ Unidad
         ↓
 Objetivo de aprendizaje
         ↓
-Recursos / Contenidos
+Actividades disponibles
         ↓
-Actividad / Evaluación
+Contenido / Pregunta
         ↓
-Respuesta / Revisión
+Respuesta
+        ↓
+Revisión del docente
 ```
 
-## Funcionalidades implementadas
+## Funcionalidades
 
-### Interfaz y navegación
+### Navegación e interfaz
 
 - Selección de perfil.
-- Pantalla de inicio.
-- Navegación entre vistas.
+- Pantallas de inicio diferenciadas por rol.
+- Navegación mediante Navigation Compose.
+- Barra de navegación inferior adaptada al perfil.
 - Menú lateral.
-- Barra de navegación inferior.
-- Pantalla de asignaturas.
-- Pantalla de unidades.
-- Pantalla de objetivos de aprendizaje.
-- Pantalla de recursos.
-- Pantalla de progreso.
+- Gestión de asignaturas, unidades y objetivos de aprendizaje.
+- Gestión de contenidos.
+- Listado de actividades para estudiantes.
+- Pantalla de respuesta del estudiante.
+- Revisión de respuestas.
+- Seguimiento de progreso.
+- Perfil y registro de usuario.
+
+### Gestión por roles
+
+- Control de acceso según perfil.
+- Jefatura UTP con acceso a las cuatro asignaturas.
+- Docente con acceso a las funcionalidades de gestión y revisión.
+- Estudiante con acceso restringido a contenidos habilitados.
+- Navegación y opciones ajustadas dinámicamente según el rol seleccionado.
+
+### Contenidos y actividades
+
+- Creación y edición de contenidos.
+- Asociación con asignatura, unidad y objetivo de aprendizaje.
+- Gestión de título, tipo, contenido y pregunta.
+- Estados de aprobación.
+- Visualización exclusiva de contenidos aprobados para estudiantes.
+- Soporte para múltiples actividades por objetivo de aprendizaje.
+- Envío y almacenamiento de respuestas.
+- Control de intentos.
+- Revisión manual por parte del docente.
+- Estados de actividad y respuesta.
 
 ### Formularios y validaciones
 
-- Formulario para creación y edición de contenido.
-- Validaciones visuales por campo.
+- Formularios con validaciones visuales.
 - Mensajes de error.
-- Retroalimentación visual ante datos inválidos.
+- Retroalimentación ante información inválida.
+- Manejo del estado mediante ViewModel.
+- Scroll vertical para mantener la usabilidad durante la interacción con el teclado.
 
-### Diseño
+## Arquitectura
 
-- Interfaz desarrollada con Jetpack Compose.
-- Componentes Material Design 3.
-- Tema visual propio.
-- Diseño adaptable mediante Window Size Classes.
-- Uso de tarjetas, botones e íconos para mejorar jerarquía visual y usabilidad.
-- Interfaz orientada a lectores iniciales de Segundo Básico.
+El proyecto utiliza una arquitectura basada en **MVVM**, separando responsabilidades entre presentación, lógica y persistencia.
 
-### Arquitectura y estado
+Principales componentes:
 
-- Arquitectura MVVM.
-- Uso de ViewModel.
-- Manejo de estado de interfaz.
-- Separación de responsabilidades entre lógica, datos y presentación.
+- ViewModel.
+- StateFlow.
+- Navigation Compose.
+- DataStore.
+- Componentes reutilizables.
+- Separación entre capas de datos, navegación y presentación.
 
-### Persistencia
+## Persistencia local
 
-- Uso de DataStore para almacenamiento local.
-- Persistencia de información relacionada con contenidos, respuestas y estados del MVP.
+La aplicación utiliza **DataStore** para almacenar información relacionada con:
 
-## Tecnologías utilizadas
+- Contenidos pedagógicos.
+- Respuestas.
+- Estados de contenidos.
+- Estados de actividades.
+- Información necesaria para el flujo principal de la aplicación.
+
+## Diseño y experiencia de usuario
+
+La interfaz fue desarrollada con **Jetpack Compose** y **Material Design 3**.
+
+Principales criterios considerados:
+
+- Botones e íconos legibles.
+- Tipografía clara.
+- Textos breves.
+- Baja carga cognitiva por pantalla.
+- Jerarquía visual consistente.
+- Estados vacíos para contenido no disponible.
+- Retroalimentación visual.
+- Adaptabilidad a distintos tamaños de pantalla mediante Window Size Classes.
+
+## Tecnologías
 
 - Kotlin
 - Android Studio
@@ -141,7 +195,7 @@ Respuesta / Revisión
 - Git
 - GitHub
 
-## Estructura general del proyecto
+## Estructura del proyecto
 
 ```text
 app/
@@ -149,6 +203,7 @@ app/
     └── main/
         └── java/
             └── com.example.appmpazpro2/
+                ├── data/
                 ├── model/
                 ├── navigation/
                 ├── ui/
@@ -163,27 +218,21 @@ app/
 
 - Selección de perfil
 - Inicio
+- Inicio Jefatura UTP
+- Inicio Docente
 - Asignaturas
 - Unidades
 - Objetivos de aprendizaje
-- Recursos
+- Gestión de contenidos
 - Formulario de contenido
+- Actividades disponibles
 - Contenido del estudiante
+- Revisión de respuestas
 - Progreso
+- Perfil
+- Registro
 
-## Criterios de diseño para Segundo Básico
-
-La interfaz se diseñó considerando los requerimientos del caso:
-
-- Botones e íconos legibles.
-- Tipografía de tamaño adecuado.
-- Oraciones breves.
-- Baja carga cognitiva por pantalla.
-- Navegación simple.
-- Diferenciación visual entre secciones.
-- Adaptación a teléfonos y tabletas Android.
-
-## Ejecución del proyecto
+## Instalación y ejecución
 
 ### Requisitos
 
@@ -191,38 +240,29 @@ La interfaz se diseñó considerando los requerimientos del caso:
 - Android SDK.
 - JDK compatible con la configuración del proyecto.
 - Emulador Android o dispositivo físico.
-- Conexión a Internet para la descarga inicial de dependencias.
 
-### Pasos de ejecución
-
-1. Clonar el repositorio:
+### Clonar el repositorio
 
 ```bash
 git clone https://github.com/NoemiBello/AppMPAZPRO2.git
 ```
 
-2. Abrir Android Studio.
+### Ejecución
 
-3. Seleccionar **Open** y abrir la carpeta del proyecto.
-
-4. Esperar la sincronización de Gradle.
-
-5. Seleccionar un emulador o dispositivo Android.
-
-6. Ejecutar el módulo `app`.
-
-7. Iniciar el flujo seleccionando uno de los perfiles disponibles:
+1. Abrir el proyecto en Android Studio.
+2. Esperar la sincronización de Gradle.
+3. Seleccionar un emulador o dispositivo Android.
+4. Ejecutar el módulo `app`.
+5. Seleccionar uno de los perfiles disponibles:
    - Jefatura UTP
    - Docente
    - Estudiante
 
 ## Control de versiones
 
-El proyecto utiliza Git y GitHub para el desarrollo colaborativo.
+El proyecto utiliza **Git y GitHub** para control de versiones y desarrollo colaborativo.
 
-Se trabaja con ramas independientes por integrante y posterior integración mediante Pull Requests.
-
-Ramas utilizadas:
+Ramas principales:
 
 ```text
 master
@@ -230,46 +270,13 @@ noemi-bello
 jequito
 ```
 
-## Distribución del trabajo
+Cada integrante trabaja sobre una rama independiente y los cambios se integran posteriormente a la rama principal mediante control de versiones.
 
-### Noemi Bello Nanculeo
+## Autores
 
-Responsable principalmente de:
+**Noemi Bello Nanculeo**  
+**Jeanpiere Adrian Quito Vidal**
 
-- Diseño de pantallas.
-- Interfaz Material Design 3.
-- Selección de perfil.
-- Asignaturas.
-- Unidades.
-- Objetivos de aprendizaje.
-- Recursos.
-- Formulario de contenido.
-- Pantalla de contenido del estudiante.
-- Validaciones visuales.
-- Adaptabilidad de interfaz.
-- Tema y colores de la aplicación.
+## Estado del proyecto
 
-### Jeanpiere Adrian Quito Vidal
-
-Responsable principalmente de:
-
-- Lógica de roles.
-- ViewModels.
-- Navegación.
-- Gestión de permisos.
-- Persistencia local.
-- Estados de contenidos.
-- Lógica de respuestas.
-- Integración funcional entre pantallas.
-
-## Contexto académico
-
-Proyecto desarrollado para la asignatura:
-
-**DSY1105 – Desarrollo de Aplicaciones Móviles**
-
-**Duoc UC**
-
-Evaluación Parcial 2 – Encargo.
-
-El proyecto corresponde a un MVP académico y utiliza información ficticia o anonimizada para fines de prueba y demostración.
+MPAZ PRO 2 se encuentra en desarrollo activo como una solución móvil orientada a la gestión y ejecución de contenidos pedagógicos para Segundo Básico.
