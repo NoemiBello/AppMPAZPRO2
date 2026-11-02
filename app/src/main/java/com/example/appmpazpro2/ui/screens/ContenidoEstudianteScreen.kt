@@ -12,6 +12,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -20,6 +21,9 @@ fun ContenidoEstudianteScreen(
     titulo: String,
     contenido: String,
     respuesta: String,
+    intentosUsados: Int,
+    maxIntentos: Int = 3,
+    puedeResponder: Boolean,
     onRespuestaChange: (String) -> Unit,
     onEnviarClick: () -> Unit
 ) {
@@ -44,6 +48,7 @@ fun ContenidoEstudianteScreen(
         Card(
             modifier = Modifier.fillMaxWidth()
         ) {
+
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -64,6 +69,7 @@ fun ContenidoEstudianteScreen(
         Card(
             modifier = Modifier.fillMaxWidth()
         ) {
+
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -74,6 +80,17 @@ fun ContenidoEstudianteScreen(
                     style = MaterialTheme.typography.titleMedium
                 )
 
+                Text(
+                    text = "Intentos usados: $intentosUsados de $maxIntentos",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Text(
+                    text = "Intentos restantes: ${
+                        (maxIntentos - intentosUsados).coerceAtLeast(0)
+                    }"
+                )
+
                 OutlinedTextField(
                     value = respuesta,
                     onValueChange = onRespuestaChange,
@@ -81,6 +98,7 @@ fun ContenidoEstudianteScreen(
                         Text("Escribe tu respuesta")
                     },
                     minLines = 4,
+                    enabled = puedeResponder,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -88,9 +106,22 @@ fun ContenidoEstudianteScreen(
 
         Button(
             onClick = onEnviarClick,
+            enabled = puedeResponder && respuesta.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Enviar respuesta")
+        }
+
+        if (
+            !puedeResponder &&
+            intentosUsados >= maxIntentos
+        ) {
+
+            Text(
+                text = "Has alcanzado el maximo de intentos.",
+                color = MaterialTheme.colorScheme.error,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -103,6 +134,9 @@ fun ContenidoEstudianteScreenPreview() {
         titulo = "Resolución de problemas",
         contenido = "Lee el ejercicio y explica cómo llegaste al resultado.",
         respuesta = "",
+        intentosUsados = 1,
+        maxIntentos = 3,
+        puedeResponder = true,
         onRespuestaChange = {},
         onEnviarClick = {}
     )

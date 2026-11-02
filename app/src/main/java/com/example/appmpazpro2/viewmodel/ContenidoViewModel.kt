@@ -206,6 +206,23 @@ class ContenidoViewModel(
             return false
         }
 
+        if (
+            rol == RolUsuario.DOCENTE &&
+            !_uiState.value.asignatura.equals(
+                "Lenguaje",
+                ignoreCase = true
+            )
+        ) {
+
+            _errores.value =
+                _errores.value.copy(
+                    asignatura =
+                        "El docente solo puede trabajar con Lenguaje"
+                )
+
+            return false
+        }
+
         val nuevoId =
             (_contenidos.value.maxOfOrNull {
                 it.id
@@ -231,6 +248,23 @@ class ContenidoViewModel(
         limpiarFormulario()
 
         return true
+    }
+
+    fun prepararNuevoContenido(
+        asignatura: String,
+        unidad: String,
+        objetivo: String
+    ) {
+
+        _uiState.value =
+            ContenidoUiState(
+                asignatura = asignatura,
+                unidad = unidad,
+                objetivo = objetivo
+            )
+
+        _errores.value =
+            ContenidoErrores()
     }
 
     fun cargarContenidoParaEditar(
@@ -259,13 +293,34 @@ class ContenidoViewModel(
             return false
         }
 
+
+        if (
+            rol == RolUsuario.DOCENTE &&
+            !_uiState.value.asignatura.equals(
+                "Lenguaje",
+                ignoreCase = true
+            )
+        ) {
+
+            _errores.value =
+                _errores.value.copy(
+                    asignatura =
+                        "El docente solo puede trabajar con Lenguaje"
+                )
+
+            return false
+        }
+
         val contenidoEditado =
             if (rol == RolUsuario.DOCENTE) {
+
                 _uiState.value.copy(
                     estado =
                         EstadoContenido.PENDIENTE
                 )
+
             } else {
+
                 _uiState.value
             }
 

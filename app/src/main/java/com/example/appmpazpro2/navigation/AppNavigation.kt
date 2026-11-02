@@ -41,6 +41,7 @@ import com.example.appmpazpro2.viewmodel.RolViewModel
 import com.example.appmpazpro2.viewmodel.UsuarioViewModel
 import com.example.appmpazpro2.ui.screens.ObjetivosScreen
 import com.example.appmpazpro2.model.EstadoRespuesta
+import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
 private const val RUTA_SELECCION_PERFIL =
     "seleccion_perfil"
 
@@ -68,6 +69,8 @@ private const val RUTA_REVISION_RESPUESTAS =
 private const val RUTA_OBJETIVOS =
     "objetivos"
 
+private const val RUTA_CONTENIDOS_OBJETIVO =
+    "contenidos_objetivo"
 @Composable
 fun AppNavigation() {
 
@@ -216,13 +219,26 @@ fun AppNavigation() {
             // INICIO
 
 
-            composable(
-                Screen.Inicio.route
-            ) {
+            composable(Screen.Inicio.route) {
 
                 InicioScreen(
-                    navController =
-                        navController
+                    navController = navController,
+                    onCerrarSesionClick = {
+
+                        rolViewModel.limpiarRol()
+
+                        navController.navigate(
+                            RUTA_SELECCION_PERFIL
+                        ) {
+                            popUpTo(
+                                RUTA_SELECCION_PERFIL
+                            ) {
+                                inclusive = true
+                            }
+
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
 
@@ -375,23 +391,8 @@ fun AppNavigation() {
                                 .puedeGestionarContenido()
                         ) {
 
-                            contenidoViewModel
-                                .actualizarAsignatura(
-                                    asignaturaSeleccionada
-                                )
-
-                            contenidoViewModel
-                                .actualizarUnidad(
-                                    unidadSeleccionada
-                                )
-
-                            contenidoViewModel
-                                .actualizarObjetivo(
-                                    objetivoSeleccionado
-                                )
-
                             navController.navigate(
-                                RUTA_FORMULARIO_CONTENIDO
+                                RUTA_CONTENIDOS_OBJETIVO
                             )
 
                         } else if (
@@ -408,6 +409,82 @@ fun AppNavigation() {
             }
 
 
+            composable(
+                RUTA_CONTENIDOS_OBJETIVO
+            ) {
+
+                val contenidos by
+                contenidoViewModel
+                    .contenidos
+                    .collectAsState()
+
+                val contenidosDelObjetivo =
+                    contenidos.filter { contenido ->
+
+                        contenido.asignatura.equals(
+                            asignaturaSeleccionada,
+                            ignoreCase = true
+                        ) &&
+                                contenido.unidad.equals(
+                                    unidadSeleccionada,
+                                    ignoreCase = true
+                                ) &&
+                                contenido.objetivo.equals(
+                                    objetivoSeleccionado,
+                                    ignoreCase = true
+                                )
+                    }
+
+                ContenidosObjetivoScreen(
+
+                    asignatura =
+                        asignaturaSeleccionada,
+
+                    unidad =
+                        unidadSeleccionada,
+
+                    objetivo =
+                        objetivoSeleccionado,
+
+                    contenidos =
+                        contenidosDelObjetivo,
+
+                    onNuevoClick = {
+
+                        contenidoViewModel
+                            .prepararNuevoContenido(
+                                asignaturaSeleccionada,
+                                unidadSeleccionada,
+                                objetivoSeleccionado
+                            )
+
+                        navController.navigate(
+                            RUTA_FORMULARIO_CONTENIDO
+                        )
+                    },
+
+                    onEditarClick = { contenido ->
+
+                        if (
+                            contenidoViewModel
+                                .puedeEditarContenido(
+                                    contenido,
+                                    rolSeleccionado
+                                )
+                        ) {
+
+                            contenidoViewModel
+                                .cargarContenidoParaEditar(
+                                    contenido
+                                )
+
+                            navController.navigate(
+                                RUTA_FORMULARIO_CONTENIDO
+                            )
+                        }
+                    }
+                )
+            }
 
             // FORMULARIO CONTENIDO
 
@@ -425,6 +502,9 @@ fun AppNavigation() {
                     .errores
                     .collectAsState()
 
+                val esEdicion =
+                    uiState.id != 0
+
 
                 FormularioContenidoScreen(
 
@@ -434,52 +514,56 @@ fun AppNavigation() {
                     errores =
                         errores,
 
+                    esEdicion =
+                        esEdicion,
 
                     onAsignaturaChange =
                         contenidoViewModel::
                         actualizarAsignatura,
 
-
                     onUnidadChange =
                         contenidoViewModel::
                         actualizarUnidad,
-
 
                     onObjetivoChange =
                         contenidoViewModel::
                         actualizarObjetivo,
 
-
                     onTipoChange =
                         contenidoViewModel::
                         actualizarTipo,
-
 
                     onTituloChange =
                         contenidoViewModel::
                         actualizarTitulo,
 
-
                     onContenidoChange =
                         contenidoViewModel::
                         actualizarContenido,
 
-
                     onGuardarClick = {
 
-                        if (
-                            contenidoViewModel
-                                .guardarContenido(
-                                    rolSeleccionado
-                                )
-                        ) {
+                        val guardado =
+
+                            if (esEdicion) {
+
+                                contenidoViewModel
+                                    .editarContenido(
+                                        rolSeleccionado
+                                    )
+
+                            } else {
+
+                                contenidoViewModel
+                                    .guardarContenido(
+                                        rolSeleccionado
+                                    )
+                            }
+
+                        if (guardado) {
 
                             navController
-                                .navigate(
-                                    Screen
-                                        .Asignaturas
-                                        .route
-                                )
+                                .popBackStack()
                         }
                     }
                 )
@@ -528,31 +612,41 @@ fun AppNavigation() {
                     respuesta =
                         respuesta,
 
+                    intentosUsados =
+                        progresoViewModel.intentosUsados(
+                            contenidoVisible.id
+                        ),
+
+                    maxIntentos =
+                        ProgresoViewModel.MAX_INTENTOS,
+
+                    puedeResponder =
+                        contenidoVisible.id != 0 &&
+                                progresoViewModel.puedeResponder(
+                                    contenidoVisible.id
+                                ),
 
                     onRespuestaChange =
-                        progresoViewModel::
-                        actualizarRespuesta,
-
+                        progresoViewModel::actualizarRespuesta,
 
                     onEnviarClick = {
 
                         if (
                             contenidoVisible.id != 0 &&
-                            progresoViewModel
-                                .registrarRespuesta(
-                                    contenidoVisible.id
-                                )
+                            progresoViewModel.registrarRespuesta(
+                                contenidoVisible.id
+                            )
                         ) {
 
-                            navController
-                                .navigate(
-                                    Screen
-                                        .Progreso
-                                        .route
-                                )
+                            navController.navigate(
+                                Screen.Progreso.route
+                            )
                         }
                     }
                 )
+
+
+
             }
 
 
