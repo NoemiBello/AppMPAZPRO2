@@ -27,7 +27,7 @@ import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
 import com.example.appmpazpro2.ui.screens.FormularioContenidoScreen
 import com.example.appmpazpro2.ui.screens.GestionContenidoScreen
 import com.example.appmpazpro2.ui.screens.InicioDocenteScreen
-import com.example.appmpazpro2.ui.screens.InicioScreen
+import com.example.appmpazpro2.ui.screens.InicioEstudianteScreen
 import com.example.appmpazpro2.ui.screens.InicioUtpScreen
 import com.example.appmpazpro2.ui.screens.ObjetivosScreen
 import com.example.appmpazpro2.ui.screens.PerfilScreen
@@ -215,8 +215,13 @@ fun AppNavigation() {
 
                     RolUsuario.ESTUDIANTE -> {
 
-                        InicioScreen(
+                        val progreso by progresoViewModel.progreso.collectAsState()
+                        val porcentaje by progresoViewModel.porcentaje.collectAsState()
+
+                        InicioEstudianteScreen(
                             navController = navController,
+                            progreso = progreso,
+                            porcentaje = porcentaje,
 
                             onCerrarSesionClick = {
 
