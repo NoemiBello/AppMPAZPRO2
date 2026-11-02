@@ -373,6 +373,16 @@ class ContenidoViewModel(
         return true
     }
 
+    fun eliminarContenido(
+        id: Int,
+        rol: RolUsuario?
+    ) {
+        if (rol != RolUsuario.UTP) return
+
+        _contenidos.value = _contenidos.value.filterNot { contenido ->
+            contenido.id == id
+        }
+    }
 
     fun contenidosPendientes(): List<ContenidoUiState> {
 

@@ -456,14 +456,26 @@ fun AppNavigation() {
 
                     contenidos = contenidosDelObjetivo,
 
+                    puedeDeshabilitar =
+                        rolSeleccionado == RolUsuario.UTP,
+
                     onVolverClick = {
                         navController.popBackStack()
+                    },
+
+                    onEliminarClick = { contenido ->
+                        contenidoViewModel.eliminarContenido(
+                            contenido.id,
+                            rolSeleccionado
+                        )
                     },
 
                     onNuevoClick = {
 
                         contenidoViewModel.prepararNuevoContenido(
-                            asignaturaSeleccionada, unidadSeleccionada, objetivoSeleccionado
+                            asignaturaSeleccionada,
+                            unidadSeleccionada,
+                            objetivoSeleccionado
                         )
 
                         navController.navigate(
@@ -473,8 +485,10 @@ fun AppNavigation() {
 
                     onEditarClick = { contenido ->
 
-                        if (contenidoViewModel.puedeEditarContenido(
-                                contenido, rolSeleccionado
+                        if (
+                            contenidoViewModel.puedeEditarContenido(
+                                contenido,
+                                rolSeleccionado
                             )
                         ) {
 
@@ -486,7 +500,16 @@ fun AppNavigation() {
                                 RUTA_FORMULARIO_CONTENIDO
                             )
                         }
-                    })
+                    },
+
+                    onDeshabilitarClick = { contenido ->
+
+                        contenidoViewModel.ocultarContenido(
+                            contenido.id,
+                            rolSeleccionado
+                        )
+                    }
+                )
             }
 
 
@@ -524,6 +547,9 @@ fun AppNavigation() {
                     onTituloChange = contenidoViewModel::actualizarTitulo,
 
                     onContenidoChange = contenidoViewModel::actualizarContenido,
+
+                    puedeEditarInformacionAcademica =
+                        rolSeleccionado == RolUsuario.UTP,
 
                     onPreguntaChange = contenidoViewModel::actualizarPregunta,
                     onVolverClick = {
@@ -841,15 +867,12 @@ fun AppNavigation() {
                 val contenidos by contenidoViewModel.contenidos.collectAsState()
 
 
-                val pendientes = contenidos.filter {
 
-                    it.estado == EstadoContenido.PENDIENTE
-                }
 
 
                 GestionContenidoScreen(
 
-                    contenidos = pendientes,
+                    contenidos = contenidos,
 
                     onAprobarClick = { id ->
 

@@ -39,7 +39,8 @@ fun FormularioContenidoScreen(
     onContenidoChange: (String) -> Unit,
     onPreguntaChange: (String) -> Unit,
     onVolverClick: () -> Unit,
-    onGuardarClick: () -> Unit
+    onGuardarClick: () -> Unit,
+    puedeEditarInformacionAcademica: Boolean,
 ) {
 
     Column(
@@ -82,16 +83,8 @@ fun FormularioContenidoScreen(
                     label = {
                         Text("Asignatura")
                     },
-                    singleLine = true,
-                    isError = errores.asignatura != null,
-                    trailingIcon = {
-                        if (errores.asignatura != null) {
-                            Icon(
-                                imageVector = Icons.Default.Error, contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    readOnly = !puedeEditarInformacionAcademica
                 )
 
                 if (errores.asignatura != null) {
@@ -101,15 +94,13 @@ fun FormularioContenidoScreen(
                 }
 
                 OutlinedTextField(
-                    value = uiState.unidad, onValueChange = onUnidadChange, label = {
-                    Text("Unidad")
-                }, singleLine = true, isError = errores.unidad != null, trailingIcon = {
-                    if (errores.unidad != null) {
-                        Icon(
-                            imageVector = Icons.Default.Error, contentDescription = "Error"
-                        )
-                    }
-                }, modifier = Modifier.fillMaxWidth()
+                    value = uiState.unidad,
+                    onValueChange = onUnidadChange,
+                    label = {
+                        Text("Unidad")
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    readOnly = !puedeEditarInformacionAcademica
                 )
 
                 if (errores.unidad != null) {
@@ -124,16 +115,8 @@ fun FormularioContenidoScreen(
                     label = {
                         Text("Objetivo de aprendizaje")
                     },
-                    singleLine = true,
-                    isError = errores.objetivo != null,
-                    trailingIcon = {
-                        if (errores.objetivo != null) {
-                            Icon(
-                                imageVector = Icons.Default.Error, contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    readOnly = !puedeEditarInformacionAcademica
                 )
 
                 if (errores.objetivo != null) {
@@ -254,15 +237,21 @@ fun FormularioContenidoScreenPreview() {
 
     FormularioContenidoScreen(
         uiState = ContenidoUiState(
-        asignatura = "Matemática",
-        unidad = "Unidad 1",
-        objetivo = "Resolver problemas utilizando números y operaciones.",
-        tipo = "Actividad",
-        titulo = "Ejercicios de números",
-        contenido = "Resuelve los siguientes ejercicios.",
-        pregunta = "¿Qué operación debes realizar para resolver el ejercicio?"
-    ),
+            asignatura = "Matemática",
+            unidad = "Unidad 1",
+            objetivo = "Resolver problemas utilizando números y operaciones.",
+            tipo = "Actividad",
+            titulo = "Ejercicios de números",
+            contenido = "Resuelve los siguientes ejercicios.",
+            pregunta = "¿Qué operación debes realizar para resolver el ejercicio?"
+        ),
+
         errores = ContenidoErrores(),
+
+        esEdicion = false,
+
+        puedeEditarInformacionAcademica = false,
+
         onAsignaturaChange = {},
         onUnidadChange = {},
         onObjetivoChange = {},
@@ -271,5 +260,6 @@ fun FormularioContenidoScreenPreview() {
         onTituloChange = {},
         onContenidoChange = {},
         onPreguntaChange = {},
-        onGuardarClick = {})
+        onGuardarClick = {}
+    )
 }

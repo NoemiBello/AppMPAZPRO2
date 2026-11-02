@@ -2,26 +2,23 @@ package com.example.appmpazpro2.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoUiState
 import com.example.appmpazpro2.model.EstadoContenido
 import com.example.appmpazpro2.ui.components.BarraVolver
+
 @Composable
 fun ContenidosObjetivoScreen(
     asignatura: String,
@@ -30,6 +27,9 @@ fun ContenidosObjetivoScreen(
     onVolverClick: () -> Unit,
     contenidos: List<ContenidoUiState>,
     onNuevoClick: () -> Unit,
+    puedeDeshabilitar: Boolean,
+    onEliminarClick: (ContenidoUiState) -> Unit,
+    onDeshabilitarClick: (ContenidoUiState) -> Unit,
     onEditarClick: (ContenidoUiState) -> Unit
 ) {
 
@@ -40,7 +40,6 @@ fun ContenidosObjetivoScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
-        // Flecha para volver
         BarraVolver(
             titulo = "Contenidos",
             onVolverClick = onVolverClick
@@ -135,6 +134,35 @@ fun ContenidosObjetivoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text("Editar")
+                            }
+
+                            // UTP puede deshabilitar contenido aprobado
+                            if (
+                                puedeDeshabilitar &&
+                                contenido.estado == EstadoContenido.APROBADO
+                            ) {
+
+                                Button(
+                                    onClick = {
+                                        onDeshabilitarClick(contenido)
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Deshabilitar")
+                                }
+                            }
+
+                            // UTP puede eliminar contenido
+                            if (puedeDeshabilitar) {
+
+                                Button(
+                                    onClick = {
+                                        onEliminarClick(contenido)
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Eliminar")
+                                }
                             }
                         }
                     }

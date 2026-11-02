@@ -112,42 +112,61 @@ fun GestionContenidoScreen(
                                 text = "Estado: ${contenido.estado.name}"
                             )
 
-                            if (contenido.estado == EstadoContenido.PENDIENTE) {
+                            when (contenido.estado) {
 
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
+                                EstadoContenido.PENDIENTE -> {
+
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+
+                                        Button(
+                                            onClick = {
+                                                onAprobarClick(contenido.id)
+                                            },
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Text("Aprobar")
+                                        }
+
+                                        Button(
+                                            onClick = {
+                                                onRechazarClick(contenido.id)
+                                            },
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Text("Rechazar")
+                                        }
+                                    }
+                                }
+
+                                EstadoContenido.APROBADO -> {
 
                                     Button(
                                         onClick = {
-                                            onAprobarClick(
-                                                contenido.id
-                                            )
-                                        }, modifier = Modifier.fillMaxWidth()
+                                            onOcultarClick(contenido.id)
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text("Aprobar")
+                                        Text("Deshabilitar")
                                     }
+                                }
 
-                                    Button(
-                                        onClick = {
-                                            onRechazarClick(
-                                                contenido.id
-                                            )
-                                        }, modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        Text("Rechazar")
-                                    }
+                                EstadoContenido.RECHAZADO -> {
 
-                                    Button(
-                                        onClick = {
-                                            onOcultarClick(
-                                                contenido.id
-                                            )
-                                        }, modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        Text("Ocultar")
-                                    }
+                                    Text(
+                                        text = "Contenido rechazado",
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
+
+                                EstadoContenido.OCULTO -> {
+
+                                    Text(
+                                        text = "Contenido deshabilitado",
+                                        color = MaterialTheme.colorScheme.secondary
+                                    )
                                 }
                             }
                         }
