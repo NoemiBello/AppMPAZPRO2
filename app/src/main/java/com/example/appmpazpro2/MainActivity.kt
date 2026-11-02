@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.appmpazpro2.navigation.AppNavigation
-import com.example.appmpazpro2.ui.HomeScreen
 import com.example.appmpazpro2.ui.theme.AppMPAZPRO2Theme
 
 class MainActivity : ComponentActivity() {
