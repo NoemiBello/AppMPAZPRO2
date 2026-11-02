@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -22,7 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoErrores
 import com.example.appmpazpro2.model.ContenidoUiState
-
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import com.example.appmpazpro2.ui.components.BarraVolver
 @Composable
 fun FormularioContenidoScreen(
     uiState: ContenidoUiState,
@@ -35,6 +38,7 @@ fun FormularioContenidoScreen(
     onTituloChange: (String) -> Unit,
     onContenidoChange: (String) -> Unit,
     onPreguntaChange: (String) -> Unit,
+    onVolverClick: () -> Unit,
     onGuardarClick: () -> Unit
 ) {
 
@@ -46,13 +50,15 @@ fun FormularioContenidoScreen(
             .padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
-        Text(
-            text = if (esEdicion) {
+        BarraVolver(
+            titulo = if (esEdicion) {
                 "Editar contenido"
             } else {
                 "Nuevo contenido"
-            }, style = MaterialTheme.typography.headlineMedium
+            },
+            onVolverClick = onVolverClick
         )
+
 
         Text(
             text = "2° Básico", style = MaterialTheme.typography.titleMedium
@@ -261,6 +267,7 @@ fun FormularioContenidoScreenPreview() {
         onUnidadChange = {},
         onObjetivoChange = {},
         onTipoChange = {},
+        onVolverClick = {},
         onTituloChange = {},
         onContenidoChange = {},
         onPreguntaChange = {},

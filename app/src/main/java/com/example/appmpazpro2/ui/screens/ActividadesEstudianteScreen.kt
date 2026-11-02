@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.example.appmpazpro2.model.ContenidoUiState
 import com.example.appmpazpro2.model.EstadoRespuesta
 import com.example.appmpazpro2.model.RespuestaUiState
+import com.example.appmpazpro2.ui.components.BarraVolver
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -50,6 +51,7 @@ fun ActividadesEstudianteScreen(
     objetivo: String,
     contenidos: List<ContenidoUiState>,
     respuestas: List<RespuestaUiState>,
+    onVolverClick: () -> Unit,
     onActividadClick: (ContenidoUiState) -> Unit
 ) {
 
@@ -60,9 +62,9 @@ fun ActividadesEstudianteScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
-        Text(
-            text = asignatura,
-            style = MaterialTheme.typography.headlineMedium
+        BarraVolver(
+            titulo = asignatura,
+            onVolverClick = onVolverClick
         )
 
         Text(

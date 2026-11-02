@@ -18,12 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoUiState
 import com.example.appmpazpro2.model.EstadoRespuesta
 import com.example.appmpazpro2.model.RespuestaUiState
+import com.example.appmpazpro2.ui.components.BarraVolver
 
 @Composable
 fun RevisionRespuestasScreen(
     respuestas: List<RespuestaUiState>,
     contenidos: List<ContenidoUiState>,
     onCorrectaClick: (Int) -> Unit,
+    onVolverClick: () -> Unit,
     onIncorrectaClick: (Int) -> Unit
 ) {
 
@@ -41,8 +43,9 @@ fun RevisionRespuestasScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text(
-            text = "Revision de respuestas", style = MaterialTheme.typography.headlineMedium
+        BarraVolver(
+            titulo = "Revisar respuestas",
+            onVolverClick = onVolverClick
         )
 
         if (respuestasOrdenadas.isEmpty()) {
