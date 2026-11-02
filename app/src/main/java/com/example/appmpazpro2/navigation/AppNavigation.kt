@@ -648,10 +648,20 @@ fun AppNavigation() {
                 )
 
 
-                val respuestaGuardada = respuestas.firstOrNull {
-
-                    it.contenidoId == contenidoVisible.id
-                }
+                val respuestaGuardada = respuestas
+                    .filter {
+                        it.contenidoId == contenidoVisible.id
+                    }
+                    .maxByOrNull {
+                        it.id
+                    }
+                val puedeIntentarNuevamente =
+                    contenidoVisible.id != 0 &&
+                            progresoViewModel.puedeResponder(contenidoVisible.id) &&
+                            (
+                                    respuestaGuardada == null ||
+                                            respuestaGuardada.estado == EstadoRespuesta.INCORRECTA
+                                    )
 
 
                 ContenidoEstudianteScreen(
@@ -673,13 +683,19 @@ fun AppNavigation() {
 
                     maxIntentos = ProgresoViewModel.MAX_INTENTOS,
 
-                    puedeResponder = contenidoVisible.id != 0 && progresoViewModel.puedeResponder(
-                        contenidoVisible.id
-                    ),
+                    puedeResponder = puedeIntentarNuevamente,
 
                     hayContenido = contenidoVisible.id != 0,
 
-                    respuestaEnviada = respuestaGuardada?.respuesta,
+                    respuestaEnviada =
+                        if (
+                            respuestaGuardada?.estado == EstadoRespuesta.INCORRECTA &&
+                            puedeIntentarNuevamente
+                        ) {
+                            null
+                        } else {
+                            respuestaGuardada?.respuesta
+                        },
 
                     estadoRespuesta = respuestaGuardada?.estado,
 
