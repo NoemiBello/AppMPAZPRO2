@@ -90,6 +90,7 @@ class ContenidoDataStore(
                 contenido.tipo,
                 contenido.titulo,
                 contenido.contenido,
+                contenido.pregunta,
                 contenido.estado.name
             ).joinToString(
                 SEPARADOR_CAMPO
@@ -98,7 +99,6 @@ class ContenidoDataStore(
             }
         }
     }
-
     private fun decodificarContenidos(
         valor: String
     ): List<ContenidoUiState> {
@@ -118,24 +118,50 @@ class ContenidoDataStore(
                             Uri.decode(campo)
                         }
 
-                if (campos.size != 8) {
-                    return@mapNotNull null
-                }
+                when (campos.size) {
 
-                ContenidoUiState(
-                    id = campos[0].toIntOrNull() ?: 0,
-                    asignatura = campos[1],
-                    unidad = campos[2],
-                    objetivo = campos[3],
-                    tipo = campos[4],
-                    titulo = campos[5],
-                    contenido = campos[6],
-                    estado = runCatching {
-                        EstadoContenido.valueOf(campos[7])
-                    }.getOrDefault(
-                        EstadoContenido.PENDIENTE
-                    )
-                )
+                    // Formato nuevo: incluye pregunta
+                    9 -> {
+
+                        ContenidoUiState(
+                            id = campos[0].toIntOrNull() ?: 0,
+                            asignatura = campos[1],
+                            unidad = campos[2],
+                            objetivo = campos[3],
+                            tipo = campos[4],
+                            titulo = campos[5],
+                            contenido = campos[6],
+                            pregunta = campos[7],
+                            estado = runCatching {
+                                EstadoContenido.valueOf(campos[8])
+                            }.getOrDefault(
+                                EstadoContenido.PENDIENTE
+                            )
+                        )
+                    }
+
+                    // Formato antiguo: todavía no tenía pregunta
+                    8 -> {
+
+                        ContenidoUiState(
+                            id = campos[0].toIntOrNull() ?: 0,
+                            asignatura = campos[1],
+                            unidad = campos[2],
+                            objetivo = campos[3],
+                            tipo = campos[4],
+                            titulo = campos[5],
+                            contenido = campos[6],
+                            pregunta = "",
+                            estado = runCatching {
+                                EstadoContenido.valueOf(campos[7])
+                            }.getOrDefault(
+                                EstadoContenido.PENDIENTE
+                            )
+                        )
+                    }
+
+                    else -> null
+                }
             }
     }
 

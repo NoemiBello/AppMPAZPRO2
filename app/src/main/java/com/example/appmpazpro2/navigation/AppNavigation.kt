@@ -17,14 +17,19 @@ import androidx.navigation.compose.rememberNavController
 
 import com.example.appmpazpro2.model.ContenidoUiState
 import com.example.appmpazpro2.model.EstadoContenido
+import com.example.appmpazpro2.model.EstadoRespuesta
 
 import com.example.appmpazpro2.ui.components.BottomNavigationBar
 
 import com.example.appmpazpro2.ui.screens.AsignaturasScreen
 import com.example.appmpazpro2.ui.screens.ContenidoEstudianteScreen
+import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
 import com.example.appmpazpro2.ui.screens.FormularioContenidoScreen
 import com.example.appmpazpro2.ui.screens.GestionContenidoScreen
+import com.example.appmpazpro2.ui.screens.InicioDocenteScreen
 import com.example.appmpazpro2.ui.screens.InicioScreen
+import com.example.appmpazpro2.ui.screens.InicioUtpScreen
+import com.example.appmpazpro2.ui.screens.ObjetivosScreen
 import com.example.appmpazpro2.ui.screens.PerfilScreen
 import com.example.appmpazpro2.ui.screens.ProgresoScreen
 import com.example.appmpazpro2.ui.screens.RegistroScreen
@@ -39,11 +44,8 @@ import com.example.appmpazpro2.viewmodel.ProgresoViewModel
 import com.example.appmpazpro2.viewmodel.RolUsuario
 import com.example.appmpazpro2.viewmodel.RolViewModel
 import com.example.appmpazpro2.viewmodel.UsuarioViewModel
-import com.example.appmpazpro2.ui.screens.ObjetivosScreen
-import com.example.appmpazpro2.model.EstadoRespuesta
-import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
-import com.example.appmpazpro2.ui.screens.InicioDocenteScreen
-import com.example.appmpazpro2.ui.screens.InicioUtpScreen
+
+
 private const val RUTA_SELECCION_PERFIL =
     "seleccion_perfil"
 
@@ -73,6 +75,8 @@ private const val RUTA_OBJETIVOS =
 
 private const val RUTA_CONTENIDOS_OBJETIVO =
     "contenidos_objetivo"
+
+
 @Composable
 fun AppNavigation() {
 
@@ -105,16 +109,14 @@ fun AppNavigation() {
         mutableStateOf("Lenguaje")
     }
 
-
     var unidadSeleccionada by remember {
         mutableStateOf("")
     }
 
-
-
     var objetivoSeleccionado by remember {
         mutableStateOf("")
     }
+
 
     val rutaActual =
         navController
@@ -159,9 +161,7 @@ fun AppNavigation() {
         ) {
 
 
-
             // SELECCION DE PERFIL
-
 
             composable(
                 RUTA_SELECCION_PERFIL
@@ -182,7 +182,6 @@ fun AppNavigation() {
                             )
                     },
 
-
                     onDocenteClick = {
 
                         rolViewModel
@@ -197,7 +196,6 @@ fun AppNavigation() {
                                     .route
                             )
                     },
-
 
                     onEstudianteClick = {
 
@@ -217,11 +215,11 @@ fun AppNavigation() {
             }
 
 
-
             // INICIO
 
-
-            composable(Screen.Inicio.route) {
+            composable(
+                Screen.Inicio.route
+            ) {
 
                 when (rolSeleccionado) {
 
@@ -229,6 +227,7 @@ fun AppNavigation() {
 
                         InicioScreen(
                             navController = navController,
+
                             onCerrarSesionClick = {
 
                                 rolViewModel.limpiarRol()
@@ -236,6 +235,7 @@ fun AppNavigation() {
                                 navController.navigate(
                                     RUTA_SELECCION_PERFIL
                                 ) {
+
                                     popUpTo(
                                         RUTA_SELECCION_PERFIL
                                     ) {
@@ -247,11 +247,13 @@ fun AppNavigation() {
                             }
                         )
                     }
+
 
                     RolUsuario.DOCENTE -> {
 
                         InicioDocenteScreen(
                             navController = navController,
+
                             onCerrarSesionClick = {
 
                                 rolViewModel.limpiarRol()
@@ -259,6 +261,7 @@ fun AppNavigation() {
                                 navController.navigate(
                                     RUTA_SELECCION_PERFIL
                                 ) {
+
                                     popUpTo(
                                         RUTA_SELECCION_PERFIL
                                     ) {
@@ -271,12 +274,15 @@ fun AppNavigation() {
                         )
                     }
 
+
                     RolUsuario.UTP -> {
 
                         InicioUtpScreen(
+
                             navController = navController,
 
                             onGestionContenidoClick = {
+
                                 navController.navigate(
                                     RUTA_GESTION_CONTENIDO
                                 )
@@ -289,6 +295,7 @@ fun AppNavigation() {
                                 navController.navigate(
                                     RUTA_SELECCION_PERFIL
                                 ) {
+
                                     popUpTo(
                                         RUTA_SELECCION_PERFIL
                                     ) {
@@ -301,12 +308,13 @@ fun AppNavigation() {
                         )
                     }
 
+
                     null -> Unit
                 }
             }
 
 
-
+            // ASIGNATURAS
 
             composable(
                 Screen.Asignaturas.route
@@ -325,7 +333,6 @@ fun AppNavigation() {
 
                             asignaturaSeleccionada =
                                 "Lenguaje"
-
 
                             unidadSeleccionada = ""
 
@@ -413,17 +420,22 @@ fun AppNavigation() {
             }
 
 
+            // UNIDAD
 
             composable(
                 Screen.UnidadObjetivo.route
             ) {
 
                 UnidadObjetivoScreen(
-                    asignatura = asignaturaSeleccionada,
+
+                    asignatura =
+                        asignaturaSeleccionada,
 
                     onObjetivoClick = { unidad ->
 
-                        unidadSeleccionada = unidad
+                        unidadSeleccionada =
+                            unidad
+
                         objetivoSeleccionado = ""
 
                         navController.navigate(
@@ -433,11 +445,15 @@ fun AppNavigation() {
                 )
             }
 
+
+            // OBJETIVOS
+
             composable(
                 RUTA_OBJETIVOS
             ) {
 
                 ObjetivosScreen(
+
                     asignatura =
                         asignaturaSeleccionada,
 
@@ -448,6 +464,7 @@ fun AppNavigation() {
 
                         objetivoSeleccionado =
                             objetivo
+
 
                         if (
                             rolViewModel
@@ -472,6 +489,8 @@ fun AppNavigation() {
             }
 
 
+            // CONTENIDOS DEL OBJETIVO
+
             composable(
                 RUTA_CONTENIDOS_OBJETIVO
             ) {
@@ -480,6 +499,7 @@ fun AppNavigation() {
                 contenidoViewModel
                     .contenidos
                     .collectAsState()
+
 
                 val contenidosDelObjetivo =
                     contenidos.filter { contenido ->
@@ -497,6 +517,7 @@ fun AppNavigation() {
                                     ignoreCase = true
                                 )
                     }
+
 
                 ContenidosObjetivoScreen(
 
@@ -549,6 +570,7 @@ fun AppNavigation() {
                 )
             }
 
+
             // FORMULARIO CONTENIDO
 
             composable(
@@ -560,10 +582,12 @@ fun AppNavigation() {
                     .uiState
                     .collectAsState()
 
+
                 val errores by
                 contenidoViewModel
                     .errores
                     .collectAsState()
+
 
                 val esEdicion =
                     uiState.id != 0
@@ -604,6 +628,10 @@ fun AppNavigation() {
                         contenidoViewModel::
                         actualizarContenido,
 
+                    onPreguntaChange =
+                        contenidoViewModel::
+                        actualizarPregunta,
+
                     onGuardarClick = {
 
                         val guardado =
@@ -623,6 +651,7 @@ fun AppNavigation() {
                                     )
                             }
 
+
                         if (guardado) {
 
                             navController
@@ -633,9 +662,7 @@ fun AppNavigation() {
             }
 
 
-
             // CONTENIDO DEL ESTUDIANTE
-
 
             composable(
                 RUTA_CONTENIDO_ESTUDIANTE
@@ -646,6 +673,11 @@ fun AppNavigation() {
                     .respuestaActual
                     .collectAsState()
 
+
+                val respuestas by
+                progresoViewModel
+                    .respuestas
+                    .collectAsState()
 
 
                 val contenidoVisible =
@@ -664,6 +696,14 @@ fun AppNavigation() {
                         )
 
 
+                val respuestaGuardada =
+                    respuestas.firstOrNull {
+
+                        it.contenidoId ==
+                                contenidoVisible.id
+                    }
+
+
                 ContenidoEstudianteScreen(
 
                     titulo =
@@ -671,6 +711,9 @@ fun AppNavigation() {
 
                     contenido =
                         contenidoVisible.contenido,
+
+                    pregunta =
+                        contenidoVisible.pregunta,
 
                     respuesta =
                         respuesta,
@@ -685,46 +728,51 @@ fun AppNavigation() {
 
                     puedeResponder =
                         contenidoVisible.id != 0 &&
-                                progresoViewModel.puedeResponder(
-                                    contenidoVisible.id
-                                ),
+                                progresoViewModel
+                                    .puedeResponder(
+                                        contenidoVisible.id
+                                    ),
 
                     hayContenido =
                         contenidoVisible.id != 0,
 
+                    respuestaEnviada =
+                        respuestaGuardada?.respuesta,
+
+                    estadoRespuesta =
+                        respuestaGuardada?.estado,
+
                     onRespuestaChange =
-                        progresoViewModel::actualizarRespuesta,
+                        progresoViewModel::
+                        actualizarRespuesta,
 
                     onEnviarClick = {
 
                         if (
                             contenidoVisible.id != 0 &&
-                            progresoViewModel.registrarRespuesta(
+                            progresoViewModel.puedeResponder(
                                 contenidoVisible.id
                             )
                         ) {
 
-                            navController.navigate(
-                                Screen.Progreso.route
-                            )
+                            progresoViewModel
+                                .registrarRespuesta(
+                                    contenidoVisible.id
+                                )
                         }
                     }
                 )
-
-
-
             }
 
 
-
             // PROGRESO
-
 
             composable(
                 Screen.Progreso.route
             ) {
 
                 when (rolSeleccionado) {
+
 
                     RolUsuario.ESTUDIANTE -> {
 
@@ -733,47 +781,65 @@ fun AppNavigation() {
                             .progreso
                             .collectAsState()
 
+
                         val porcentaje by
                         progresoViewModel
                             .porcentaje
                             .collectAsState()
+
 
                         val respuestas by
                         progresoViewModel
                             .respuestas
                             .collectAsState()
 
+
                         val correctas =
                             respuestas.count {
+
                                 it.estado ==
                                         EstadoRespuesta.CORRECTA
                             }
 
+
                         val incorrectas =
                             respuestas.count {
+
                                 it.estado ==
                                         EstadoRespuesta.INCORRECTA
                             }
 
+
                         val pendientes =
                             respuestas.count {
+
                                 it.estado ==
                                         EstadoRespuesta.PENDIENTE_REVISION
                             }
 
+
                         ProgresoScreen(
-                            progreso = progreso,
-                            porcentaje = porcentaje,
+
+                            progreso =
+                                progreso,
+
+                            porcentaje =
+                                porcentaje,
+
                             respuestasRegistradas =
                                 respuestas.size,
+
                             respuestasCorrectas =
                                 correctas,
+
                             respuestasIncorrectas =
                                 incorrectas,
+
                             respuestasPendientes =
                                 pendientes
                         )
                     }
+
 
                     RolUsuario.DOCENTE -> {
 
@@ -782,14 +848,20 @@ fun AppNavigation() {
                             .respuestas
                             .collectAsState()
 
+
                         val contenidos by
                         contenidoViewModel
                             .contenidos
                             .collectAsState()
 
+
                         RevisionRespuestasScreen(
-                            respuestas = respuestas,
-                            contenidos = contenidos,
+
+                            respuestas =
+                                respuestas,
+
+                            contenidos =
+                                contenidos,
 
                             onCorrectaClick = { id ->
 
@@ -810,6 +882,7 @@ fun AppNavigation() {
                             }
                         )
                     }
+
 
                     RolUsuario.UTP -> {
 
@@ -818,14 +891,20 @@ fun AppNavigation() {
                             .respuestas
                             .collectAsState()
 
+
                         val contenidos by
                         contenidoViewModel
                             .contenidos
                             .collectAsState()
 
+
                         RevisionRespuestasScreen(
-                            respuestas = respuestas,
-                            contenidos = contenidos,
+
+                            respuestas =
+                                respuestas,
+
+                            contenidos =
+                                contenidos,
 
                             onCorrectaClick = { id ->
 
@@ -847,16 +926,13 @@ fun AppNavigation() {
                         )
                     }
 
-                    null -> {
-                        // No se muestra nada si no hay rol seleccionado
-                    }
+
+                    null -> Unit
                 }
             }
 
 
-
             // PERFIL
-
 
             composable(
                 RUTA_PERFIL
@@ -869,9 +945,7 @@ fun AppNavigation() {
             }
 
 
-
             // REGISTRO
-
 
             composable(
                 RUTA_REGISTRO
@@ -891,31 +965,25 @@ fun AppNavigation() {
                     errores =
                         estado.errores,
 
-
                     onNombreChange =
                         usuarioViewModel::
                         actualizarNombre,
-
 
                     onCorreoChange =
                         usuarioViewModel::
                         actualizarCorreo,
 
-
                     onClaveChange =
                         usuarioViewModel::
                         actualizarClave,
-
 
                     onDireccionChange =
                         usuarioViewModel::
                         actualizarDireccion,
 
-
                     onAceptaTerminosChange =
                         usuarioViewModel::
                         actualizarTerminos,
-
 
                     onRegistrarClick = {
 
@@ -934,9 +1002,7 @@ fun AppNavigation() {
             }
 
 
-
             // RESUMEN
-
 
             composable(
                 RUTA_RESUMEN
@@ -949,9 +1015,7 @@ fun AppNavigation() {
             }
 
 
-
             // GESTION DE CONTENIDO UTP
-
 
             composable(
                 RUTA_GESTION_CONTENIDO
@@ -972,7 +1036,9 @@ fun AppNavigation() {
 
 
                 GestionContenidoScreen(
-                    contenidos = pendientes,
+
+                    contenidos =
+                        pendientes,
 
                     onAprobarClick = { id ->
 
@@ -1018,9 +1084,7 @@ fun AppNavigation() {
             }
 
 
-
             // REVISION DE RESPUESTAS
-
 
             composable(
                 RUTA_REVISION_RESPUESTAS
@@ -1031,14 +1095,20 @@ fun AppNavigation() {
                     .respuestas
                     .collectAsState()
 
+
                 val contenidos by
                 contenidoViewModel
                     .contenidos
                     .collectAsState()
 
+
                 RevisionRespuestasScreen(
-                    respuestas = respuestas,
-                    contenidos = contenidos,
+
+                    respuestas =
+                        respuestas,
+
+                    contenidos =
+                        contenidos,
 
                     onCorrectaClick = { id ->
 

@@ -8,5 +8,6 @@ data class ContenidoUiState(
     val tipo: String = "",
     val titulo: String = "",
     val contenido: String = "",
+    val pregunta: String = "",
     val estado: EstadoContenido = EstadoContenido.PENDIENTE
 )
