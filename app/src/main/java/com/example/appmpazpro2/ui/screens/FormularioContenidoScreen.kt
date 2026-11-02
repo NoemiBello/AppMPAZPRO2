@@ -30,6 +30,7 @@ fun FormularioContenidoScreen(
     onTipoChange: (String) -> Unit,
     onTituloChange: (String) -> Unit,
     onContenidoChange: (String) -> Unit,
+    onPreguntaChange: (String) -> Unit,
     onGuardarClick: () -> Unit
 ) {
 
@@ -235,6 +236,18 @@ fun FormularioContenidoScreen(
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
+                OutlinedTextField(
+                    value = uiState.pregunta,
+                    onValueChange = onPreguntaChange,
+                    label = {
+                        Text("Pregunta")
+                    },
+                    placeholder = {
+                        Text("Ej: ¿Por qué el personaje actuó de esa forma?")
+                    },
+                    minLines = 2,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
 
@@ -258,7 +271,8 @@ fun FormularioContenidoScreenPreview() {
             objetivo = "Resolver problemas utilizando números y operaciones.",
             tipo = "Actividad",
             titulo = "Ejercicios de números",
-            contenido = "Resuelve los siguientes ejercicios."
+            contenido = "Resuelve los siguientes ejercicios.",
+            pregunta = "¿Qué operación debes realizar para resolver el ejercicio?"
         ),
         errores = ContenidoErrores(),
         onAsignaturaChange = {},
@@ -267,6 +281,7 @@ fun FormularioContenidoScreenPreview() {
         onTipoChange = {},
         onTituloChange = {},
         onContenidoChange = {},
+        onPreguntaChange = {},
         onGuardarClick = {}
     )
 }

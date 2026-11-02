@@ -129,6 +129,14 @@ class ContenidoViewModel(
             )
     }
 
+    fun actualizarPregunta(valor: String) {
+
+        _uiState.value =
+            _uiState.value.copy(
+                pregunta = valor
+            )
+    }
+
     fun validarFormulario(): Boolean {
 
         val estadoActual =
@@ -457,7 +465,6 @@ class ContenidoViewModel(
         }
     }
 
-
     fun contenidoPorId(
         id: Int
     ): ContenidoUiState? {
@@ -466,7 +473,6 @@ class ContenidoViewModel(
             it.id == id
         }
     }
-
 
     private fun cambiarEstado(
         id: Int,
