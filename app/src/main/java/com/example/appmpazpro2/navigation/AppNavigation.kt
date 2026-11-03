@@ -16,7 +16,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 import com.example.appmpazpro2.model.ContenidoUiState
-import com.example.appmpazpro2.model.EstadoContenido
 import com.example.appmpazpro2.model.EstadoRespuesta
 
 import com.example.appmpazpro2.ui.components.BottomNavigationBar
@@ -30,7 +29,6 @@ import com.example.appmpazpro2.ui.screens.InicioDocenteScreen
 import com.example.appmpazpro2.ui.screens.InicioEstudianteScreen
 import com.example.appmpazpro2.ui.screens.InicioUtpScreen
 import com.example.appmpazpro2.ui.screens.ObjetivosScreen
-import com.example.appmpazpro2.ui.screens.PerfilScreen
 import com.example.appmpazpro2.ui.screens.ProgresoScreen
 import com.example.appmpazpro2.ui.screens.RegistroScreen
 import com.example.appmpazpro2.ui.screens.ResumenScreen
@@ -39,7 +37,6 @@ import com.example.appmpazpro2.ui.screens.SeleccionPerfilScreen
 import com.example.appmpazpro2.ui.screens.UnidadObjetivoScreen
 
 import com.example.appmpazpro2.viewmodel.ContenidoViewModel
-import com.example.appmpazpro2.viewmodel.PerfilViewModel
 import com.example.appmpazpro2.viewmodel.ProgresoViewModel
 import com.example.appmpazpro2.viewmodel.RolUsuario
 import com.example.appmpazpro2.viewmodel.RolViewModel
@@ -59,8 +56,6 @@ private const val RUTA_FORMULARIO_CONTENIDO = "formulario_contenido"
 
 private const val RUTA_CONTENIDO_ESTUDIANTE = "contenido_estudiante"
 
-private const val RUTA_PERFIL = "perfil"
-
 private const val RUTA_REGISTRO = "registro"
 
 private const val RUTA_RESUMEN = "resumen"
@@ -79,8 +74,6 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     val usuarioViewModel: UsuarioViewModel = viewModel()
-
-    val perfilViewModel: PerfilViewModel = viewModel()
 
     val rolViewModel: RolViewModel = viewModel()
 
@@ -609,6 +602,11 @@ fun AppNavigation() {
                         rolSeleccionado == RolUsuario.UTP,
 
                     onPreguntaChange = contenidoViewModel::actualizarPregunta,
+
+                    onImagenChange = { uri ->
+                        contenidoViewModel.actualizarImagen(uri)
+                    },
+
                     onVolverClick = {
                         navController.popBackStack()
                     },
@@ -870,17 +868,6 @@ fun AppNavigation() {
                     null -> Unit
                 }
             }
-            // PERFIL
-
-            composable(
-                RUTA_PERFIL
-            ) {
-
-                PerfilScreen(
-                    viewModel = perfilViewModel
-                )
-            }
-
 
             // REGISTRO
 
@@ -918,7 +905,6 @@ fun AppNavigation() {
                     })
             }
 
-
             // RESUMEN
 
             composable(
@@ -930,7 +916,6 @@ fun AppNavigation() {
                 )
             }
 
-
             // GESTION DE CONTENIDO UTP
 
             composable(
@@ -938,10 +923,6 @@ fun AppNavigation() {
             ) {
 
                 val contenidos by contenidoViewModel.contenidos.collectAsState()
-
-
-
-
 
                 GestionContenidoScreen(
 

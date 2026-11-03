@@ -119,6 +119,12 @@ class ContenidoViewModel(
             pregunta = null
         )
     }
+    fun actualizarImagen(uri: String?) {
+
+        _uiState.value = _uiState.value.copy(
+            imagenUri = uri
+        )
+    }
 
     fun validarFormulario(): Boolean {
 
