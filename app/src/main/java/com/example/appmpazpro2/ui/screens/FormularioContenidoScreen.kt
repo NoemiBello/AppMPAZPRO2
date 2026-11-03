@@ -51,6 +51,7 @@ fun FormularioContenidoScreen(
     onTituloChange: (String) -> Unit,
     onContenidoChange: (String) -> Unit,
     onPreguntaChange: (String) -> Unit,
+    onImagenChange: (String?) -> Unit,
     onVolverClick: () -> Unit,
     onGuardarClick: () -> Unit,
     puedeEditarInformacionAcademica: Boolean,
@@ -61,12 +62,12 @@ fun FormularioContenidoScreen(
     var imagenSeleccionada by remember {
         mutableStateOf<Uri?>(null)
     }
-
     val selectorImagen = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
 
         imagenSeleccionada = uri
+        onImagenChange(uri?.toString())
     }
 
     val bitmapSeleccionado = remember(imagenSeleccionada) {
@@ -266,7 +267,6 @@ fun FormularioContenidoScreen(
                         contentScale = ContentScale.Crop
                     )
                 }
-
                 OutlinedTextField(
                     value = uiState.pregunta,
                     onValueChange = onPreguntaChange,
@@ -279,8 +279,24 @@ fun FormularioContenidoScreen(
                         )
                     },
                     minLines = 2,
+                    isError = errores.pregunta != null,
+                    trailingIcon = {
+                        if (errores.pregunta != null) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
+
+                if (errores.pregunta != null) {
+                    Text(
+                        text = errores.pregunta,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
         }
 
@@ -328,6 +344,8 @@ fun FormularioContenidoScreenPreview() {
         onTituloChange = {},
         onContenidoChange = {},
         onPreguntaChange = {},
-        onGuardarClick = {}
+        onGuardarClick = {},
+        onImagenChange = {}
+
     )
 }

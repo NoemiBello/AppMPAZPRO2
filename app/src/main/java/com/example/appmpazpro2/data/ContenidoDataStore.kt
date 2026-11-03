@@ -51,7 +51,6 @@ class ContenidoDataStore(
     }
 
 
-
     suspend fun guardarContenidos(
         contenidos: List<ContenidoUiState>
     ) {
@@ -89,6 +88,7 @@ class ContenidoDataStore(
                 contenido.titulo,
                 contenido.contenido,
                 contenido.pregunta,
+                contenido.imagenUri.orEmpty(),
                 contenido.estado.name
             ).joinToString(
                 SEPARADOR_CAMPO
@@ -108,55 +108,77 @@ class ContenidoDataStore(
 
         return valor.split(SEPARADOR_REGISTRO).mapNotNull { registro ->
 
-                val campos = registro.split(SEPARADOR_CAMPO).map { campo ->
-                        Uri.decode(campo)
-                    }
-
-                when (campos.size) {
-
-                    // Formato nuevo: incluye pregunta
-                    9 -> {
-
-                        ContenidoUiState(
-                            id = campos[0].toIntOrNull() ?: 0,
-                            asignatura = campos[1],
-                            unidad = campos[2],
-                            objetivo = campos[3],
-                            tipo = campos[4],
-                            titulo = campos[5],
-                            contenido = campos[6],
-                            pregunta = campos[7],
-                            estado = runCatching {
-                                EstadoContenido.valueOf(campos[8])
-                            }.getOrDefault(
-                                EstadoContenido.PENDIENTE
-                            )
-                        )
-                    }
-
-                    // Formato antiguo: todavía no tenía pregunta
-                    8 -> {
-
-                        ContenidoUiState(
-                            id = campos[0].toIntOrNull() ?: 0,
-                            asignatura = campos[1],
-                            unidad = campos[2],
-                            objetivo = campos[3],
-                            tipo = campos[4],
-                            titulo = campos[5],
-                            contenido = campos[6],
-                            pregunta = "",
-                            estado = runCatching {
-                                EstadoContenido.valueOf(campos[7])
-                            }.getOrDefault(
-                                EstadoContenido.PENDIENTE
-                            )
-                        )
-                    }
-
-                    else -> null
-                }
+            val campos = registro.split(SEPARADOR_CAMPO).map { campo ->
+                Uri.decode(campo)
             }
+            when (campos.size) {
+
+                // Formato actual: incluye pregunta e imagen
+                10 -> {
+
+                    ContenidoUiState(
+                        id = campos[0].toIntOrNull() ?: 0,
+                        asignatura = campos[1],
+                        unidad = campos[2],
+                        objetivo = campos[3],
+                        tipo = campos[4],
+                        titulo = campos[5],
+                        contenido = campos[6],
+                        pregunta = campos[7],
+                        imagenUri = campos[8].ifBlank { null },
+                        estado = runCatching {
+                            EstadoContenido.valueOf(campos[9])
+                        }.getOrDefault(
+                            EstadoContenido.PENDIENTE
+                        )
+                    )
+                }
+
+                // Formato anterior: tenía pregunta, pero no imagen
+                9 -> {
+
+                    ContenidoUiState(
+                        id = campos[0].toIntOrNull() ?: 0,
+                        asignatura = campos[1],
+                        unidad = campos[2],
+                        objetivo = campos[3],
+                        tipo = campos[4],
+                        titulo = campos[5],
+                        contenido = campos[6],
+                        pregunta = campos[7],
+                        imagenUri = null,
+                        estado = runCatching {
+                            EstadoContenido.valueOf(campos[8])
+                        }.getOrDefault(
+                            EstadoContenido.PENDIENTE
+                        )
+                    )
+                }
+
+                // Formato antiguo: todavía no tenía pregunta ni imagen
+                8 -> {
+
+                    ContenidoUiState(
+                        id = campos[0].toIntOrNull() ?: 0,
+                        asignatura = campos[1],
+                        unidad = campos[2],
+                        objetivo = campos[3],
+                        tipo = campos[4],
+                        titulo = campos[5],
+                        contenido = campos[6],
+                        pregunta = "",
+                        imagenUri = null,
+                        estado = runCatching {
+                            EstadoContenido.valueOf(campos[7])
+                        }.getOrDefault(
+                            EstadoContenido.PENDIENTE
+                        )
+                    )
+                }
+
+                else -> null
+            }
+        }
     }
 
     private fun codificarRespuestas(
@@ -190,24 +212,24 @@ class ContenidoDataStore(
 
         return valor.split(SEPARADOR_REGISTRO).mapNotNull { registro ->
 
-                val campos = registro.split(SEPARADOR_CAMPO).map { campo ->
-                        Uri.decode(campo)
-                    }
-
-                if (campos.size != 4) {
-                    return@mapNotNull null
-                }
-
-                RespuestaUiState(
-                    id = campos[0].toIntOrNull() ?: 0,
-                    contenidoId = campos[1].toIntOrNull() ?: 0,
-                    respuesta = campos[2],
-                    estado = runCatching {
-                        EstadoRespuesta.valueOf(campos[3])
-                    }.getOrDefault(
-                        EstadoRespuesta.PENDIENTE_REVISION
-                    )
-                )
+            val campos = registro.split(SEPARADOR_CAMPO).map { campo ->
+                Uri.decode(campo)
             }
+
+            if (campos.size != 4) {
+                return@mapNotNull null
+            }
+
+            RespuestaUiState(
+                id = campos[0].toIntOrNull() ?: 0,
+                contenidoId = campos[1].toIntOrNull() ?: 0,
+                respuesta = campos[2],
+                estado = runCatching {
+                    EstadoRespuesta.valueOf(campos[3])
+                }.getOrDefault(
+                    EstadoRespuesta.PENDIENTE_REVISION
+                )
+            )
+        }
     }
 }
