@@ -1,69 +1,84 @@
+
 # MPAZ PRO 2
 
-Aplicación móvil de apoyo didáctico para estudiantes de Segundo Básico, desarrollada en **Kotlin y Jetpack Compose**.
+**Aplicación móvil Android desarrollada en Kotlin y Jetpack Compose, orientada a la gestión, validación y ejecución de contenidos académicos para Segundo Básico.**
 
-## Descripción
+---
 
-**MPAZ PRO 2** es una aplicación móvil orientada a centralizar y digitalizar la gestión de contenidos pedagógicos para Segundo Básico.
+## Descripción general
 
-La plataforma permite organizar asignaturas, unidades, objetivos de aprendizaje, contenidos y actividades mediante perfiles diferenciados para **Jefatura UTP, Docente y Estudiante**, facilitando la administración pedagógica, la revisión de contenidos y el seguimiento de actividades.
+MPAZ PRO 2 centraliza la administración de contenidos, actividades y seguimiento académico mediante una arquitectura basada en roles.
 
-El sistema fue diseñado considerando una experiencia simple, clara y de baja carga cognitiva, adecuada para estudiantes en etapa inicial de lectura.
+La solución contempla perfiles diferenciados para **Jefatura UTP, Docente y Estudiante**, permitiendo gestionar contenidos, controlar su aprobación, registrar respuestas, supervisar actividades y consultar avances.
 
-## Objetivos
+El proyecto fue desarrollado como un MVP funcional utilizando herramientas nativas del ecosistema Android, gestión de estado, persistencia local y una estructura modular basada en MVVM.
 
-- Centralizar contenidos pedagógicos de Segundo Básico.
-- Gestionar asignaturas, unidades y objetivos de aprendizaje.
-- Diferenciar permisos y funcionalidades según el perfil de usuario.
-- Implementar un flujo de creación, revisión y aprobación de contenidos.
-- Permitir a los estudiantes responder actividades y consultar su progreso.
-- Permitir a los docentes revisar respuestas y estados de actividades.
-- Mantener información mediante persistencia local.
-- Proporcionar una interfaz clara y adaptable a dispositivos Android.
+## Alcance funcional
 
-## Perfiles de usuario
+La aplicación incorpora las siguientes capacidades:
+
+- Gestión de asignaturas, unidades y objetivos de aprendizaje.
+- Creación y edición de contenidos.
+- Flujo de revisión y aprobación por Jefatura UTP.
+- Gestión de estados de contenido.
+- Registro y revisión de respuestas.
+- Control de intentos por actividad.
+- Seguimiento de progreso.
+- Persistencia local de información.
+- Integración de recursos nativos de Android.
+- Navegación diferenciada según rol.
+
+## Perfiles y permisos
 
 ### Jefatura UTP
 
-Perfil responsable de la administración pedagógica general.
+Rol responsable de la administración y validación de contenidos.
 
-Funciones principales:
+**Principales funciones:**
 
 - Acceso a las cuatro asignaturas del nivel.
 - Consulta de unidades y objetivos de aprendizaje.
-- Gestión de contenidos pedagógicos.
+- Gestión de contenidos.
 - Revisión de contenidos pendientes.
-- Aprobación, rechazo y deshabilitación de contenidos.
+- Aprobación de contenidos.
+- Rechazo de contenidos.
+- Deshabilitación y reactivación de contenidos.
+- Supervisión del estado general de los contenidos registrados.
 
 ### Docente
 
-Perfil orientado a la creación de contenidos y seguimiento de actividades.
+Rol orientado a la creación de contenidos y revisión de actividades.
 
-Funciones principales:
+**Principales funciones:**
 
-- Consulta de unidades y objetivos de aprendizaje.
-- Creación y edición de contenidos.
-- Envío de contenidos para revisión.
-- Consulta de respuestas de estudiantes.
-- Revisión y clasificación de respuestas.
+- Consulta de unidades y objetivos de aprendizaje autorizados.
+- Creación de contenidos.
+- Edición de contenidos.
+- Envío de contenidos a revisión.
+- Asociación de imágenes de apoyo.
+- Consulta de respuestas registradas.
+- Revisión manual de respuestas.
+- Clasificación de respuestas según estado.
+- Seguimiento de intentos y resultados.
 
 ### Estudiante
 
-Perfil orientado a la ejecución de contenidos y actividades.
+Rol orientado a la consulta y ejecución de actividades disponibles.
 
-Funciones principales:
+**Principales funciones:**
 
 - Acceso a contenidos habilitados.
-- Navegación por unidades y objetivos de aprendizaje.
-- Visualización de actividades aprobadas.
-- Selección de actividades disponibles.
-- Envío de respuestas.
+- Navegación por asignatura, unidad y objetivo de aprendizaje.
+- Consulta de actividades disponibles.
+- Visualización de contenidos aprobados.
+- Registro de respuestas.
 - Consulta del estado de cada actividad.
-- Visualización de progreso.
+- Visualización de intentos disponibles.
+- Seguimiento de progreso.
 
-## Flujo funcional
+## Flujo principal de contenidos
 
-### Gestión de contenidos
+El proceso de gestión y aprobación de contenidos sigue el siguiente flujo:
 
 ```text
 Docente crea contenido
@@ -72,15 +87,19 @@ Contenido pendiente
         ↓
 Jefatura UTP revisa
         ↓
-Aprobado / Rechazado / Deshabilitado
+Aprobación / Rechazo / Deshabilitación
         ↓
-El estudiante accede únicamente al contenido aprobado
+Contenido disponible según estado
+        ↓
+Estudiante accede al contenido aprobado
 ```
 
-### Flujo del estudiante
+## Flujo de actividades
+
+El proceso de ejecución de actividades contempla las siguientes etapas:
 
 ```text
-Selección de perfil
+Selección de rol
         ↓
 Asignatura
         ↓
@@ -88,114 +107,142 @@ Unidad
         ↓
 Objetivo de aprendizaje
         ↓
-Actividades disponibles
+Actividad disponible
         ↓
-Contenido / Pregunta
-        ↓
-Respuesta
+Respuesta del estudiante
         ↓
 Revisión del docente
+        ↓
+Actualización de estado y progreso
 ```
 
-## Funcionalidades
+## Interfaz y navegación
 
-### Navegación e interfaz
+La aplicación utiliza **Jetpack Compose y Material Design 3** para construir una interfaz modular y consistente.
 
-- Selección de perfil.
-- Pantallas de inicio diferenciadas por rol.
+**Características principales:**
+
 - Navegación mediante Navigation Compose.
-- Barra de navegación inferior adaptada al perfil.
+- Pantallas diferenciadas por rol.
+- Componentes reutilizables.
+- Barra de navegación adaptada al contexto.
 - Menú lateral.
-- Gestión de asignaturas, unidades y objetivos de aprendizaje.
-- Gestión de contenidos.
-- Listado de actividades para estudiantes.
-- Pantalla de respuesta del estudiante.
-- Revisión de respuestas.
-- Seguimiento de progreso.
-- Perfil y registro de usuario.
+- Estados vacíos.
+- Retroalimentación visual.
+- Distribución jerárquica de información.
+- Adaptabilidad mediante Window Size Classes.
+- Scroll vertical en formularios.
 
-### Gestión por roles
+## Formularios y validaciones
 
-- Control de acceso según perfil.
-- Jefatura UTP con acceso a las cuatro asignaturas.
-- Docente con acceso a las funcionalidades de gestión y revisión.
-- Estudiante con acceso restringido a contenidos habilitados.
-- Navegación y opciones ajustadas dinámicamente según el rol seleccionado.
+Los formularios implementan validaciones visuales y lógica desacoplada de la interfaz.
 
-### Contenidos y actividades
+**Incluyen:**
 
-- Creación y edición de contenidos.
-- Asociación con asignatura, unidad y objetivo de aprendizaje.
-- Gestión de título, tipo, contenido y pregunta.
-- Estados de aprobación.
-- Visualización exclusiva de contenidos aprobados para estudiantes.
-- Soporte para múltiples actividades por objetivo de aprendizaje.
-- Envío y almacenamiento de respuestas.
-- Control de intentos.
-- Revisión manual por parte del docente.
-- Estados de actividad y respuesta.
+- Validación de campos obligatorios.
+- Mensajes de error por campo.
+- Indicadores visuales mediante íconos.
+- Retroalimentación inmediata.
+- Manejo de estado desde ViewModel.
+- Limpieza de errores durante la interacción.
+- Validación previa al almacenamiento.
 
-### Formularios y validaciones
+La lógica de validación se encuentra centralizada en la capa de ViewModel.
 
-- Formularios con validaciones visuales.
-- Mensajes de error.
-- Retroalimentación ante información inválida.
-- Manejo del estado mediante ViewModel.
-- Scroll vertical para mantener la usabilidad durante la interacción con el teclado.
+## Recursos nativos de Android
+
+La aplicación integra recursos nativos de Android dentro del flujo funcional.
+
+### Notificaciones
+
+Se utilizan notificaciones del sistema para informar eventos asociados a la gestión y aprobación de contenidos.
+
+La implementación considera el permiso correspondiente en versiones de Android que requieren autorización explícita.
+
+### Selector de imágenes
+
+El formulario de contenidos permite seleccionar imágenes desde el dispositivo mediante la Activity Result API.
+
+La referencia de la imagen seleccionada se incorpora al estado del contenido y se gestiona dentro del flujo de persistencia local.
+
+La aplicación no requiere cámara, GPS ni micrófono para su operación actual.
+
+### Animaciones
+
+La interfaz incorpora animaciones funcionales para mejorar la transición entre estados y la retroalimentación visual.
+
+Se utilizan componentes como:
+
+- `AnimatedVisibility`
+- `AnimatedContent`
+- `fadeIn`
+- `fadeOut`
+
+Las animaciones se aplican principalmente en cambios de estado y presentación dinámica de contenido.
 
 ## Arquitectura
 
-El proyecto utiliza una arquitectura basada en **MVVM**, separando responsabilidades entre presentación, lógica y persistencia.
+El proyecto utiliza una arquitectura basada en **MVVM (Model-View-ViewModel)**, separando responsabilidades entre interfaz, lógica de negocio y persistencia.
 
-Principales componentes:
+**Componentes principales:**
 
-- ViewModel.
-- StateFlow.
-- Navigation Compose.
-- DataStore.
-- Componentes reutilizables.
-- Separación entre capas de datos, navegación y presentación.
+- UI desarrollada con Jetpack Compose.
+- ViewModels para gestión de estado y lógica.
+- StateFlow para propagación reactiva de cambios.
+- Modelos de estado para contenidos y respuestas.
+- DataStore para persistencia local.
+- Navigation Compose para gestión de rutas.
+- Componentes reutilizables para elementos comunes de interfaz.
 
 ## Persistencia local
 
-La aplicación utiliza **DataStore** para almacenar información relacionada con:
+La aplicación utiliza DataStore para mantener información de forma local.
 
-- Contenidos pedagógicos.
+Actualmente se almacenan:
+
+- Contenidos.
+- Estados de contenido.
+- Preguntas.
 - Respuestas.
-- Estados de contenidos.
-- Estados de actividades.
-- Información necesaria para el flujo principal de la aplicación.
+- Estados de respuestas.
+- Intentos registrados.
+- Referencias de imágenes.
+- Información necesaria para reconstruir el flujo funcional de la aplicación.
 
-## Diseño y experiencia de usuario
+## Gestión de estado
 
-La interfaz fue desarrollada con **Jetpack Compose** y **Material Design 3**.
+La aplicación utiliza StateFlow para mantener sincronizada la interfaz con los cambios de estado.
 
-Principales criterios considerados:
+Esto permite:
 
-- Botones e íconos legibles.
-- Tipografía clara.
-- Textos breves.
-- Baja carga cognitiva por pantalla.
-- Jerarquía visual consistente.
-- Estados vacíos para contenido no disponible.
-- Retroalimentación visual.
-- Adaptabilidad a distintos tamaños de pantalla mediante Window Size Classes.
+- Actualización reactiva de vistas.
+- Separación entre lógica y presentación.
+- Control centralizado del estado de formularios.
+- Gestión de contenidos.
+- Gestión de respuestas.
+- Actualización de progreso.
 
-## Tecnologías
+## Tecnologías utilizadas
 
-- Kotlin
-- Android Studio
-- Jetpack Compose
-- Material Design 3
-- MVVM
-- Navigation Compose
-- ViewModel
-- StateFlow
-- DataStore
-- Git
-- GitHub
+| **Tecnología** | **Uso** |
+| --- | --- |
+| Kotlin | Lenguaje de programación |
+| Android Studio | Entorno de desarrollo |
+| Jetpack Compose | Desarrollo de interfaces |
+| Material Design 3 | Diseño visual |
+| MVVM | Arquitectura |
+| Navigation Compose | Navegación |
+| ViewModel | Gestión de lógica y estado |
+| StateFlow | Gestión reactiva del estado |
+| Kotlin Coroutines | Programación asíncrona |
+| DataStore Preferences | Persistencia local |
+| Activity Result API | Selección de imágenes |
+| Git | Control de versiones |
+| GitHub | Repositorio y colaboración |
 
 ## Estructura del proyecto
+
+La organización principal del proyecto es la siguiente:
 
 ```text
 app/
@@ -214,34 +261,34 @@ app/
                 └── viewmodel/
 ```
 
-## Principales pantallas
+## Principales módulos funcionales
 
-- Selección de perfil
-- Inicio
-- Inicio Jefatura UTP
-- Inicio Docente
-- Asignaturas
-- Unidades
-- Objetivos de aprendizaje
-- Gestión de contenidos
-- Formulario de contenido
-- Actividades disponibles
-- Contenido del estudiante
-- Revisión de respuestas
-- Progreso
-- Perfil
-- Registro
+- Selección de rol.
+- Inicio Jefatura UTP.
+- Inicio Docente.
+- Inicio Estudiante.
+- Gestión de asignaturas.
+- Gestión de unidades.
+- Gestión de objetivos de aprendizaje.
+- Gestión de contenidos.
+- Formulario de contenidos.
+- Revisión de contenidos.
+- Actividades disponibles.
+- Registro de respuestas.
+- Revisión de respuestas.
+- Seguimiento de progreso.
+- Registro de usuario.
 
 ## Instalación y ejecución
 
 ### Requisitos
 
 - Android Studio.
-- Android SDK.
-- JDK compatible con la configuración del proyecto.
+- Android SDK compatible.
+- JDK configurado según el proyecto.
 - Emulador Android o dispositivo físico.
 
-### Clonar el repositorio
+### Clonar repositorio
 
 ```bash
 git clone https://github.com/NoemiBello/AppMPAZPRO2.git
@@ -253,30 +300,50 @@ git clone https://github.com/NoemiBello/AppMPAZPRO2.git
 2. Esperar la sincronización de Gradle.
 3. Seleccionar un emulador o dispositivo Android.
 4. Ejecutar el módulo `app`.
-5. Seleccionar uno de los perfiles disponibles:
-   - Jefatura UTP
-   - Docente
-   - Estudiante
+5. Seleccionar uno de los roles disponibles:
+   - Jefatura UTP.
+   - Docente.
+   - Estudiante.
 
 ## Control de versiones
 
-El proyecto utiliza **Git y GitHub** para control de versiones y desarrollo colaborativo.
+El proyecto utiliza Git y GitHub para control de versiones y trabajo colaborativo.
 
-Ramas principales:
+**Ramas de trabajo:**
 
-```text
-master
-noemi-bello
-jequito
-```
+- `master`
+- `noemi-bello`
+- `jequito`
 
-Cada integrante trabaja sobre una rama independiente y los cambios se integran posteriormente a la rama principal mediante control de versiones.
+Los cambios se desarrollan en ramas individuales y posteriormente se integran a la rama principal mediante Pull Requests.
+
+## Trabajo colaborativo
+
+El desarrollo fue realizado en equipo mediante una distribución de tareas asociadas a:
+
+- Desarrollo de interfaces.
+- Implementación de navegación.
+- Gestión de estado.
+- Persistencia local.
+- Validaciones.
+- Pruebas funcionales.
+- Corrección de errores.
+- Integración de funcionalidades.
+- Control de versiones.
+
+La planificación y seguimiento del trabajo se complementa mediante herramientas colaborativas como GitHub y Trello.
 
 ## Autores
 
-**Noemi Bello Nanculeo**  
-**Jeanpiere Adrian Quito Vidal**
+- **Noemi Bello Nanculeo**
+- **Jeanpiere Adrian Quito Vidal**
 
 ## Estado del proyecto
 
-MPAZ PRO 2 se encuentra en desarrollo activo como una solución móvil orientada a la gestión y ejecución de contenidos pedagógicos para Segundo Básico.
+**MPAZ PRO 2** corresponde a un MVP funcional desarrollado para la asignatura **Desarrollo de Aplicaciones Móviles — DSY1105**.
+
+La versión actual integra navegación por roles, gestión de contenidos, validaciones, persistencia local, recursos nativos, animaciones, control de respuestas y seguimiento de progreso, dejando una base modular preparada para futuras ampliaciones funcionales.
+
+---
+
+**Proyecto académico | Desarrollo de Aplicaciones Móviles | DSY1105**
