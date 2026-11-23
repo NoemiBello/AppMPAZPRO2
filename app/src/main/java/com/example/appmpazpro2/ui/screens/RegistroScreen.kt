@@ -49,9 +49,13 @@ fun RegistroScreen(
             isError = errores.nombre != null,
             supportingText = {
                 errores.nombre?.let {
-                    Text(it)
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
+
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -62,7 +66,10 @@ fun RegistroScreen(
             isError = errores.correo != null,
             supportingText = {
                 errores.correo?.let {
-                    Text(it)
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -76,9 +83,13 @@ fun RegistroScreen(
             isError = errores.clave != null,
             supportingText = {
                 errores.clave?.let {
-                    Text(it)
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
+
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -89,7 +100,10 @@ fun RegistroScreen(
             isError = errores.direccion != null,
             supportingText = {
                 errores.direccion?.let {
-                    Text(it)
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
             modifier = Modifier.fillMaxWidth()

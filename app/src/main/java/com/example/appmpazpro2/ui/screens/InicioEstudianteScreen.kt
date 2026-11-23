@@ -11,8 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -92,39 +90,7 @@ fun InicioEstudianteScreen(
                     )
                 })
 
-                NavigationDrawerItem(label = {
-                    Text("Asignaturas")
-                }, selected = false, onClick = {
 
-                    scope.launch {
-                        drawerState.close()
-                    }
-
-                    navController.navigate(
-                        Screen.Asignaturas.route
-                    )
-                }, icon = {
-                    Icon(
-                        imageVector = Icons.Default.School, contentDescription = "Asignaturas"
-                    )
-                })
-
-                NavigationDrawerItem(label = {
-                    Text("Progreso")
-                }, selected = false, onClick = {
-
-                    scope.launch {
-                        drawerState.close()
-                    }
-
-                    navController.navigate(
-                        Screen.Progreso.route
-                    )
-                }, icon = {
-                    Icon(
-                        imageVector = Icons.Default.ShowChart, contentDescription = "Progreso"
-                    )
-                })
 
                 HorizontalDivider(
                     modifier = Modifier.padding(

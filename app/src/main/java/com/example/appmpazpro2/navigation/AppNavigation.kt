@@ -942,6 +942,7 @@ fun AppNavigation() {
 
                         if (contenido != null) {
 
+                            // RECURSO NATIVO: muestra una notificación cuando UTP aprueba un contenido
                             mostrarNotificacion(
                                 context = context,
                                 titulo = "Contenido aprobado",
@@ -979,6 +980,7 @@ fun AppNavigation() {
 
                         if (contenido != null) {
 
+                            // RECURSO NATIVO: notificación al rechazar contenido
                             mostrarNotificacion(
                                 context = context,
                                 titulo = "Contenido rechazado",

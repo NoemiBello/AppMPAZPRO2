@@ -18,18 +18,19 @@ class ContenidoViewModel(
 
     private val dataStore = ContenidoDataStore(application)
 
+    // STATEFLOW: guarda el estado actual del formulario
     private val _uiState = MutableStateFlow(ContenidoUiState())
 
+    // STATEFLOW: expone el estado para que la interfaz lo observe
     val uiState: StateFlow<ContenidoUiState> = _uiState.asStateFlow()
 
     private val _errores = MutableStateFlow(ContenidoErrores())
-
     val errores: StateFlow<ContenidoErrores> = _errores.asStateFlow()
 
+    // STATEFLOW: mantiene la lista actual de contenidos
     private val _contenidos = MutableStateFlow<List<ContenidoUiState>>(
         emptyList()
     )
-
     val contenidos: StateFlow<List<ContenidoUiState>> = _contenidos.asStateFlow()
 
     init {
@@ -126,6 +127,7 @@ class ContenidoViewModel(
         )
     }
 
+    // VALIDACIONES: valida los campos obligatorios del formulario
     fun validarFormulario(): Boolean {
 
         val estadoActual = _uiState.value
@@ -184,11 +186,12 @@ class ContenidoViewModel(
                 nuevosErrores.contenido == null &&
                 nuevosErrores.pregunta == null
     }
-
+    // CRUD CREATE: crea y guarda un nuevo contenido
     fun guardarContenido(
         rol: RolUsuario?
     ): Boolean {
 
+        // REGLA DE NEGOCIO: solo UTP y Docente pueden crear contenidos
         if (rol != RolUsuario.UTP && rol != RolUsuario.DOCENTE) {
             return false
         }
@@ -219,7 +222,7 @@ class ContenidoViewModel(
             EstadoContenido.PENDIENTE
         }
 
-
+        // REGLA DE NEGOCIO: UTP aprueba directamente y Docente deja el contenido pendiente
         val nuevoContenido = _uiState.value.copy(
             id = nuevoId, estado = if (rol == RolUsuario.UTP) {
                 EstadoContenido.APROBADO
@@ -237,7 +240,7 @@ class ContenidoViewModel(
         return true
     }
 
-
+    // CRUD READ: obtiene los contenidos visibles según rol y filtros
     fun contenidosVisibles(
         rol: RolUsuario?,
         asignatura: String? = null,
@@ -247,6 +250,7 @@ class ContenidoViewModel(
 
         val base = when (rol) {
 
+            // REGLA DE NEGOCIO: el estudiante solo puede ver contenidos aprobados
             RolUsuario.ESTUDIANTE -> _contenidos.value.filter {
                 it.estado == EstadoContenido.APROBADO
             }
@@ -294,10 +298,11 @@ class ContenidoViewModel(
         _errores.value = ContenidoErrores()
     }
 
+    // CRUD UPDATE: modifica un contenido existente
     fun editarContenido(
         rol: RolUsuario?
     ): Boolean {
-
+        // REGLA DE NEGOCIO: solo UTP y Docente pueden editar contenidos
         if (rol != RolUsuario.UTP && rol != RolUsuario.DOCENTE) {
             return false
         }
@@ -319,6 +324,7 @@ class ContenidoViewModel(
             return false
         }
 
+        // REGLA DE NEGOCIO: si el Docente edita un contenido, vuelve a estado pendiente
         val contenidoEditado = if (rol == RolUsuario.DOCENTE) {
 
             _uiState.value.copy(
@@ -353,6 +359,7 @@ class ContenidoViewModel(
         id: Int, rol: RolUsuario?
     ): Boolean {
 
+        // REGLA DE NEGOCIO: solo UTP puede aprobar contenidos
         if (rol != RolUsuario.UTP) {
             return false
         }
@@ -383,6 +390,7 @@ class ContenidoViewModel(
         id: Int, rol: RolUsuario?
     ): Boolean {
 
+        // REGLA DE NEGOCIO: solo UTP puede ocultar contenidos
         if (rol != RolUsuario.UTP) {
             return false
         }
@@ -393,7 +401,8 @@ class ContenidoViewModel(
 
         return true
     }
-
+    // CRUD DELETE: elimina un contenido por su ID
+    // REGLA DE NEGOCIO: solo UTP puede eliminar contenidos
     fun eliminarContenido(
         id: Int,
         rol: RolUsuario?
@@ -462,6 +471,7 @@ class ContenidoViewModel(
         contenido: ContenidoUiState, rol: RolUsuario?
     ): Boolean {
 
+        // REGLA DE NEGOCIO: UTP puede editar cualquier contenido y Docente solo contenidos de Lenguaje
         return when (rol) {
 
             RolUsuario.UTP -> true
@@ -503,7 +513,7 @@ class ContenidoViewModel(
 
         guardarLista(nuevaLista)
     }
-
+    // DATASTORE: actualiza la lista en memoria y la guarda de forma persistente
     private fun guardarLista(
         nuevaLista: List<ContenidoUiState>
     ) {

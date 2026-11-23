@@ -20,6 +20,7 @@ fun mostrarNotificacion(
         context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as NotificationManager
 
+    // RECURSO NATIVO: crea el canal de notificaciones en Android 8 o superior
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
         val canal = NotificationChannel(
@@ -33,7 +34,7 @@ fun mostrarNotificacion(
 
         notificationManager.createNotificationChannel(canal)
     }
-
+    // RECURSO NATIVO: verifica si el permiso POST_NOTIFICATIONS fue concedido
     if (
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
         context.checkSelfPermission(
@@ -62,6 +63,7 @@ fun mostrarNotificacion(
         .setAutoCancel(true)
         .build()
 
+    // RECURSO NATIVO: muestra la notificación en el dispositivo
     notificationManager.notify(
         System.currentTimeMillis().toInt(),
         notificacion

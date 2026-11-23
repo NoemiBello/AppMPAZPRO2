@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -68,54 +66,25 @@ fun InicioDocenteScreen(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                NavigationDrawerItem(label = {
-                    Text("Inicio")
-                }, selected = true, onClick = {
-                    scope.launch {
-                        drawerState.close()
+                NavigationDrawerItem(
+                    label = {
+                        Text("Inicio")
+                    },
+                    selected = true,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                        navController.navigate(Screen.Inicio.route)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Inicio"
+                        )
                     }
+                )
 
-                    navController.navigate(
-                        Screen.Inicio.route
-                    )
-                }, icon = {
-                    Icon(
-                        imageVector = Icons.Default.Home, contentDescription = "Inicio"
-                    )
-                })
-
-                NavigationDrawerItem(label = {
-                    Text("Lenguaje")
-                }, selected = false, onClick = {
-                    scope.launch {
-                        drawerState.close()
-                    }
-
-                    navController.navigate(
-                        Screen.Asignaturas.route
-                    )
-                }, icon = {
-                    Icon(
-                        imageVector = Icons.Default.School, contentDescription = "Lenguaje"
-                    )
-                })
-
-                NavigationDrawerItem(label = {
-                    Text("Revisar respuestas")
-                }, selected = false, onClick = {
-                    scope.launch {
-                        drawerState.close()
-                    }
-
-                    navController.navigate(
-                        Screen.Progreso.route
-                    )
-                }, icon = {
-                    Icon(
-                        imageVector = Icons.Default.ShowChart,
-                        contentDescription = "Revisar respuestas"
-                    )
-                })
 
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = 8.dp)
