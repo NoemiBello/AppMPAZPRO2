@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -84,22 +83,6 @@ fun InicioUtpScreen(
                 }, icon = {
                     Icon(
                         imageVector = Icons.Default.Home, contentDescription = "Inicio"
-                    )
-                })
-
-                NavigationDrawerItem(label = {
-                    Text("Asignaturas")
-                }, selected = false, onClick = {
-                    scope.launch {
-                        drawerState.close()
-                    }
-
-                    navController.navigate(
-                        Screen.Asignaturas.route
-                    )
-                }, icon = {
-                    Icon(
-                        imageVector = Icons.Default.School, contentDescription = "Asignaturas"
                     )
                 })
 

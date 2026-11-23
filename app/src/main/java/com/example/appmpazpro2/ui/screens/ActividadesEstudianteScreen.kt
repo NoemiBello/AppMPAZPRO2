@@ -77,6 +77,7 @@ fun ActividadesEstudianteScreen(
             style = MaterialTheme.typography.bodyLarge,
             color = Color(0xFF5F5968)
         )
+        // ANIMACIÓN: muestra u oculta el texto con efecto fadeIn y fadeOut
         AnimatedVisibility(
             visible = contenidos.isNotEmpty(),
             enter = fadeIn(),
@@ -211,6 +212,7 @@ fun ActividadesEstudianteScreen(
                                     color = Color(0xFF6D6675)
                                 )
                             }
+                            // ANIMACIÓN: cambia el estado visual de la actividad con una transición suave
                             AnimatedContent(
                                 targetState = respuesta?.estado,
                                 transitionSpec = {

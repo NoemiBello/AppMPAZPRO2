@@ -21,10 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.appmpazpro2.model.ContenidoErrores
 import com.example.appmpazpro2.model.ContenidoUiState
-import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
-import androidx.compose.ui.Alignment
 import com.example.appmpazpro2.ui.components.BarraVolver
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -62,6 +59,7 @@ fun FormularioContenidoScreen(
     var imagenSeleccionada by remember {
         mutableStateOf<Uri?>(null)
     }
+    // RECURSO NATIVO: abre el selector de imágenes de Android para elegir una foto de la galería
     val selectorImagen = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -137,7 +135,9 @@ fun FormularioContenidoScreen(
 
                 if (errores.asignatura != null) {
                     Text(
-                        text = errores.asignatura, style = MaterialTheme.typography.bodySmall
+                        text = errores.asignatura,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
 
@@ -153,7 +153,9 @@ fun FormularioContenidoScreen(
 
                 if (errores.unidad != null) {
                     Text(
-                        text = errores.unidad, style = MaterialTheme.typography.bodySmall
+                        text = errores.unidad,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
 
@@ -169,7 +171,9 @@ fun FormularioContenidoScreen(
 
                 if (errores.objetivo != null) {
                     Text(
-                        text = errores.objetivo, style = MaterialTheme.typography.bodySmall
+                        text = errores.objetivo,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -201,7 +205,9 @@ fun FormularioContenidoScreen(
 
                 if (errores.tipo != null) {
                     Text(
-                        text = errores.tipo, style = MaterialTheme.typography.bodySmall
+                        text = errores.tipo,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
 
@@ -219,7 +225,9 @@ fun FormularioContenidoScreen(
 
                 if (errores.titulo != null) {
                     Text(
-                        text = errores.titulo, style = MaterialTheme.typography.bodySmall
+                        text = errores.titulo,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
 
@@ -243,10 +251,13 @@ fun FormularioContenidoScreen(
 
                 if (errores.contenido != null) {
                     Text(
-                        text = errores.contenido, style = MaterialTheme.typography.bodySmall
+                        text = errores.contenido,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
 
+                // RECURSO NATIVO: solicita al sistema seleccionar una imagen
                 Button(
                     onClick = {
                         selectorImagen.launch("image/*")
@@ -294,7 +305,8 @@ fun FormularioContenidoScreen(
                 if (errores.pregunta != null) {
                     Text(
                         text = errores.pregunta,
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             }

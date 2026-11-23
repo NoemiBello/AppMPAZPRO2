@@ -59,10 +59,12 @@ class ProgresoViewModel(
         contenidoId: Int
     ): Boolean {
 
+        // REGLA DE NEGOCIO: no se puede registrar una respuesta vacía
         if (_respuestaActual.value.isBlank()) {
             return false
         }
 
+        // REGLA DE NEGOCIO: el estudiante solo puede responder si aún tiene intentos disponibles
         if (!puedeResponder(contenidoId)) {
             return false
         }
@@ -86,7 +88,7 @@ class ProgresoViewModel(
 
         return true
     }
-
+    // REGLA DE NEGOCIO: solo UTP y Docente pueden marcar una respuesta como correcta
     fun marcarCorrecta(
         respuestaId: Int, rol: RolUsuario?
     ): Boolean {
@@ -101,7 +103,7 @@ class ProgresoViewModel(
 
         return true
     }
-
+    // REGLA DE NEGOCIO: solo UTP y Docente pueden marcar una respuesta como incorrecta
     fun marcarIncorrecta(
         respuestaId: Int, rol: RolUsuario?
     ): Boolean {
@@ -208,6 +210,7 @@ class ProgresoViewModel(
     }
 
     companion object {
+        // REGLA DE NEGOCIO: máximo 3 intentos por actividad
         const val MAX_INTENTOS = 3
     }
 
@@ -221,6 +224,7 @@ class ProgresoViewModel(
         return (MAX_INTENTOS - intentosUsados(contenidoId)).coerceAtLeast(0)
     }
 
+    // REGLA DE NEGOCIO: verifica que no se superen los 3 intentos permitidos
     fun puedeResponder(contenidoId: Int): Boolean {
         return intentosUsados(contenidoId) < MAX_INTENTOS
     }
