@@ -21,6 +21,7 @@ import com.example.appmpazpro2.model.EstadoRespuesta
 import com.example.appmpazpro2.ui.components.BottomNavigationBar
 
 import com.example.appmpazpro2.ui.screens.AsignaturasScreen
+import com.example.appmpazpro2.ui.screens.BibliotecaScreen
 import com.example.appmpazpro2.ui.screens.ContenidoEstudianteScreen
 import com.example.appmpazpro2.ui.screens.ContenidosObjetivoScreen
 import com.example.appmpazpro2.ui.screens.FormularioContenidoScreen
@@ -36,6 +37,7 @@ import com.example.appmpazpro2.ui.screens.RevisionRespuestasScreen
 import com.example.appmpazpro2.ui.screens.SeleccionPerfilScreen
 import com.example.appmpazpro2.ui.screens.UnidadObjetivoScreen
 
+import com.example.appmpazpro2.viewmodel.BibliotecaViewModel
 import com.example.appmpazpro2.viewmodel.ContenidoViewModel
 import com.example.appmpazpro2.viewmodel.ProgresoViewModel
 import com.example.appmpazpro2.viewmodel.RolUsuario
@@ -78,6 +80,8 @@ fun AppNavigation() {
     val rolViewModel: RolViewModel = viewModel()
 
     val contenidoViewModel: ContenidoViewModel = viewModel()
+
+    val bibliotecaViewModel: BibliotecaViewModel = viewModel()
 
     val progresoViewModel: ProgresoViewModel = viewModel()
 
@@ -296,6 +300,16 @@ fun AppNavigation() {
 
                     null -> Unit
                 }
+            }
+
+            // BIBLIOTECA RECOMENDADA (API EXTERNA OPEN LIBRARY)
+
+            composable(
+                Screen.Biblioteca.route
+            ) {
+                BibliotecaScreen(
+                    viewModel = bibliotecaViewModel
+                )
             }
 
 
