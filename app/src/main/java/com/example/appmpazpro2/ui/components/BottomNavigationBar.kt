@@ -2,6 +2,7 @@ package com.example.appmpazpro2.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocalLibrary
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material3.Icon
@@ -64,6 +65,24 @@ fun BottomNavigationBar(
             },
             label = {
                 Text("Asignaturas")
+            }
+        )
+
+        NavigationBarItem(
+            selected = rutaActual == Screen.Biblioteca.route,
+            onClick = {
+                navController.navigate(
+                    Screen.Biblioteca.route
+                )
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.LocalLibrary,
+                    contentDescription = "Biblioteca"
+                )
+            },
+            label = {
+                Text("Biblioteca")
             }
         )
 
