@@ -16,9 +16,16 @@ private val Context.contenidoDataStore by preferencesDataStore(
     name = "contenido_preferencias"
 )
 
+interface ContenidoLocalStorage {
+    fun obtenerContenidos(): Flow<List<ContenidoUiState>>
+    fun obtenerRespuestas(): Flow<List<RespuestaUiState>>
+    suspend fun guardarContenidos(contenidos: List<ContenidoUiState>)
+    suspend fun guardarRespuestas(respuestas: List<RespuestaUiState>)
+}
+
 class ContenidoDataStore(
     private val context: Context
-) {
+) : ContenidoLocalStorage {
 
     companion object {
 
@@ -30,7 +37,7 @@ class ContenidoDataStore(
         private const val SEPARADOR_CAMPO = "|"
     }
 
-    fun obtenerContenidos(): Flow<List<ContenidoUiState>> {
+    override fun obtenerContenidos(): Flow<List<ContenidoUiState>> {
 
         return context.contenidoDataStore.data.map { preferencias ->
 
@@ -40,7 +47,7 @@ class ContenidoDataStore(
         }
     }
 
-    fun obtenerRespuestas(): Flow<List<RespuestaUiState>> {
+    override fun obtenerRespuestas(): Flow<List<RespuestaUiState>> {
 
         return context.contenidoDataStore.data.map { preferencias ->
 
@@ -51,7 +58,7 @@ class ContenidoDataStore(
     }
 
 
-    suspend fun guardarContenidos(
+    override suspend fun guardarContenidos(
         contenidos: List<ContenidoUiState>
     ) {
 
@@ -61,7 +68,7 @@ class ContenidoDataStore(
         }
     }
 
-    suspend fun guardarRespuestas(
+    override suspend fun guardarRespuestas(
         respuestas: List<RespuestaUiState>
     ) {
 
