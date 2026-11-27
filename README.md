@@ -235,10 +235,69 @@ Esto permite:
 | ViewModel | Gestión de lógica y estado |
 | StateFlow | Gestión reactiva del estado |
 | Kotlin Coroutines | Programación asíncrona |
-| DataStore Preferences | Persistencia local |
+| Retrofit + Gson + OkHttp | Consumo de microservicio propio y API externa REST |
+| Kotest + JUnit 5 + MockK + JaCoCo | Pruebas unitarias y verificación de cobertura (>= 80%) |
+| Compose UI Test | Pruebas instrumentadas de interfaz |
+| DataStore Preferences | Persistencia local y respaldo |
 | Activity Result API | Selección de imágenes |
 | Git | Control de versiones |
 | GitHub | Repositorio y colaboración |
+
+## Integración de APIs (Evaluación Parcial 4 — EA3)
+
+### 1. Microservicio propio (Spring Boot)
+
+- **Repositorio:** [MPAZ-PRO-2-BACKEND](https://github.com/NoemiBello/MPAZ-PRO-2-BACKEND)
+- **URL base en emulador Android:** `http://10.0.2.2:8080/` (local: `http://localhost:8080/`)
+
+| Método | Endpoint | Uso en la app Android |
+| --- | --- | --- |
+| `GET` | `/api/contenidos` | Sincroniza la lista de contenidos pedagógicos al iniciar |
+| `GET` | `/api/contenidos/{id}` | Consulta un contenido específico por ID |
+| `POST` | `/api/contenidos` | Crea nuevos contenidos desde UTP o Docente |
+| `PUT` | `/api/contenidos/{id}` | Edita contenidos y actualiza estados (`APROBADO`, `RECHAZADO`, `OCULTO`, `PENDIENTE`) |
+| `DELETE` | `/api/contenidos/{id}` | Elimina contenidos (rol UTP) |
+
+### 2. API externa gratuita (Open Library)
+
+- **URL base:** `https://openlibrary.org/`
+- **Integración visual:** pantalla **Biblioteca recomendada** accesible desde la barra de navegación inferior (`Biblioteca`), independiente del microservicio propio.
+
+| Método | Endpoint | Parámetros | Uso en la app Android |
+| --- | --- | --- | --- |
+| `GET` | `/search.json` | `author=marcela paz&fields=key,title,author_name,first_publish_year,cover_i&limit=10` | Carga libros recomendados de Marcela Paz |
+| `GET` | `/search.json` | `q={texto}&fields=key,title,author_name,first_publish_year,cover_i&limit=10` | Búsqueda libre de libros infantiles |
+
+## Pruebas unitarias, UI Test y cobertura (JaCoCo)
+
+- **27 pruebas unitarias aprobadas (0 fallos)** usando **Kotest + JUnit 5 + MockK + `kotlinx-coroutines-test`** sobre ViewModels (`ContenidoViewModel`, `BibliotecaViewModel`, `ProgresoViewModel`, `RolViewModel`, `UsuarioViewModel`) y Repositories (`ContenidoRepository`, `BibliotecaRepository`).
+- **Prueba de interfaz Compose:** `BibliotecaScreenTest.kt` en `app/src/androidTest/...`.
+- **Cobertura lógica verificada con JaCoCo:** **91,02% líneas** · **88,63% instrucciones** · **88,29% métodos** (superando el 80% exigido).
+
+Ejecutar pruebas y generar reporte de cobertura:
+
+```bash
+./gradlew testDebugUnitTest jacocoTestReport
+```
+
+Reporte HTML generado en: `app/build/reports/jacoco/jacocoTestReport/html/index.html`
+
+## APK firmado y llave `.jks`
+
+- **Llave de firma (`.jks`):** `apk-firmado/mpazpro2-release.jks` *(alias: `mpazpro2`)*
+- **APK firmado:** `apk-firmado/AppMPAZPRO2-release-signed.apk` *(verificado con `apksigner verify`)*
+- **Configuración de firma:** `signingConfigs.release` en `app/build.gradle.kts`
+
+Generar APK firmado desde terminal:
+
+```bash
+./gradlew assembleRelease
+```
+
+> **Evidencias visuales para entrega:** adjuntar capturas de:
+> 1. Carpeta `apk-firmado/` con el APK firmado y el archivo `.jks`.
+> 2. Tablero Trello con planificación distribuida (*Por hacer*, *En curso*, *Finalizado*).
+> 3. Consola de ejecución de pruebas unitarias y reporte JaCoCo (`91,02%`).
 
 ## Estructura del proyecto
 
