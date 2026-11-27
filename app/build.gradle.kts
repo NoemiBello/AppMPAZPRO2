@@ -20,6 +20,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("String", "BACKEND_BASE_URL", "\"http://10.0.2.2:8080/\"")
         buildConfigField("String", "OPEN_LIBRARY_BASE_URL", "\"https://openlibrary.org/\"")
     }
 
