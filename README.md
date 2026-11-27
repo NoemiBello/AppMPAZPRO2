@@ -294,10 +294,19 @@ Generar APK firmado desde terminal:
 ./gradlew assembleRelease
 ```
 
-> **Evidencias visuales para entrega:** adjuntar capturas de:
-> 1. Carpeta `apk-firmado/` con el APK firmado y el archivo `.jks`.
-> 2. Tablero Trello con planificación distribuida (*Por hacer*, *En curso*, *Finalizado*).
-> 3. Consola de ejecución de pruebas unitarias y reporte JaCoCo (`91,02%`).
+### Evidencias de verificación
+
+#### 1. APK firmado y llave `.jks`
+![Verificación APK firmado y keystore .jks](evidencias/apk-firmado.png)
+
+#### 2. Reporte de cobertura lógica JaCoCo (`91,02%` líneas / `88,63%` instrucciones)
+![Reporte de cobertura JaCoCo](evidencias/jacoco.png)
+
+#### 3. Pruebas unitarias Android (`27/27` aprobadas)
+![Pruebas unitarias Android](evidencias/pruebas-unitarias.png)
+
+#### 4. Pruebas automatizadas del microservicio Spring Boot (`13/13` aprobadas)
+![Pruebas automatizadas Backend](evidencias/pruebas-backend.png)
 
 ## Estructura del proyecto
 
