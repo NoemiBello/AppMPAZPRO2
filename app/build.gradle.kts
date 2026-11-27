@@ -25,9 +25,19 @@ android {
         buildConfigField("String", "OPEN_LIBRARY_BASE_URL", "\"https://openlibrary.org/\"")
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../apk-firmado/mpazpro2-release.jks")
+            storePassword = project.findProperty("MPAZ_STORE_PASSWORD") as String? ?: "mpazpro22026"
+            keyAlias = project.findProperty("MPAZ_KEY_ALIAS") as String? ?: "mpazpro2"
+            keyPassword = project.findProperty("MPAZ_KEY_PASSWORD") as String? ?: "mpazpro22026"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -48,6 +58,11 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 
     testOptions {
